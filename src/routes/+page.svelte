@@ -3,11 +3,10 @@
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 
     let error = true;
-    let correlationID = crypto.randomUUID();
 </script>
 
 {#if error}
-    <Error pageName="My Davidnet Account" correlationID={correlationID}/>
+    <Error pageName="My Davidnet Account" errorMSG="Unimplemented"/>
 {:else}
     <h1>My Davidnet Account</h1>
     <ProfileLoader/>

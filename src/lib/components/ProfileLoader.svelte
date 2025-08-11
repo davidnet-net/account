@@ -26,7 +26,7 @@
 		width: 90%;
 		height: 90%;
 		border-radius: 50%;
-		background: #fff;
+		background: var(--token-color-text-default-normal);
 		transform: translate(-50%, 100%) scale(0);
 		animation: push 2s infinite ease-in;
 	}

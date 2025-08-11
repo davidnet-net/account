@@ -1,9 +1,19 @@
 <script lang="ts">
 	import favicon from "$lib/assets/favicon.svg";
+	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { ThemeProvider, Toaster, ConnectivityCheck, FlexWrapper, Avatar, IconButton, Modal, ThemeMenu } from "@davidnet/svelte-ui";
 
 	let { children } = $props();
 	let ShowGitModal = $state(false);
+
+	let fontsLoaded = $state(false);
+
+	// This will run only in the browser
+	if (typeof window !== "undefined") {
+		document.fonts.ready.then(() => {
+			fontsLoaded = true;
+		});
+	}
 </script>
 
 <svelte:head>
@@ -14,11 +24,12 @@
 <Toaster />
 <ConnectivityCheck />
 
+{#if fontsLoaded}
 <nav id="main-nav">
 	<div class="nav-left"><Avatar />My Account</div>
 	<div class="nav-center"></div>
 	<div class="nav-right">
-		<ThemeMenu/>
+		<ThemeMenu />
 		<IconButton
 			icon="https://design.davidnet.net/images/logos/external/github/github-mark-dark.svg"
 			lighticon="https://design.davidnet.net/images/logos/external/github/github-mark-white.svg"
@@ -27,10 +38,15 @@
 		/>
 	</div>
 </nav>
+{/if}
 
 <FlexWrapper direction="column" height="calc(100vh - 48px);" width="100%;" justifycontent="center" alignitems="center">
 	<div id="background">
-		{@render children?.()}
+		{#if fontsLoaded}
+			{@render children?.()}
+		{:else}
+			<ProfileLoader width="5rem" height="5rem" />
+		{/if}
 	</div>
 </FlexWrapper>
 
@@ -95,7 +111,7 @@
 		padding-top: 0rem;
 		border-radius: 1rem;
 		width: 300px;
-		height: 620px;
+		height: 680px;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 	}
 </style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TextField, Button, toast, Space, Icon, FlexWrapper } from "@davidnet/svelte-ui";
+	import { TextField, Button, toast, Space} from "@davidnet/svelte-ui";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
 	import Error from "$lib/components/Error.svelte";
@@ -11,14 +11,14 @@
 	let usernameInvalid = false;
 	let passwordInvalid = false;
     let error = false;
+	let errorMSG = "Catched Fetch";
     let correlationID = crypto.randomUUID();
-
 	let SignUP_400 = "";
 	let loading = false;
 
 	function validate() {
 		emailInvalid = !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-		usernameInvalid = username.trim().length < 2;
+		usernameInvalid = username.trim().length < 3;
 		passwordInvalid = password.length < 6;
 
 		return !(emailInvalid || usernameInvalid || passwordInvalid);
@@ -53,6 +53,7 @@
 					position: "bottom-left",
 					autoDismiss: 5000
 				});
+				errorMSG = res.status + "_" + res.statusText;
 				error = true;
 				console.warn(res);
 				return;
@@ -89,7 +90,7 @@
 </div>
 
 {#if error} 
-	<Error pageName="Sign Up" correlationID={correlationID}/>
+	<Error pageName="Sign Up" correlationID={correlationID} errorMSG={errorMSG}/>
 {:else}
 	{#if loading}
 		<ProfileLoader width="5rem" height="5rem" />
