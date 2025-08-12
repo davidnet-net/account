@@ -2,11 +2,11 @@
     import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 
-    let error = true;
+    let error = false;
 </script>
 
 {#if error}
-    <Error pageName="My Davidnet Account" errorMSG="Unimplemented"/>
+    <Error pageName="My Davidnet Account" errorMSG="Unknown"/>
 {:else}
     <h1>My Davidnet Account</h1>
     <ProfileLoader/>

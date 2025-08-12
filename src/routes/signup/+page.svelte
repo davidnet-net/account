@@ -3,9 +3,8 @@
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
 	import Error from "$lib/components/Error.svelte";
-	import { parseJwt } from "$lib/utils/jwt";
-	import { formatDateWithUTCOffset, wait } from "$lib/utils/time";
 	import { goto } from "$app/navigation";
+	import { wait } from "$lib/utils/time";
 
 	let email = "";
 	let username = "";
@@ -61,28 +60,6 @@
 				errorMSG = res.status + "_" + res.statusText;
 				error = true;
 				console.warn(res);
-				return;
-			}
-
-			const data = await res.json();
-			const accessToken = data.access_token;
-
-			const payload = parseJwt(accessToken);
-			if (payload.exp) {
-				const expiryDate = new Date(payload.exp * 1000);
-				console.log(formatDateWithUTCOffset(expiryDate));
-			} else {
-				toast({
-					title: "Session Invalid",
-					desc: "Error: Couldn't parse JWT.",
-					icon: "crisis_alert",
-					appearance: "danger",
-					position: "bottom-left",
-					autoDismiss: 5000
-				});
-				errorMSG = "Couldn't parse JWT.";
-				error = true;
-				console.warn("Couldn't parse JWT.");
 				return;
 			}
 
