@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FlexWrapper, Icon, Space, Button, toast } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Icon, Space, Button, toast, LinkButton } from "@davidnet/svelte-ui";
 	import { browser } from "$app/environment";
 	import { tick } from "svelte";
 
@@ -45,20 +45,22 @@ Date: ${new Date}`;
 	<h1 style="text-align: center;">Error</h1>
 	<p role="alert" aria-live="assertive">{errorMSG}</p>
 	<p style="font-weight: bold;">CorrelationID:</p>
-	<span style="text-align:center; font-size: 0.9rem">{correlationID}</span>
+	<span style="text-align:center; font-size: 0.8rem;">{correlationID}</span>
 	<Space height="var(--token-space-6)" />
 	<Button
 		onClick={() => {
 			history.back();
-		}}>Back</Button
+		}}>Navigate back</Button
 	>
 	<Space height="var(--token-space-4)" />
 	<Button
 		appearance="primary"
 		onClick={() => {
 			window.location.reload();
-		}}>Reset</Button
+		}}>Try again</Button
 	>
-	<Space height="var(--token-space-6)" />
+	<Space height="var(--token-space-4)" />
 	<Button onClick={copyToClipboard} appearance="discover">Copy Error</Button>
+	<Space height="var(--token-space-4)" />
+	<LinkButton href="mailto:contact@davidnet.net">Need help?</LinkButton>
 </FlexWrapper>

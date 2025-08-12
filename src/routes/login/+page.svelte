@@ -25,7 +25,10 @@
 		try {
 			const res = await fetch(authapiurl + "login", {
 				method: "POST",
-				headers: { "Content-Type": "application/json", "x-correlation-id": correlationID },
+				headers: { 
+					"Content-Type": "application/json",
+					"x-correlation-id": correlationID
+				},
 				body: JSON.stringify({ identifier, password }),
 				credentials: "include"
 			});

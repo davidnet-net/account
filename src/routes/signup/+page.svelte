@@ -1,8 +1,11 @@
 <script lang="ts">
-	import { TextField, Button, toast, Space} from "@davidnet/svelte-ui";
+	import { TextField, Button, toast, Space } from "@davidnet/svelte-ui";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
 	import Error from "$lib/components/Error.svelte";
+	import { parseJwt } from "$lib/utils/jwt";
+	import { formatDateWithUTCOffset, wait } from "$lib/utils/time";
+	import { goto } from "$app/navigation";
 
 	let email = "";
 	let username = "";
@@ -10,14 +13,14 @@
 	let emailInvalid = false;
 	let usernameInvalid = false;
 	let passwordInvalid = false;
-    let error = false;
-	let errorMSG = "Catched Fetch";
-    let correlationID = crypto.randomUUID();
+	let error = false;
+	let errorMSG = "Network error.";
+	let correlationID = crypto.randomUUID();
 	let SignUP_400 = "";
 	let loading = false;
 
 	function validate() {
-		emailInvalid = !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+		emailInvalid = !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && email.length > 254;
 		usernameInvalid = username.trim().length < 3;
 		passwordInvalid = password.length < 6;
 
@@ -31,17 +34,19 @@
 		try {
 			const res = await fetch(authapiurl + "signup", {
 				method: "POST",
-				headers: { "Content-Type": "application/json" },
+				headers: {
+					"Content-Type": "application/json",
+					"x-correlation-id": correlationID
+				},
 				body: JSON.stringify({ email, username, password }),
 				credentials: "include" // Required else we dont accept set-cookie header
 			});
 
-
 			if (res.status === 400) {
-				const data = await res.json()
+				const data = await res.json();
 				SignUP_400 = data?.error;
 				loading = false;
-				return
+				return;
 			}
 
 			if (!res.ok) {
@@ -59,6 +64,40 @@
 				return;
 			}
 
+			const data = await res.json();
+			const accessToken = data.access_token;
+
+			const payload = parseJwt(accessToken);
+			if (payload.exp) {
+				const expiryDate = new Date(payload.exp * 1000);
+				console.log(formatDateWithUTCOffset(expiryDate));
+			} else {
+				toast({
+					title: "Session Invalid",
+					desc: "Error: Couldn't parse JWT.",
+					icon: "crisis_alert",
+					appearance: "danger",
+					position: "bottom-left",
+					autoDismiss: 5000
+				});
+				errorMSG = "Couldn't parse JWT.";
+				error = true;
+				console.warn("Couldn't parse JWT.");
+				return;
+			}
+
+			await wait(1000);
+
+			toast({
+				title: "Signup sucessfull (:",
+				desc: "Now verify your email!",
+				icon: "celebration",
+				appearance: "success",
+				position: "bottom-left",
+				autoDismiss: 5000
+			});
+
+			goto("/verify/email/check/" + email);
 			email = username = password = "";
 		} catch (err) {
 			toast({
@@ -71,8 +110,6 @@
 			});
 			error = true;
 			console.error(err);
-		} finally {
-			//loading = false;
 		}
 	}
 </script>
@@ -89,66 +126,65 @@
 	</h3>
 </div>
 
-{#if error} 
-	<Error pageName="Sign Up" correlationID={correlationID} errorMSG={errorMSG}/>
+{#if error}
+	<Error pageName="Sign Up" {correlationID} {errorMSG} />
+{:else if loading}
+	<ProfileLoader width="5rem" height="5rem" />
 {:else}
-	{#if loading}
-		<ProfileLoader width="5rem" height="5rem" />
-	{:else}
-		<div class="header">
-			<h1>Sign Up</h1>
-			To continue.
-		</div>
-		<Space height="var(--token-space-4)"/>
-		<form on:submit|preventDefault={handleSignup}>
-			<TextField
-				label="Email"
-				type="email"
-				placeholder="you@example.com"
-				bind:value={email}
-				required
-				invalid={emailInvalid}
-				invalidMessage="Please enter a valid email"
-				onEnter={() => handleSignup()}
-			/>
+	<div class="header">
+		<h1>Sign Up</h1>
+		To continue.
+	</div>
+	<Space height="var(--token-space-4)" />
+	<form on:submit|preventDefault={handleSignup}>
+		<TextField
+			label="Email"
+			type="email"
+			placeholder="you@example.com"
+			bind:value={email}
+			required
+			invalid={emailInvalid}
+			invalidMessage="Please enter a valid email"
+			onEnter={() => handleSignup()}
+		/>
 
-			<TextField
-				label="Username"
-				type="text"
-				placeholder="Choose a username"
-				bind:value={username}
-				required
-				invalid={usernameInvalid}
-				invalidMessage="Username must be at least 3 characters"
-				onEnter={() => handleSignup()}
-			/>
+		<TextField
+			label="Username"
+			type="text"
+			placeholder="Choose a username"
+			bind:value={username}
+			required
+			invalid={usernameInvalid}
+			invalidMessage="Username must be at least 3 characters"
+			onEnter={() => handleSignup()}
+		/>
 
-			<TextField
-				label="Password"
-				type="password"
-				placeholder="Enter a password"
-				bind:value={password}
-				required
-				invalid={passwordInvalid}
-				invalidMessage="Password must be at least 6 characters"
-				onEnter={() => handleSignup()}
-			/>
+		<TextField
+			label="Password"
+			type="password"
+			placeholder="Enter a password"
+			bind:value={password}
+			required
+			invalid={passwordInvalid}
+			invalidMessage="Password must be at least 6 characters"
+			onEnter={() => handleSignup()}
+		/>
 
-			<Button appearance="primary" stretchwidth onClick={handleSignup} {loading}>Sign Up</Button>
+		<Button appearance="primary" stretchwidth onClick={handleSignup} {loading}>Sign Up</Button>
 
-			<p style="text-align: center; color: var(--token-color-text-danger)">{SignUP_400}</p>
+		<p style="text-align: center; color: var(--token-color-text-danger)">{SignUP_400}</p>
 
-			<a class="link" href="/login">Already have an Davidnet account? Login.</a>
-		</form>
-		<div class="seperator"></div>
-		<div class="legal">
-			By continuing, you agree to our<br />
-			<a href="/legal/terms_of_service">Terms of Service</a> and
-			<a href="/legal/privacy_policy">Privacy Policy</a>.<br />
-			We dont track or sell info.
-		</div>
-	{/if}
+		<a class="link" href="/login">Already have an Davidnet account? Login.</a>
+	</form>
+	<div class="seperator"></div>
+	<div class="legal">
+		By continuing, you agree to our<br />
+		<a href="https://davidnet.net/legal/terms_of_service/">Terms of Service</a>,
+		<a href="https://davidnet.net/legal/privacy_policy/">Privacy Policy</a> and <br />
+		<a href="https://davidnet.net/legal/acceptable_use_policy/">Acceptable Use Policy</a>.<br />
+	</div>
 {/if}
+
 <style>
 	form {
 		display: flex;
