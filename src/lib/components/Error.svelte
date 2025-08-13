@@ -57,7 +57,7 @@ Date: ${new Date}`;
 		appearance="primary"
 		onClick={() => {
 			window.location.reload();
-		}}>Try again</Button
+		}}>Reset</Button
 	>
 	<Space height="var(--token-space-4)" />
 	<Button onClick={copyToClipboard} appearance="discover">Copy Error</Button>
