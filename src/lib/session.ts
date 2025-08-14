@@ -1,6 +1,7 @@
 import { writable, get } from 'svelte/store';
 import { toast } from "@davidnet/svelte-ui"
 import { authapiurl } from './config';
+import type { SessionInfo } from './types';
 
 export const accessToken = writable<string | null>(null);
 
@@ -11,7 +12,8 @@ let refreshingPromise: Promise<boolean> | null = null;
  * Gets a new access token!
  * @returns boolean if refresh is successful
  */
-export async function refreshAccessToken(correlationID: string): Promise<boolean> {
+export async function refreshAccessToken(correlationID: string, silent?: boolean): Promise<boolean> {
+    silent = silent ?? false;
     if (refreshingPromise) {
         // Another refresh is in progress, wait for it to finish
         return refreshingPromise;
@@ -39,24 +41,29 @@ export async function refreshAccessToken(correlationID: string): Promise<boolean
                 accessToken.set(data.accessToken);
                 return true;
             } else {
-                toast({
-                    title: "Authentication Failed",
-                    desc: "Session expired",
-                    icon: "crisis_alert",
-                    appearance: "danger",
-                    position: "bottom-left"
-                });
+                if (!silent) {
+                    toast({
+                        title: "Authentication Failed",
+                        desc: "Session expired",
+                        icon: "crisis_alert",
+                        appearance: "danger",
+                        position: "bottom-left"
+                    });
+                }
+
                 accessToken.set(null);
                 return false;
             }
         } catch (error) {
-            toast({
-                title: "Authentication Failed",
-                desc: "Error: Couldn't connect to authentication servers.",
-                icon: "crisis_alert",
-                appearance: "danger",
-                position: "bottom-left"
-            });
+            if (!silent) {
+                toast({
+                    title: "Authentication Failed",
+                    desc: "Error: Couldn't connect to authentication servers.",
+                    icon: "crisis_alert",
+                    appearance: "danger",
+                    position: "bottom-left"
+                });
+            }
             accessToken.set(null);
             return false;
         } finally {
@@ -67,30 +74,21 @@ export async function refreshAccessToken(correlationID: string): Promise<boolean
     return refreshingPromise;
 }
 
-export interface SessionInfo {
-    userId: number;
-    username: string;
-    display_name: string;
-    profilePicture: string;
-    email_verified: number;
-    email: string;
-    type: "access";
-    exp: number;
-    jti: string;
-}
 
 /**
  * @returns SessionInfo | Returns null if unauthenticated.
  */
-export async function getSessionInfo(correlationID: string): Promise<SessionInfo | null> {
+export async function getSessionInfo(correlationID: string, refresh?: boolean): Promise<SessionInfo | null> {
+    refresh = refresh ?? true;
     let token = get(accessToken);
 
-    if (!token) {
+    if (!token && refresh) {
         const refreshed = await refreshAccessToken(correlationID);
         if (!refreshed) return null;
         token = get(accessToken);
         if (!token) return null;
     }
+    if (!token) return null;
 
     try {
         const base64Url = token.split('.')[1];

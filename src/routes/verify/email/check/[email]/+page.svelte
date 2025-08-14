@@ -65,6 +65,7 @@
 		} catch (err) {
 			errorMSG = "Network error.";
 			console.error(err);
+			errorMSG = String(err);
 			error = true;
 			waiting = false;
 		}
@@ -150,7 +151,7 @@
 	}
 
 	.boring {
-		color: gray;
+		color: var(--token-color-text-inverse-tertiary);
 		font-size: 0.7rem;
 	}
 </style>

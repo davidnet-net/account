@@ -9,10 +9,10 @@
 	let correlationID = crypto.randomUUID();
 	let error = false;
 	let Authenticated = false;
-	let sessionInfo: SessionInfo | null;
 
 	onMount(async () => {
 		const si = await getSessionInfo(correlationID);
+
 		if (!(await isAuthenticated(correlationID)) || !si) {
 			goto("/login");
 			return;
@@ -22,8 +22,6 @@
 			goto("/verify/email/check/" + si?.email);
 			return;
 		}
-
-		sessionInfo = si;
 
 		Authenticated = true;
 	});

@@ -19,6 +19,26 @@ export function formatDateWithUTCOffset(date: Date): string {
   return `${day}-${month}-${year} ${hours}:${minutes}:${seconds} UTC${sign}${offsetHours}:${offsetMins}`;
 }
 
+export function formatLocalDateWithUTCOffset(dateInput: Date | string): string {
+  const date = dateInput instanceof Date ? dateInput : new Date(dateInput);
+
+  const pad = (n: number) => n.toString().padStart(2, "0");
+
+  const day = pad(date.getDate());
+  const month = pad(date.getMonth() + 1);
+  const year = date.getFullYear();
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+
+  // getTimezoneOffset is minutes *behind* UTC
+  const offsetMinutes = -date.getTimezoneOffset();
+  const sign = offsetMinutes >= 0 ? "+" : "-";
+  const offsetHours = pad(Math.floor(Math.abs(offsetMinutes) / 60));
+  const offsetMins = pad(Math.abs(offsetMinutes) % 60);
+
+  return `${day}-${month}-${year} ${hours}:${minutes} (UTC${sign}${offsetHours}${offsetMins !== "00" ? ":" + offsetMins : ""})`;
+}
+
 export async function wait(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }

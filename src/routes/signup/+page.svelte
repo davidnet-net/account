@@ -87,6 +87,7 @@
 			});
 			error = true;
 			console.error(err);
+			errorMSG = String(err);
 		}
 	}
 </script>
@@ -158,7 +159,7 @@
 		By continuing, you agree to our<br />
 		<a href="https://davidnet.net/legal/terms_of_service/">Terms of Service</a>,
 		<a href="https://davidnet.net/legal/privacy_policy/">Privacy Policy</a> and <br />
-		<a href="https://davidnet.net/legal/acceptable_use_policy/">Acceptable Use Policy</a>.<br />
+		<a href="https://davidnet.net/legal/">Other things</a>.<br />
 	</div>
 {/if}
 

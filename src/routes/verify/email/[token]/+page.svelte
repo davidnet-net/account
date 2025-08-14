@@ -50,6 +50,7 @@
 			console.error(err);
 			error = true;
 			loading = false;
+			errorMSG = String(err);
 		}
 	});
 </script>
@@ -88,7 +89,7 @@
 	}
 
 	.boring {
-		color: gray;
+		color: var(--token-color-text-inverse-tertiary);
 		font-size: 0.7rem;
 	}
 </style>

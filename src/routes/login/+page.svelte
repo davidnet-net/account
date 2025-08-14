@@ -97,6 +97,7 @@
 				position: "bottom-left",
 				autoDismiss: 5000
 			});
+			errorMSG = String(err);
 			console.error(err);
 		} finally {
 			loading = false;
@@ -203,26 +204,5 @@
 		font-size: 0.9rem;
 		text-align: center;
 		color: rgb(39, 134, 165);
-	}
-
-	.seperator {
-		margin: 30px 0px;
-		width: 100%;
-		height: 1px;
-	}
-
-	.legal {
-		color: var(--token-color-text-default-tertiary);
-		text-align: center;
-		line-height: 1.1;
-	}
-
-	.legal a {
-		color: var(--token-color-text-default-tertiary);
-		text-decoration: none;
-	}
-
-	.legal a:hover {
-		color: var(--token-color-text-default-secondary);
 	}
 </style>
