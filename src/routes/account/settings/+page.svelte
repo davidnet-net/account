@@ -33,7 +33,7 @@
     </FlexWrapper>
     <Space height="var(--token-space-4)" />
 	<FlexWrapper height="100%" width="100%"> 
-        <h1>Account Settings</h1>
+        <h1>Account management</h1>
 		<Space height="var(--token-space-4)" />
 		<FlexWrapper direction="row" gap="var(--token-space-6)">
 			<a href="settings/preferences" class="option">
@@ -45,13 +45,13 @@
 			<a href="settings/security" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="security" size="3rem" />
-					<p class="option-text">Security<br /> settings</p>
+					<p class="option-text">Security</p>
 				</FlexWrapper>
 			</a>
 			<a href="settings/profile" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="identity_platform" size="3rem" />
-					<p class="option-text">Profile<br /> settings</p>
+					<p class="option-text">Profile</p>
 				</FlexWrapper>
 			</a>
 		</FlexWrapper>

@@ -5,7 +5,7 @@
 	import { getSessionInfo, authFetch, refreshAccessToken } from "$lib/session";
 	import type { SessionInfo } from "$lib/types";
 	import { wait } from "$lib/utils/time";
-	import { FlexWrapper, Space, LinkButton, Button, Loader, Dropdown } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, LinkButton, Button, Loader, Dropdown, toast } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 
 	let correlationID = crypto.randomUUID();
@@ -88,6 +88,14 @@
 
 			initialPreferences = { ...userPreferences };
 			error = false;
+			toast({
+				title: "Preferences saved!",
+				desc: "Your preferences has been saved.",
+				icon: "tune",
+				appearance: "success",
+				position: "bottom-left",
+                autoDismiss: 5000
+			});
 		} catch (e) {
 			console.error(e);
 			errorMSG = String(e);
@@ -155,9 +163,6 @@
 		</FlexWrapper>
 
 		<Space height="var(--token-space-3)" />
-		<FlexWrapper justifycontent="flex-end" width="100%" direction="row">
-			<Button onClick={() => history.back()} iconbefore="arrow_back">Back</Button>
-		</FlexWrapper>
 	</div>
 {/if}
 

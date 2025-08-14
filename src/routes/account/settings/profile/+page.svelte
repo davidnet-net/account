@@ -5,7 +5,7 @@
 	import { getSessionInfo, authFetch, refreshAccessToken } from "$lib/session";
 	import type { SessionInfo, ProfileResponse } from "$lib/types";
 	import { wait } from "$lib/utils/time";
-	import { FlexWrapper, Space, LinkButton, Button, Loader, TextArea, TextField, Dropdown } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, LinkButton, Button, Loader, TextArea, TextField, Dropdown, toast } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 
 	let correlationID = crypto.randomUUID();
@@ -75,7 +75,7 @@
 
 			if (!res.ok) {
 				const json = await res.json();
-				errorMSG = json.error || "Failed to save profile";
+				("Failed to save profile");
 				error = true;
 				return;
 			}
@@ -86,6 +86,14 @@
 			data.profile.email_visible = temp_email_visible;
 
 			error = false;
+			toast({
+				title: "Profile saved!",
+				desc: "Your profile has been updated.",
+				icon: "identity_platform",
+				appearance: "success",
+				position: "bottom-left",
+                autoDismiss: 5000
+			});
 		} catch (e) {
 			console.error(e);
 			errorMSG = String(e);
@@ -146,7 +154,7 @@
 		<TextArea
 			label="Profile description"
 			bind:value={temp_Description}
-			placeholder="Hello 👋, im {temp_display_name}."
+			placeholder="Hello 👋, i am {temp_display_name}."
 			autoGrow={true}
 			maxLength={500}
 		/>
@@ -178,9 +186,6 @@
 			<Button onClick={saveSettings} appearance="primary" loading={saving} disabled={!hasChanges}>Save</Button>
 		</FlexWrapper>
 		<Space height="var(--token-space-3)" />
-		<FlexWrapper justifycontent="flex-end" width="100%" direction="row">
-			<Button onClick={() => {history.back();}} iconbefore="arrow_back">Back</Button>
-		</FlexWrapper>
 	</div>
 {/if}
 

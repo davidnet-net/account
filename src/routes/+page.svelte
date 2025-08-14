@@ -78,7 +78,7 @@
 			<a href="/account/settings" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="settings_account_box" size="3rem" />
-					<p class="option-text">Account<br /> settings</p>
+					<p class="option-text">Manage your<br /> account</p>
 				</FlexWrapper>
 			</a>
 			<a href="/profile/{sessionInfo?.userId}" class="option">

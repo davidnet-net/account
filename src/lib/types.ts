@@ -35,3 +35,8 @@ export interface ProfileResponse {
   isFriend: boolean;
   isSelf: boolean;
 }
+
+export interface securitydata {
+  twofa_email_enabled: number;
+  twofa_totp_enabled: number;
+}
