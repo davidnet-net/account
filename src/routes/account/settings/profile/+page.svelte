@@ -2,7 +2,7 @@
 	import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
-	import { getSessionInfo, authFetch } from "$lib/session";
+	import { getSessionInfo, authFetch, refreshAccessToken } from "$lib/session";
 	import type { SessionInfo, ProfileResponse } from "$lib/types";
 	import { wait } from "$lib/utils/time";
 	import { FlexWrapper, Space, LinkButton, Button, Loader, TextArea, TextField, Dropdown } from "@davidnet/svelte-ui";
@@ -91,6 +91,7 @@
 			errorMSG = String(e);
 			error = true;
 		} finally {
+			refreshAccessToken(correlationID, false, true);
 			await wait(500);
 			saving = false;
 		}
@@ -114,7 +115,7 @@
 {#if error}
 	<Error pageName="Account Settings" {errorMSG} {correlationID} />
 {:else if loading}
-	<h1>Account Settings</h1>
+	<h1>Profile Settings</h1>
 	<ProfileLoader />
 {:else}
 	<div class="root">

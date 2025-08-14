@@ -12,8 +12,9 @@ let refreshingPromise: Promise<boolean> | null = null;
  * Gets a new access token!
  * @returns boolean if refresh is successful
  */
-export async function refreshAccessToken(correlationID: string, silent?: boolean): Promise<boolean> {
+export async function refreshAccessToken(correlationID: string, silent?: boolean, freshdb?: boolean): Promise<boolean> {
     silent = silent ?? false;
+    freshdb = freshdb ?? false;
     if (refreshingPromise) {
         // Another refresh is in progress, wait for it to finish
         return refreshingPromise;
@@ -28,6 +29,9 @@ export async function refreshAccessToken(correlationID: string, silent?: boolean
                     "Content-Type": "application/json",
                     "x-correlation-id": correlationID
                 },
+                body: JSON.stringify({
+                    freshdata: freshdb
+                })
             });
 
             if (!res.ok) {

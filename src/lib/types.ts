@@ -10,6 +10,11 @@ export interface SessionInfo {
   jti: string;
   admin: number;
   internal: number;
+  preferences: {
+    timezone: string;
+    dateFormat: string;
+    firstDay: string;
+  },
 }
 
 export interface UserProfile {

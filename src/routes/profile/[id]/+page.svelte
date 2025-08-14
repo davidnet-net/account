@@ -9,7 +9,7 @@
 	import { FlexWrapper, Space, Loader, toast, ToolTip, LinkIconButton, Button } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
-	import { formatLocalDateWithUTCOffset } from "$lib/utils/time";
+	import { formatDate_PREFERREDTIME } from "$lib/utils/time";
 
 	let correlationID = crypto.randomUUID();
 	let error = false;
@@ -23,7 +23,8 @@
 	let hoveredCONNECTION = false;
 	let sessionInfo: SessionInfo;
 
-	$: id = page.params.id || "";
+	let id = page.params.id || "";
+	let created_on = "Loading...";
 
 	onMount(async () => {
 		try {
@@ -71,7 +72,7 @@
 
 			data = await res.json();
 			loading = false;
-			console.log(data);
+			created_on = await formatDate_PREFERREDTIME(data.profile.created_at, correlationID);
 		} catch (err) {
 			error = true;
 			errorMSG = String(err);
@@ -156,7 +157,7 @@
 			{/if}
 		</FlexWrapper>
 		<Space height="var(--token-space-1)" />
-		<p class="center-text" style="line-height: 1.2;"><b>Profile created on:</b> <br>{formatLocalDateWithUTCOffset(data.profile.created_at)}</p>
+		<p class="center-text" style="line-height: 1.2;"><b>Profile created on:</b> <br>{created_on}</p>
 		<Space height="var(--token-space-5)" />
 		<div class="desc">{data.profile.description}</div>
 	</FlexWrapper>

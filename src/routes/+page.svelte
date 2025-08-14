@@ -2,7 +2,7 @@
 	import { goto } from "$app/navigation";
 	import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
-	import { getSessionInfo, isAuthenticated } from "$lib/session";
+	import { getSessionInfo, isAuthenticated, refreshAccessToken } from "$lib/session";
 	import type { SessionInfo } from "$lib/types";
 	import { FlexWrapper, Space, Icon, Loader, LinkButton, Button } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
@@ -23,6 +23,8 @@
 	}
 
 	onMount(async () => {
+		await refreshAccessToken(correlationID, true, true);
+
 		const si = await getSessionInfo(correlationID);
 		if (!(await isAuthenticated(correlationID)) || !si) {
 			goto("/login");
