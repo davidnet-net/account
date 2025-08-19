@@ -2,7 +2,7 @@
 	import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { getSessionInfo } from "$lib/session";
-	import type { SessionInfo } from "$lib/session";
+	import type { SessionInfo } from "$lib/types";
 	import { FlexWrapper, Space, Icon, LinkButton, Button } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 
@@ -77,7 +77,6 @@
 			</a>
 		</FlexWrapper>
         <Space height="var(--token-space-4)" />
-        <Button onClick={() => {history.back();}} iconbefore="arrow_back">Back</Button>
 	</FlexWrapper>
 {/if}
 
