@@ -4,7 +4,8 @@
 	import { authapiurl } from "$lib/config";
 	import { authFetch, getSessionInfo } from "$lib/session";
 	import type { SessionInfo } from "$lib/types";
-	import { FlexWrapper, Space, Icon, LinkButton, Button, Modal } from "@davidnet/svelte-ui";
+	import { formatDate_PREFERREDTIME } from "$lib/utils/time";
+	import { FlexWrapper, Space, Icon, LinkButton, Button, Modal, toast } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 
 	let correlationID = crypto.randomUUID();
@@ -14,6 +15,7 @@
 	let showDeleteAccModal = false;
 	let errorMSG = "Unknown";
 	let deletedacc = false;
+	let showExportModal = false;
 
 	onMount(async () => {
 		const si = await getSessionInfo(correlationID);
@@ -40,13 +42,67 @@
 			showDeleteAccModal = false;
 		}
 	}
+
+	async function reqdata() {
+		loading = true;
+		error = false;
+
+		try {
+			const res = await authFetch(`${authapiurl}settings/data/request_data`, correlationID, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" }
+			});
+
+			if (res.status === 204) {
+				toast({
+					title: "Data Export Successful!",
+					desc: "Check your email!",
+					icon: "celebration",
+					appearance: "success",
+					position: "bottom-left"
+				});
+			} else {
+				const body = await res.json();
+
+				if (res.status === 429) {
+					toast({
+						title: "Data Export Failed: LIMIT reached.",
+						desc: "Try again at " + (await formatDate_PREFERREDTIME(body.retry_at, correlationID)) + "!",
+						icon: "timer",
+						appearance: "danger",
+						position: "bottom-left",
+						autoDismiss: 10000
+					});
+					return;
+				}
+
+				toast({
+					title: "Data Export Failed",
+					desc: (body?.error || "Unknown error"),
+					icon: "timer",
+					appearance: "danger",
+					position: "bottom-left",
+					autoDismiss: 10000
+				});
+
+				throw new Error(body?.error || "Unknown error");
+			}
+		} catch (err) {
+			console.error(err);
+			errorMSG = String(err);
+			error = true;
+		} finally {
+			loading = false;
+			showExportModal = false;
+		}
+	}
 </script>
 
 {#if error}
-	<Error pageName="Data" errorMSG="{errorMSG}" />
+	<Error pageName="Data" {errorMSG} />
 {:else if deletedacc}
 	<FlexWrapper width="100%" height="100%">
-		<Icon icon="delete_forever" size="10rem" color="var(--token-color-text-danger)"/>
+		<Icon icon="delete_forever" size="10rem" color="var(--token-color-text-danger)" />
 		<h1>Account scheduled for deletion</h1>
 		<p>View your email for more information.</p>
 		<a href="https://davidnet.net/legal/info/delete_account/">Learn more</a>
@@ -76,7 +132,7 @@
 			appearance="danger">Delete my account</Button
 		>
 		<Space height="var(--token-space-4)" />
-		<Button onClick={() => {}} appearance="discover">Request my data</Button>
+		<Button onClick={reqdata} appearance="discover">Request my data</Button>
 		<Space height="var(--token-space-4)" />
 	</FlexWrapper>
 {/if}

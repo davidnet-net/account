@@ -6,7 +6,7 @@
 	import { authapiurl } from "$lib/config";
 	import { accessToken, getSessionInfo, refreshAccessToken } from "$lib/session";
 	import type { ProfileResponse } from "$lib/types";
-	import { FlexWrapper, Space, Loader, toast, ToolTip, LinkIconButton, Button } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, Loader, toast, ToolTip, LinkIconButton, Button, IconButton } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
 	import { formatDate_PREFERREDTIME } from "$lib/utils/time";
@@ -35,7 +35,7 @@
 				return;
 			}
 
-			await refreshAccessToken(correlationID, true)
+			await refreshAccessToken(correlationID, true);
 			const si = await getSessionInfo(correlationID, false);
 			if (si) {
 				sessionInfo = si;
@@ -78,6 +78,9 @@
 			errorMSG = String(err);
 		}
 	});
+
+	async function removefriend() {}
+	async function addfriend() {}
 </script>
 
 {#if error}
@@ -94,12 +97,21 @@
 			}}
 			iconbefore="arrow_back">Back</Button
 		>
+
+		{#if data.isFriend}
+			<IconButton onClick={removefriend} icon="group_remove" alt="Remove connection." appearance="primary" />
+		{/if}
+
+		{#if !data.isFriend && sessionInfo && !data.isSelf}
+			<IconButton onClick={addfriend} icon="group_add" alt="Send connection request." appearance="primary" />
+		{/if}
+
 		{#if data.isSelf}
 			<LinkIconButton appearance="primary" href="/account/settings/profile" icon="edit" alt="Edit profile" />
 		{/if}
 
-		{#if sessionInfo.admin}
-			<LinkIconButton icon="admin_panel_settings" appearance="danger" alt="Manage user as admin." href="/admin/manageuser/{id}"/>
+		{#if sessionInfo && sessionInfo.admin}
+			<LinkIconButton icon="admin_panel_settings" appearance="danger" alt="Manage user as admin." href="/admin/manageuser/{id}" />
 		{/if}
 	</FlexWrapper>
 	<Space height="var(--token-space-6)" />
@@ -157,7 +169,13 @@
 			{/if}
 		</FlexWrapper>
 		<Space height="var(--token-space-1)" />
-		<p class="center-text" style="line-height: 1.2;"><b>Profile created on:</b> <br>{created_on}</p>
+		<p class="center-text" style="line-height: 1.2;"><b>Profile created on:</b> <br />{created_on}</p>
+
+		{#if data.profile.email}
+			<p class="center-text">Email: <a class="mail" href="mailto:{data.profile.email}">{data.profile.email}</a>.</p>
+		{:else}
+			<p class="center-text">Email is private.</p>
+		{/if}
 		<Space height="var(--token-space-5)" />
 		<div class="desc">{data.profile.description}</div>
 	</FlexWrapper>
@@ -212,5 +230,9 @@
 		background-color: var(--token-color-background-danger-normal);
 		color: var(--token-color-text-default);
 		width: 6.5rem;
+	}
+
+	.mail {
+		color: var(--token-color-text-normal);
 	}
 </style>
