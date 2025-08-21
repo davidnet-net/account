@@ -4,12 +4,12 @@
 	import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
-	import { accessToken, getSessionInfo, refreshAccessToken } from "$lib/session";
+	import { accessToken, authFetch, getSessionInfo, refreshAccessToken } from "$lib/session";
 	import type { ProfileResponse } from "$lib/types";
 	import { FlexWrapper, Space, Loader, toast, ToolTip, LinkIconButton, Button, IconButton } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
-	import { formatDate_PREFERREDTIME } from "$lib/utils/time";
+	import { formatDate_PREFERREDTIME, wait } from "$lib/utils/time";
 
 	let correlationID = crypto.randomUUID();
 	let error = false;
@@ -22,6 +22,7 @@
 	let hoveredINTERNAL = false;
 	let hoveredCONNECTION = false;
 	let sessionInfo: SessionInfo;
+	let loadingfriend = false;
 
 	let id = page.params.id || "";
 	let created_on = "Loading...";
@@ -79,14 +80,165 @@
 		}
 	});
 
-	async function removefriend() {}
-	async function addfriend() {}
+	// Send a connection request
+	async function addfriend() {
+		if (!isauthencated) return;
+
+		try {
+			loadingfriend = true;
+			const res = await authFetch(`${authapiurl}connections/request`, correlationID, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ id: Number(id) })
+			});
+
+			if (!res.ok) {
+				const json = await res.json().catch(() => ({}));
+				toast({
+					title: "Failed to send request",
+					desc: json.error || "Unknown error",
+					icon: "group_add",
+					appearance: "danger",
+					position: "bottom-left",
+					autoDismiss: 7500
+				});
+				return;
+			}
+
+			toast({
+				title: "Connection request sent",
+				desc: "You sent a connection request to this user.",
+				icon: "group_add",
+				appearance: "success",
+				position: "bottom-left",
+				autoDismiss: 7500
+			});
+
+			data.isFriend = false; // still pending
+			data.isPending = true;
+			await wait(300);
+			loadingfriend = false;
+		} catch (e) {
+			console.error(e);
+			toast({
+				title: "Error",
+				desc: "Could not send connection request.",
+				icon: "group_add",
+				appearance: "danger",
+				position: "bottom-left",
+				autoDismiss: 7500
+			});
+		}
+	}
+
+	// Remove / cancel connection
+	async function removefriend() {
+		if (!isauthencated) return;
+
+		try {
+			loadingfriend = true;
+			const res = await authFetch(`${authapiurl}connections/remove`, correlationID, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ id: Number(id) })
+			});
+
+			if (!res.ok) {
+				const json = await res.json().catch(() => ({}));
+				toast({
+					title: "Failed to remove connection",
+					desc: json.error || "Unknown error",
+					icon: "group_remove",
+					appearance: "danger",
+					position: "bottom-left",
+					autoDismiss: 7500
+				});
+				return;
+			}
+
+			toast({
+				title: "Connection removed",
+				desc: "You are no longer connected with this user.",
+				icon: "group_remove",
+				appearance: "success",
+				position: "bottom-left",
+				autoDismiss: 7500
+			});
+
+			data.isFriend = false;
+			data.isPending = false;
+
+			await wait(300);
+			loadingfriend = false;
+		} catch (e) {
+			console.error(e);
+			toast({
+				title: "Error",
+				desc: "Could not remove connection.",
+				icon: "group_remove",
+				appearance: "danger",
+				position: "bottom-left",
+				autoDismiss: 7500
+			});
+		}
+	}
+
+	// Cancel pending connection request
+	async function cancelfriendreq() {
+		if (!isauthencated) return;
+
+		try {
+			loadingfriend = true;
+			const res = await authFetch(`${authapiurl}connections/cancel`, correlationID, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ id: Number(id) })
+			});
+
+			if (!res.ok) {
+				const json = await res.json().catch(() => ({}));
+				toast({
+					title: "Failed to cancel request",
+					desc: json.error || "Unknown error",
+					icon: "group_remove",
+					appearance: "danger",
+					position: "bottom-left",
+					autoDismiss: 7500
+				});
+				return;
+			}
+
+			toast({
+				title: "Request cancelled",
+				desc: "Your connection request has been cancelled.",
+				icon: "group_remove",
+				appearance: "success",
+				position: "bottom-left",
+				autoDismiss: 5000
+			});
+
+			data.isPending = false;
+			data.isFriend = false;
+			await wait(300);
+			loadingfriend = false;
+		} catch (e) {
+			console.error(e);
+			toast({
+				title: "Error",
+				desc: "Could not cancel the connection request.",
+				icon: "group_remove",
+				appearance: "danger",
+				position: "bottom-left",
+				autoDismiss: 7500
+			});
+		}
+	}
 </script>
 
 {#if error}
-	<Error pageName="Account Settings" {errorMSG} {correlationID} />
+	<Error pageName="Profile" {errorMSG} {correlationID} />
 {:else if loading}
-	<h1>Account Settings</h1>
+	<h1>Profile</h1>
 	<ProfileLoader />
 {:else}
 	<Space height="var(--token-space-6)" />
@@ -99,15 +251,20 @@
 		>
 
 		{#if data.isFriend}
-			<IconButton onClick={removefriend} icon="group_remove" alt="Remove connection." appearance="primary" />
+			<IconButton onClick={removefriend} icon="group_remove" alt="Remove connection." appearance="primary" loading={loadingfriend} />
 		{/if}
 
-		{#if !data.isFriend && sessionInfo && !data.isSelf}
-			<IconButton onClick={addfriend} icon="group_add" alt="Send connection request." appearance="primary" />
+		{#if !data.isFriend && sessionInfo && !data.isSelf && !data.isPending}
+			<IconButton onClick={addfriend} icon="group_add" alt="Send connection request." appearance="primary" loading={loadingfriend} />
+		{/if}
+
+		{#if !data.isFriend && sessionInfo && !data.isSelf && data.isPending}
+			<IconButton onClick={cancelfriendreq} icon="group_remove" alt="Cancel connection request." appearance="warning" loading={loadingfriend} />
 		{/if}
 
 		{#if data.isSelf}
 			<LinkIconButton appearance="primary" href="/account/settings/profile" icon="edit" alt="Edit profile" />
+			<LinkIconButton appearance="subtle" href="/account/settings/connections" icon="groups" alt="Manage Connections." />
 		{/if}
 
 		{#if sessionInfo && sessionInfo.admin}
@@ -227,8 +384,8 @@
 	}
 
 	.connectiontag {
-		background-color: var(--token-color-background-danger-normal);
-		color: var(--token-color-text-default);
+		background-color: var(--token-color-background-success-normal);
+		color: var(--token-color-text-light-normal);
 		width: 6.5rem;
 	}
 

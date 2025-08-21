@@ -34,6 +34,7 @@ export interface ProfileResponse {
   profile: UserProfile;
   isFriend: boolean;
   isSelf: boolean;
+  isPending: boolean;
 }
 
 export interface securitydata {
