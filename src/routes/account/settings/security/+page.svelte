@@ -226,7 +226,54 @@
 		doc.save("recovery-kit.pdf");
 	}
 
-	async function revokeSession(id: number) {}
+	async function revokeSession(id: number) {
+		if (!sessionInfo) return; // Make sure the user session is valid
+		loadingbtn = true;
+
+		try {
+			const res = await authFetch(`${authapiurl}settings/security/sessions/revoke`, correlationID, {
+				method: "DELETE",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ sessionID: id })
+			});
+
+			if (!res.ok) {
+				const errJson = await res.json().catch(() => null);
+				const msg = errJson?.error || "Failed to revoke session!";
+				toast({
+					title: "Error",
+					desc: msg,
+					icon: "error",
+					appearance: "danger",
+					position: "bottom-left"
+				});
+				return;
+			}
+
+			// Remove the session from the UI after successful revocation
+			sessions = sessions.filter((s) => s.id !== id);
+
+			toast({
+				title: "Session revoked!",
+				desc: `Session ${id} has been revoked successfully.`,
+				icon: "delete",
+				appearance: "success",
+				position: "bottom-left",
+				autoDismiss: 5000
+			});
+		} catch (e) {
+			console.error(e);
+			toast({
+				title: "Error",
+				desc: "An unexpected error occurred while revoking the session.",
+				icon: "error",
+				appearance: "danger",
+				position: "bottom-left"
+			});
+		} finally {
+			loadingbtn = false;
+		}
+	}
 </script>
 
 {#if error}
@@ -308,12 +355,12 @@
 				<div class="option">
 					<FlexWrapper direction="row" justifycontent="space-between" width="100%" alignitems="center">
 						<div class="session-info">
-							<div><strong>ID:</strong><br> {s.id}</div>
-							<div><strong>IP:</strong><br> {s.ip_address}</div>
-							<div><strong>Device:</strong><br> {s.user_agent}</div>
-							<div><strong>Created:</strong><br> {s.created_at_fmt}</div>
-							<div><strong>Last Active:</strong><br> {s.last_updated_fmt}</div>
-							<div><strong>Expires:</strong><br> {s.expires_at_fmt}</div>
+							<div><strong>ID:</strong><br /> {s.id}</div>
+							<div><strong>IP:</strong><br /> {s.ip_address}</div>
+							<div><strong>Device:</strong><br /> {s.user_agent}</div>
+							<div><strong>Created:</strong><br /> {s.created_at_fmt}</div>
+							<div><strong>Last Active:</strong><br /> {s.last_updated_fmt}</div>
+							<div><strong>Expires:</strong><br /> {s.expires_at_fmt}</div>
 						</div>
 						<IconButton
 							onClick={async () => {
