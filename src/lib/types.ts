@@ -28,6 +28,8 @@ export interface UserProfile {
   admin: number;
   internal: number;
   created_at: Date;
+  timezone: string | null;
+  timezone_visible: string;
 }
 
 export interface ProfileResponse {
@@ -40,4 +42,19 @@ export interface ProfileResponse {
 export interface securitydata {
   twofa_email_enabled: number;
   twofa_totp_enabled: number;
+}
+
+export interface session {
+  id: number;
+  user_id: number;
+  user_agent: string;
+  ip_address: string;
+  jwt_id: string;
+  expires_at: string;
+  created_at: string;
+  last_updated: string;
+
+  created_at_fmt?: string;
+  last_updated_fmt?: string;
+  expires_at_fmt?: string;
 }

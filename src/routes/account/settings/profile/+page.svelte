@@ -17,6 +17,7 @@
 	let temp_Description: string = "";
 	let temp_display_name: string = "";
 	let temp_email_visible: string = "private";
+	let temp_timezone_visible: string = "private"
 	let saving = false;
 
 	onMount(async () => {
@@ -50,6 +51,7 @@
 				temp_display_name = data.profile.display_name;
 				temp_Description = data.profile.description;
 				temp_email_visible = data.profile.email_visible;
+				temp_timezone_visible = data.profile.timezone_visible;
 				loading = false;
 			} else {
 				errorMSG = "Profile Data Invalid";
@@ -69,7 +71,8 @@
 				body: JSON.stringify({
 					display_name: temp_display_name,
 					description: temp_Description,
-					email_visible: temp_email_visible
+					email_visible: temp_email_visible,
+					timezone_visible: temp_timezone_visible
 				})
 			});
 
@@ -84,6 +87,7 @@
 			data.profile.display_name = temp_display_name;
 			data.profile.description = temp_Description;
 			data.profile.email_visible = temp_email_visible;
+			data.profile.timezone_visible = temp_timezone_visible;
 
 			error = false;
 			toast({
@@ -92,7 +96,7 @@
 				icon: "identity_platform",
 				appearance: "success",
 				position: "bottom-left",
-                autoDismiss: 5000
+				autoDismiss: 5000
 			});
 		} catch (e) {
 			console.error(e);
@@ -105,19 +109,23 @@
 		}
 	}
 
-	$: hasChanges =
-		data &&
-		(temp_display_name !== data.profile.display_name ||
-			temp_Description !== data.profile.description ||
-			temp_email_visible !== data.profile.email_visible);
+	$: hasChanges = data?.profile && (
+		temp_display_name !== data.profile.display_name ||
+		temp_Description !== data.profile.description ||
+		temp_timezone_visible !== data.profile.timezone_visible ||
+		temp_email_visible !== data.profile.email_visible
+	);
+
 
 	async function undo() {
 		if (data && typeof data.profile.display_name === "string" && typeof data.profile.description === "string") {
 			temp_display_name = data.profile.display_name;
 			temp_Description = data.profile.description;
 			temp_email_visible = data.profile.email_visible;
+			temp_timezone_visible = data.profile.timezone_visible;
 		}
 	}
+
 </script>
 
 {#if error}
@@ -173,6 +181,22 @@
 							{ label: "Everyone", value: "public", iconbefore: "public" }
 						]}
 						bind:value={temp_email_visible}
+						appearance="subtle"
+					>
+						Make an choice!
+					</Dropdown>
+				</FlexWrapper>
+			</div>
+			<div class="option">
+				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
+					Who can see my timezone.
+					<Dropdown
+						actions={[
+							{ label: "Only me", value: "private", iconbefore: "visibility_off" },
+							{ label: "Connections", value: "connections", iconbefore: "groups" },
+							{ label: "Everyone", value: "public", iconbefore: "public" }
+						]}
+						bind:value={temp_timezone_visible}
 						appearance="subtle"
 					>
 						Make an choice!

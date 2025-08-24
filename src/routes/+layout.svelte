@@ -2,6 +2,7 @@
 	import favicon from "$lib/assets/favicon.svg";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { ThemeProvider, Toaster, ConnectivityCheck, FlexWrapper, Avatar, IconButton, Modal, ThemeMenu } from "@davidnet/svelte-ui";
+	import { onMount } from "svelte";
 
 	let { children } = $props();
 	let ShowGitModal = $state(false);
@@ -14,6 +15,11 @@
 			fontsLoaded = true;
 		});
 	}
+
+	onMount(() => {
+		const initloader = document.getElementById("initloader");
+		if (initloader) initloader.remove();
+	});
 </script>
 
 <svelte:head>
@@ -25,19 +31,19 @@
 <ConnectivityCheck />
 
 {#if fontsLoaded}
-<nav id="main-nav">
-	<div class="nav-left"><Avatar />My Account</div>
-	<div class="nav-center"></div>
-	<div class="nav-right">
-		<ThemeMenu />
-		<IconButton
-			icon="https://design.davidnet.net/images/logos/external/github/github-mark-dark.svg"
-			lighticon="https://design.davidnet.net/images/logos/external/github/github-mark-white.svg"
-			alt="Github Repository"
-			onClick={() => (ShowGitModal = true)}
-		/>
-	</div>
-</nav>
+	<nav id="main-nav">
+		<div class="nav-left"><Avatar />My Account</div>
+		<div class="nav-center"></div>
+		<div class="nav-right">
+			<ThemeMenu />
+			<IconButton
+				icon="https://design.davidnet.net/images/logos/external/github/github-mark-dark.svg"
+				lighticon="https://design.davidnet.net/images/logos/external/github/github-mark-white.svg"
+				alt="Github Repository"
+				onClick={() => (ShowGitModal = true)}
+			/>
+		</div>
+	</nav>
 {/if}
 
 <FlexWrapper direction="column" height="calc(100vh - 48px);" width="100%;" justifycontent="center" alignitems="center">

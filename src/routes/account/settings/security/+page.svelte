@@ -4,9 +4,9 @@
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
 	import { getSessionInfo, authFetch, refreshAccessToken } from "$lib/session";
-	import type { securitydata, SessionInfo } from "$lib/types";
+	import type { securitydata, SessionInfo, session } from "$lib/types";
 	import { formatDate_PREFERREDTIME, wait } from "$lib/utils/time";
-	import { FlexWrapper, Space, LinkButton, Button, Loader, Dropdown, TextField, Modal, toast } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, LinkButton, Button, Loader, Dropdown, TextField, Modal, toast, IconButton } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	import { jsPDF } from "jspdf";
 
@@ -19,6 +19,7 @@
 	let changepassmodal = false;
 	let loadingbtn = false;
 	let data: securitydata;
+	let sessions: session[];
 
 	onMount(async () => {
 		refreshAccessToken(correlationID, false, true);
@@ -37,6 +38,21 @@
 			if (!res.ok) throw "something exploded";
 			const json: securitydata = await res.json();
 			data = json;
+			const seres = await authFetch(`${authapiurl}settings/security/sessions`, correlationID);
+			console.log(seres);
+			if (!seres.ok) throw "something exploded";
+			const sejson = await seres.json();
+			console.log(sejson);
+
+			// pre-format the async dates into strings
+			sessions = await Promise.all(
+				sejson.sessions.map(async (s: session) => ({
+					...s,
+					created_at_fmt: await formatDate_PREFERREDTIME(s.created_at, correlationID),
+					last_updated_fmt: await formatDate_PREFERREDTIME(s.last_updated, correlationID),
+					expires_at_fmt: await formatDate_PREFERREDTIME(s.expires_at, correlationID)
+				}))
+			);
 		} catch (e) {
 			console.error(e);
 			errorMSG = String(e);
@@ -165,13 +181,11 @@
 		loadingbtn = false;
 	}
 
-
-
 	async function DownloadRecoveryKit() {
 		//! Proof of concept migrate to server.
 
 		const recovery_codes: string[] = Array.from({ length: 10 }, () => crypto.randomUUID());
-		const gendate = await formatDate_PREFERREDTIME((new Date).toISOString(), correlationID);
+		const gendate = await formatDate_PREFERREDTIME(new Date().toISOString(), correlationID);
 
 		const doc = new jsPDF();
 
@@ -185,21 +199,11 @@
 
 		// Intro / instructions
 		doc.setFontSize(12);
-		doc.text(
-			"Keep this file in a safe place. \nAnyone with 1 of these codes can access your account.",
-			20,
-			40,
-			{ maxWidth: 170 }
-		);
+		doc.text("Keep this file in a safe place. \nAnyone with 1 of these codes can access your account.", 20, 40, { maxWidth: 170 });
 
 		doc.setFontSize(12);
 		doc.setTextColor("red");
-		doc.text(
-			"Notice: Each code can only be used once! (PROOF OF CONCEPT - DO NOT USE)",
-			20,
-			60,
-			{ maxWidth: 170 }
-		);
+		doc.text("Notice: Each code can only be used once! (PROOF OF CONCEPT - DO NOT USE)", 20, 60, { maxWidth: 170 });
 		doc.setTextColor("black");
 
 		// Recovery codes
@@ -212,28 +216,17 @@
 		});
 
 		// Support info
-		doc.text(
-			"Questions: contact@davidnet.net",
-			20,
-			75 + recovery_codes.length * 12 + 20
-		);
+		doc.text("Questions: contact@davidnet.net", 20, 75 + recovery_codes.length * 12 + 20);
 
-		doc.text(
-			"If you generate an new Recovery Kit, The old one will become invalid this one is: ",
-			20,
-			75 + recovery_codes.length * 12 + 40,
-			{ maxWidth: 170 }
-		);
-		doc.text(
-			"Version: 1",
-			20,
-			75 + recovery_codes.length * 12 + 45,
-			{ maxWidth: 170 }
-		);
+		doc.text("If you generate an new Recovery Kit, The old one will become invalid this one is: ", 20, 75 + recovery_codes.length * 12 + 40, {
+			maxWidth: 170
+		});
+		doc.text("Version: 1", 20, 75 + recovery_codes.length * 12 + 45, { maxWidth: 170 });
 		// Download the PDF
 		doc.save("recovery-kit.pdf");
 	}
 
+	async function revokeSession(id: number) {}
 </script>
 
 {#if error}
@@ -307,9 +300,34 @@
 				<Button appearance="primary" onClick={DownloadRecoveryKit}>Download</Button>
 			</FlexWrapper>
 		</div>
-		
-		<Space height="var(--token-space-6)" />
-		<p style="color: var(--token-color-text-danger); text-align: center;">You will recieve email on change of these settings!</p>
+		<Space height="var(--token-space-5)" />
+		<h2>Sessions</h2>
+
+		<FlexWrapper gap="var(--token-space-2)" direction="column">
+			{#each sessions as s}
+				<div class="option">
+					<FlexWrapper direction="row" justifycontent="space-between" width="100%" alignitems="center">
+						<div class="session-info">
+							<div><strong>ID:</strong><br> {s.id}</div>
+							<div><strong>IP:</strong><br> {s.ip_address}</div>
+							<div><strong>Device:</strong><br> {s.user_agent}</div>
+							<div><strong>Created:</strong><br> {s.created_at_fmt}</div>
+							<div><strong>Last Active:</strong><br> {s.last_updated_fmt}</div>
+							<div><strong>Expires:</strong><br> {s.expires_at_fmt}</div>
+						</div>
+						<IconButton
+							onClick={async () => {
+								await revokeSession(s.id);
+							}}
+							loading={loadingbtn}
+							appearance="danger"
+							icon="delete"
+							alt="Revoke session"
+						/>
+					</FlexWrapper>
+				</div>
+			{/each}
+		</FlexWrapper>
 	</div>
 {/if}
 
@@ -350,11 +368,12 @@
 
 	.option {
 		width: 95%;
-		height: 2.5rem;
+		height: fit-content;
 		border-radius: 1rem;
 		background-color: var(--token-color-surface-raised-normal);
 		padding: 0.5rem 1rem;
 		display: flex;
+		line-height: 1.5;
 		align-items: center;
 	}
 </style>

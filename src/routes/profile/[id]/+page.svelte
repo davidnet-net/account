@@ -333,6 +333,11 @@
 		{:else}
 			<p class="center-text">Email is private.</p>
 		{/if}
+		{#if data.profile.timezone}
+			<p class="center-text">Timezone: {data.profile.timezone}.</p>
+		{:else}
+			<p class="center-text">Timezone is private.</p>
+		{/if}
 		<Space height="var(--token-space-5)" />
 		<div class="desc">{data.profile.description}</div>
 	</FlexWrapper>

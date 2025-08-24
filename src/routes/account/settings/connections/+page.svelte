@@ -7,6 +7,7 @@
 	import type { SessionInfo } from "$lib/types";
 	import { FlexWrapper, Space, Button, IconButton, toast, Loader, LinkButton } from "@davidnet/svelte-ui";
 	import Error from "$lib/components/Error.svelte";
+	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 
 	let correlationID = crypto.randomUUID();
 	let loading = true;
@@ -162,7 +163,8 @@
 {#if error}
 	<Error {errorMSG} {correlationID} pageName="My Connections" />
 {:else if loading}
-	<Loader />
+	<h1>Connections</h1>
+	<ProfileLoader />
 {:else}
 	<Space height="var(--token-space-4)" />
 	<FlexWrapper width="100%" justifycontent="space-around" direction="row">
