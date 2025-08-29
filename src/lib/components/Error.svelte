@@ -43,7 +43,7 @@ Date: ${new Date}`;
 <FlexWrapper height="100%" width="100%">
 	<Icon icon="crisis_alert" size="100px;" color="var(--token-color-text-warning)" />
 	<h1 style="text-align: center;">Error</h1>
-	<p role="alert" aria-live="assertive">{errorMSG}</p>
+	<p role="alert" aria-live="assertive" style="text-align: center;">{errorMSG}</p>
 	<p style="font-weight: bold;">CorrelationID:</p>
 	<span style="text-align:center; font-size: 0.8rem;">{correlationID}</span>
 	<Space height="var(--token-space-6)" />
