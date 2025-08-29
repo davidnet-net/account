@@ -1,1 +1,1 @@
-export const authapiurl = "http://localhost:3000/";
+export const authapiurl = "http://localhost:1000/";
