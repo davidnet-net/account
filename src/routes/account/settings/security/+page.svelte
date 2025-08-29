@@ -299,7 +299,7 @@
 				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
 					2FA - TOTP
 					<Space width="var(--token-space-4);" />
-					<Button onClick={toggletotp} loading={loadingbtn}>{!data ? "Loading" : data?.twofa_totp_enabled ? "Disable" : "Enable"}</Button>
+					<Button onClick={toggletotp} loading={true || loadingbtn}>{!data ? "Loading" : data?.twofa_totp_enabled ? "Disable" : "Enable"}</Button>
 				</FlexWrapper>
 			</div>
 
@@ -307,7 +307,7 @@
 				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
 					2FA - Email
 					<Space width="var(--token-space-4);" />
-					<Button onClick={toggle2faemail} loading={loadingbtn}
+					<Button onClick={toggle2faemail} loading={true || loadingbtn}
 						>{!data ? "Loading" : data?.twofa_email_enabled ? "Disable" : "Enable"}</Button
 					>
 				</FlexWrapper>
@@ -344,7 +344,7 @@
 			<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
 				Recovery Kit
 				<Space width="var(--token-space-4);" />
-				<Button appearance="primary" onClick={DownloadRecoveryKit}>Download</Button>
+				<Button appearance="primary" onClick={DownloadRecoveryKit} loading>Download</Button>
 			</FlexWrapper>
 		</div>
 		<Space height="var(--token-space-5)" />
