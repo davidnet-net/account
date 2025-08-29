@@ -8,8 +8,8 @@ export interface SessionInfo {
   type: "access";
   exp: number;
   jti: string;
-  admin: number;
-  internal: number;
+  admin: 0 | 1;
+  internal: 0 | 1;
   preferences: {
     timezone: string;
     dateFormat: string;
@@ -20,8 +20,8 @@ export interface SessionInfo {
 export interface UserProfile {
   id: number;
   username: string;
-  email: string | null; // filtered based on visibility
-  email_visible: string; // "public" | "connections" | "private"
+  email: string | null;
+  email_visible: "public" | "connections" | "private";
   display_name: string | null;
   avatar_url: string | null;
   description: string | null;
@@ -29,7 +29,7 @@ export interface UserProfile {
   internal: number;
   created_at: Date;
   timezone: string | null;
-  timezone_visible: string;
+  timezone_visible: "public" | "connections" | "private";
 }
 
 export interface ProfileResponse {
@@ -40,8 +40,8 @@ export interface ProfileResponse {
 }
 
 export interface securitydata {
-  twofa_email_enabled: number;
-  twofa_totp_enabled: number;
+  twofa_email_enabled: 0 | 1;
+  twofa_totp_enabled: 0 | 1;
 }
 
 export interface session {
