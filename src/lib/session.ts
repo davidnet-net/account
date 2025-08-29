@@ -4,6 +4,14 @@ import { authapiurl } from './config';
 import type { SessionInfo } from './types';
 
 export const accessToken = writable<string | null>(null);
+let lastNotification = 0;
+
+function rateLimitedToast(options: Parameters<typeof toast>[0], minInterval = 1000) {
+    const now = Date.now();
+    if (now - lastNotification < minInterval) return; // Skip if last notification was too recent
+    lastNotification = now;
+    toast(options);
+}
 
 // Variables
 let refreshingPromise: Promise<boolean> | null = null;
@@ -46,7 +54,7 @@ export async function refreshAccessToken(correlationID: string, silent?: boolean
                 return true;
             } else {
                 if (!silent) {
-                    toast({
+                    rateLimitedToast({
                         title: "Authentication Failed",
                         desc: "Session expired",
                         icon: "crisis_alert",
@@ -60,7 +68,7 @@ export async function refreshAccessToken(correlationID: string, silent?: boolean
             }
         } catch (error) {
             if (!silent) {
-                toast({
+                rateLimitedToast({
                     title: "Authentication Failed",
                     desc: "Error: Couldn't connect to authentication servers.",
                     icon: "crisis_alert",
