@@ -3,5 +3,5 @@ services:
     build: .
     container_name: account-frontend
     ports:
-      - "2000:4173"
+      - "2000:3000"
     restart: unless-stopped
