@@ -151,6 +151,8 @@
 		<p style="text-align: center; color: var(--token-color-text-danger)">{Login_400}</p>
 
 		<a class="link" href="/signup">Don't have an account? Sign up.</a>
+		<a class="link" href="/recovery">Recover account.</a>
+		<a class="link" href="mailto:contact@davidnet.net">Get help.</a>
 	</form>
 
 {/if}
