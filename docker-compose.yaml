@@ -1,0 +1,7 @@
+services:
+  sveltekit:
+    build: .
+    container_name: account-frontend
+    ports:
+      - "2000:4173"
+    restart: unless-stopped
