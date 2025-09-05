@@ -268,7 +268,7 @@
 		{/if}
 
 		{#if sessionInfo && sessionInfo.admin}
-			<LinkIconButton icon="admin_panel_settings" appearance="danger" alt="Manage user as admin." href="/admin/manageuser/{id}" />
+			<LinkIconButton icon="admin_panel_settings" appearance="danger" alt="Manage user as admin." href="/admin/users/manage/{id}" />
 		{/if}
 	</FlexWrapper>
 	<Space height="var(--token-space-6)" />

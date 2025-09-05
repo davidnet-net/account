@@ -32,7 +32,7 @@
 
 {#if fontsLoaded}
 	<nav id="main-nav">
-		<div class="nav-left"><Avatar />My Account</div>
+		<div class="nav-left"><a href="/"><Avatar />My Account</a></div>
 		<div class="nav-center"></div>
 		<div class="nav-right">
 			<ThemeMenu />
@@ -101,6 +101,14 @@
 		flex: 1;
 		display: flex;
 		align-items: center;
+	}
+
+	.nav-left a {
+		text-decoration: none;
+		color: var(--token-color-text-default-normal);
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 
 	.nav-center {
