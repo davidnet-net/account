@@ -63,7 +63,7 @@
 				return;
 			}
 
-			await wait(1000);
+			await wait(500);
 
 			toast({
 				title: "Signup sucessfull (:",

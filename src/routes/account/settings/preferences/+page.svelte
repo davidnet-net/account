@@ -102,7 +102,7 @@
 			error = true;
 		} finally {
 			refreshAccessToken(correlationID, false, true);
-			await wait(500);
+			await wait(200);
 			saving = false;
 		}
 	}

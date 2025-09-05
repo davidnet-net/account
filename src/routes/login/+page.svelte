@@ -63,7 +63,7 @@
 
 			const data = await res.json();
 
-			await wait(1000);
+			await wait(500);
 
 			if (data.email_verified === 0 || false) {
 				toast({
