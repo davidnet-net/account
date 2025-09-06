@@ -33,7 +33,7 @@
 		"vite": "^7.0.4"
 	},
 	"dependencies": {
-		"@davidnet/svelte-ui": "^1.11.0",
+		"@davidnet/svelte-ui": "^1.11.2",
 		"jspdf": "^3.0.1",
 		"otpauth": "^9.4.1",
 		"qrcode": "^1.5.4"

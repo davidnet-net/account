@@ -1,11 +1,10 @@
 <script lang="ts">
 	import favicon from "$lib/assets/favicon.svg";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
-	import { ThemeProvider, Toaster, ConnectivityCheck, FlexWrapper, Avatar, IconButton, Modal, ThemeMenu } from "@davidnet/svelte-ui";
+	import { ThemeProvider, Toaster, ConnectivityCheck, FlexWrapper, Avatar, IconButton, Modal, ThemeMenu, LinkIconButton } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 
 	let { children } = $props();
-	let ShowGitModal = $state(false);
 
 	let fontsLoaded = $state(false);
 
@@ -32,16 +31,11 @@
 
 {#if fontsLoaded}
 	<nav id="main-nav">
-		<div class="nav-left"><a href="/"><Avatar />My Account</a></div>
-		<div class="nav-center"></div>
+		<div class="nav-left"><LinkIconButton icon="apps" alt="Davidnet Home" href="https://home.davidnet.net" appearance="subtle"/><a href="/">My Account</a></div>
+		<div class="nav-center">Davidnet</div>
 		<div class="nav-right">
 			<ThemeMenu />
-			<IconButton
-				icon="https://design.davidnet.net/images/logos/external/github/github-mark-dark.svg"
-				lighticon="https://design.davidnet.net/images/logos/external/github/github-mark-white.svg"
-				alt="Github Repository"
-				onClick={() => (ShowGitModal = true)}
-			/>
+			<Avatar />
 		</div>
 	</nav>
 {/if}
@@ -55,32 +49,6 @@
 		{/if}
 	</div>
 </FlexWrapper>
-
-{#if ShowGitModal}
-	<Modal
-		title="Select a repository to visit:"
-		titleIcon="fork_right"
-		hasCloseBtn={true}
-		on:close={() => (ShowGitModal = false)}
-		options={[
-			{
-				appearance: "primary",
-				content: "Account website",
-				onClick: () => (window.location.href = "https://github.com/davidnet-net/account")
-			},
-			{
-				appearance: "primary",
-				content: "Auth API",
-				onClick: () => (window.location.href = "https://github.com/davidnet-net/auth-api")
-			},
-			{
-				appearance: "subtle",
-				content: "Davidnet Organisation",
-				onClick: () => (window.location.href = "https://github.com/davidnet-net/")
-			}
-		]}
-	/>
-{/if}
 
 <style>
 	#main-nav {
