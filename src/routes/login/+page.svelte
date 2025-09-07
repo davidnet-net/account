@@ -86,7 +86,11 @@
 				position: "bottom-left",
 				autoDismiss: 5000
 			});
-			goto(redirectTo);
+			if (redirectTo.length < 2) {
+				goto("/");
+			} else {
+				goto(redirectTo);
+			}
 		} catch (err) {
 			error = true;
 			toast({
