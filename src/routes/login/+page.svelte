@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { TextField, Button, Space, toast, Icon, FlexWrapper } from "@davidnet/svelte-ui";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
@@ -23,7 +23,32 @@
 		return !(identifierInvalid || passwordInvalid);
 	}
 
-	$: redirectTo = page.url.searchParams.get("redirect") || "/";
+	function safeRedirect(raw: string | null): string {
+		if (!raw) return "/";
+
+		try {
+			// decode URL first
+			const decoded = decodeURIComponent(raw);
+
+			// if it's a relative path (starts with /) → safe
+			if (decoded.startsWith("/")) return decoded;
+
+			// otherwise parse as full URL
+			const url = new URL(decoded, window.location.origin);
+
+			if (url.hostname === "localhost" || url.hostname.endsWith(".davidnet.net")) {
+				return url.pathname + url.search + url.hash;
+			}
+
+			// not allowed → default
+			return "/";
+		} catch {
+			return "/";
+		}
+	}
+
+	$: redirectTo = safeRedirect(page.url.searchParams.get("redirect"));
+
 	async function handleLogin() {
 		if (!validate()) return;
 
@@ -158,7 +183,6 @@
 		<a class="link" href="/recovery">Recover account.</a>
 		<a class="link" href="mailto:contact@davidnet.net">Get help.</a>
 	</form>
-
 {/if}
 
 <style>
