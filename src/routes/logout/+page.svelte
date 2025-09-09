@@ -6,6 +6,7 @@
 	import { onMount } from "svelte";
 	import { authFetch, getSessionInfo, refreshAccessToken } from "$lib/session";
 	import { toast } from "@davidnet/svelte-ui";
+	import { wait } from "$lib/utils/time";
 
 	let loading = false;
 	let error = false;
@@ -38,7 +39,8 @@
 				position: "bottom-left",
 				autoDismiss: 7000
 			});
-            goto("/")
+			await wait(1000);
+			goto("/");
 		} catch (e) {
 			console.error(e);
 			errorMSG = String(e);
