@@ -1,2 +1,3 @@
-export const authapiurl = "https://auth.davidnet.net/";
-//export const authapiurl = "http://localhost:1000/";
+export const authapiurl = import.meta.env.DEV
+  ? "http://localhost:1000/"
+  : "https://auth.davidnet.net/";
