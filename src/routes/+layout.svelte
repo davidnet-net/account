@@ -1,13 +1,17 @@
 <script lang="ts">
 	import favicon from "$lib/assets/favicon.svg";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
+	import { getSessionInfo } from "$lib/session";
+	import type { SessionInfo } from "$lib/types";
 	import { ThemeProvider, Toaster, ConnectivityCheck, FlexWrapper, Avatar, IconButton, Modal, ThemeMenu, LinkIconButton } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
+	let correlationID = crypto.randomUUID();
 
 	let { children } = $props();
 
 	let fontsLoaded = $state(false);
-
+	let si: SessionInfo | null = $state(null);
+	
 	// This will run only in the browser
 	if (typeof window !== "undefined") {
 		document.fonts.ready.then(() => {
@@ -15,9 +19,11 @@
 		});
 	}
 
-	onMount(() => {
+	onMount(async () => {
 		const initloader = document.getElementById("initloader");
 		if (initloader) initloader.remove();
+
+		si = await getSessionInfo(correlationID, true);
 	});
 </script>
 
@@ -35,7 +41,7 @@
 		<div class="nav-center">Davidnet</div>
 		<div class="nav-right">
 			<ThemeMenu />
-			<Avatar />
+			<Avatar id={String(si?.userId)} owner name={si?.display_name} presence="online" src={si?.profilePicture}/>
 		</div>
 	</nav>
 {/if}
