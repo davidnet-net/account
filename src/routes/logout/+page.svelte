@@ -8,7 +8,7 @@
 	import { toast } from "@davidnet/svelte-ui";
 	import { wait } from "$lib/utils/time";
 
-	let loading = false;
+	let loading = true;
 	let error = false;
 	let correlationID = crypto.randomUUID();
 
@@ -39,14 +39,13 @@
 				position: "bottom-left",
 				autoDismiss: 7000
 			});
-			await wait(1000);
+			await wait(1500);
 			goto("/");
 		} catch (e) {
 			console.error(e);
 			errorMSG = String(e);
 			error = true;
 		}
-
 		loading = false;
 	});
 </script>
