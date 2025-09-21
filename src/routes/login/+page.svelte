@@ -27,20 +27,18 @@
 		if (!raw) return "/";
 
 		try {
-			// decode URL first
 			const decoded = decodeURIComponent(raw);
 
-			// if it's a relative path (starts with /) → safe
+			// relative paths are safe
 			if (decoded.startsWith("/")) return decoded;
 
-			// otherwise parse as full URL
 			const url = new URL(decoded, window.location.origin);
 
+			// allow only your domains
 			if (url.hostname === "localhost" || url.hostname.endsWith(".davidnet.net")) {
-				return url.pathname + url.search + url.hash;
+				return url.href; // <--- use full URL
 			}
 
-			// not allowed → default
 			return "/";
 		} catch {
 			return "/";
