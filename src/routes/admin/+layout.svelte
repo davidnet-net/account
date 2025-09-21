@@ -3,7 +3,7 @@
 	import { page } from "$app/state";
 	import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
-	import { getSessionInfo, isAuthenticated } from "$lib/session";
+	import { getSessionInfo, isAuthenticated, refreshAccessToken } from "$lib/session";
 	import type { SessionInfo } from "$lib/types";
 	import { onMount } from "svelte";
 
@@ -26,6 +26,7 @@
 			}
 
 			Authenticated = true;
+			setInterval(()=>{refreshAccessToken(correlationID, true, false)}, 12 * 60 * 1000);
 		} catch (e) {
 			console.error("Session error:", e);
 			error = true;
