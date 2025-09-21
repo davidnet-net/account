@@ -112,7 +112,11 @@
 			if (redirectTo.length < 2) {
 				goto("/");
 			} else {
-				goto(redirectTo);
+				if (redirectTo.startsWith("http")) {
+					window.location.href = redirectTo;
+				} else {
+					goto(redirectTo);
+				}
 			}
 		} catch (err) {
 			error = true;
