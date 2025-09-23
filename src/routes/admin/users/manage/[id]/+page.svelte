@@ -24,21 +24,38 @@
 	});
 
 	async function deleteacc() {
-		const res = await fetch(authapiurl + "moderate/delete_account", {
+		const res = await authFetch(authapiurl + "moderate/delete_account", correlationID, {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				"x-correlation-id": correlationID
-			},
-			body: JSON.stringify({ id }),
-			credentials: "include"
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ id })
 		});
-
-        if (res.ok) {
-            history.back();
-        }
+		if (res.ok) {
+			toast({
+				title: "User deleted",
+				desc: "You are the best admin ever (:",
+				icon: "check",
+				appearance: "success",
+				position: "bottom-left",
+				autoDismiss: 5000
+			});
+			history.back();
+		} else {
+			toast({
+				title: "User not deleted",
+				desc: "ERROR",
+				icon: "crisis_alert",
+				appearance: "danger",
+				position: "bottom-left",
+				autoDismiss: 5000
+			});
+		}
 	}
 </script>
 
-<Button appearance="subtle" onClick={()=>{history.back()}}>Back</Button>
+<Button
+	appearance="subtle"
+	onClick={() => {
+		history.back();
+	}}>Back</Button
+>
 <Button appearance="danger" onClick={deleteacc}>Delete USER</Button>
