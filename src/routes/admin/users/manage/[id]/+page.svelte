@@ -24,7 +24,7 @@
 	});
 
 	async function deleteacc() {
-		const res = await fetch(authapiurl + "signup", {
+		const res = await fetch(authapiurl + "moderate/delete_account", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
