@@ -6,7 +6,7 @@
 	import { authapiurl } from "$lib/config";
 	import { accessToken, authFetch, getSessionInfo, refreshAccessToken } from "$lib/session";
 	import type { ProfileResponse } from "$lib/types";
-	import { FlexWrapper, Space, Loader, toast, ToolTip, LinkIconButton, Button, IconButton } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, Loader, toast, ToolTip, LinkIconButton, Button, IconButton, Icon } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
 	import { formatDate_PREFERREDTIME, wait } from "$lib/utils/time";
@@ -52,10 +52,15 @@
 	}
 </script>
 
-<Button
-	appearance="subtle"
-	onClick={() => {
-		history.back();
-	}}>Back</Button
->
-<Button appearance="danger" onClick={deleteacc}>Delete USER</Button>
+<FlexWrapper height="100%" width="100%" gap="var(--token-space-2);">
+	<Icon icon="shield" size="10rem" />
+
+	<Space height="var(--token-space-4);"/>
+	<Button iconbefore="delete_forever" appearance="danger" onClick={deleteacc}>Delete user</Button>
+	<Button
+		appearance="subtle"
+		onClick={() => {
+			history.back();
+		}}>Back</Button
+	>
+</FlexWrapper>
