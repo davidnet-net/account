@@ -16,9 +16,13 @@
 	let data: ProfileResponse;
 	let temp_Description: string = "";
 	let temp_display_name: string = "";
-	let temp_email_visible: string = "private";
-	let temp_timezone_visible: string = "private"
+	let temp_email_visible: "public" | "connections" | "private" = "private";
+	let temp_timezone_visible: "public" | "connections" | "private" = "private";
 	let saving = false;
+
+	// Avatar handling
+	let temp_avatar_file: File | null = null;
+	let temp_avatar_preview: string | null = null;
 
 	onMount(async () => {
 		const si = await getSessionInfo(correlationID);
@@ -60,11 +64,63 @@
 		}
 	});
 
+	function handleFileChange(e: Event) {
+		const input = e.target as HTMLInputElement;
+		const file = input.files?.[0];
+		if (!file) return;
+
+		const validTypes = [
+			"image/jpeg",
+			"image/pjpeg",
+			"image/jfif",
+			"image/jiff",
+			"image/png",
+			"image/webp",
+			"image/gif"
+		];
+		if (!validTypes.includes(file.type.toLowerCase())) {
+			toast({
+				title: "Invalid file",
+				desc: "Only JPEG, PNG, WEBP, GIF, JFIF, or JIFF images are allowed.",
+				appearance: "danger",
+				icon: "warning",
+				position: "bottom-left",
+				autoDismiss: 7500
+			});
+			return;
+		}
+
+		temp_avatar_file = file;
+		temp_avatar_preview = URL.createObjectURL(file);
+	}
+
 	async function saveSettings() {
 		if (!sessionInfo) return;
 		saving = true;
 
 		try {
+			// 1️⃣ If a new avatar was selected, upload it first
+			if (temp_avatar_file) {
+				const formData = new FormData();
+				formData.append("file", temp_avatar_file);
+
+				const uploadRes = await authFetch(`${authapiurl}profile-picture`, correlationID, {
+					method: "POST",
+					body: formData
+				});
+
+				if (!uploadRes.ok) {
+					const err = await uploadRes.json();
+					throw new Error(err.error || "Failed to upload profile picture");
+				}
+
+				const { avatar_url } = await uploadRes.json();
+				data.profile.avatar_url = avatar_url;
+				temp_avatar_file = null;
+				temp_avatar_preview = null;
+			}
+
+			// 2️⃣ Then update profile info
 			const res = await authFetch(`${authapiurl}settings/profile/save`, correlationID, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -78,12 +134,9 @@
 
 			if (!res.ok) {
 				const json = await res.json();
-				("Failed to save profile");
-				error = true;
-				return;
+				throw new Error(json.error || "Failed to save profile");
 			}
 
-			// Update local data with new values
 			data.profile.display_name = temp_display_name;
 			data.profile.description = temp_Description;
 			data.profile.email_visible = temp_email_visible;
@@ -113,9 +166,9 @@
 		temp_display_name !== data.profile.display_name ||
 		temp_Description !== data.profile.description ||
 		temp_timezone_visible !== data.profile.timezone_visible ||
-		temp_email_visible !== data.profile.email_visible
+		temp_email_visible !== data.profile.email_visible ||
+		temp_avatar_file !== null
 	);
-
 
 	async function undo() {
 		if (data && typeof data.profile.display_name === "string" && typeof data.profile.description === "string") {
@@ -123,9 +176,10 @@
 			temp_Description = data.profile.description;
 			temp_email_visible = data.profile.email_visible;
 			temp_timezone_visible = data.profile.timezone_visible;
+			temp_avatar_file = null;
+			temp_avatar_preview = null;
 		}
 	}
-
 </script>
 
 {#if error}
@@ -148,12 +202,18 @@
 		<Space height="var(--token-space-4)" />
 		<h1>Profile Settings</h1>
 		<FlexWrapper justifycontent="flex-start" width="100%" height="fit-content">
-			{#if data.profile.avatar_url}
-				<img class="profile" src={data.profile.avatar_url} aria-hidden="true" alt="Profile Picture" height="100px" width="100px" />
-			{:else}
-				<Loader />
-				<Space height="var(--token-space-4)" />
-			{/if}
+			<div class="avatar-wrapper" on:click={() => document.getElementById('avatarInput')?.click()}>
+				{#if temp_avatar_preview}
+					<img class="profile" src={temp_avatar_preview} alt="New profile preview" height="100" width="100" />
+				{:else if data.profile.avatar_url}
+					<img class="profile" src={data.profile.avatar_url} alt="Profile picture" height="100" width="100" />
+				{:else}
+					<Loader />
+				{/if}
+				<div class="change-overlay">Change</div>
+			</div>
+			<input id="avatarInput" type="file" accept="image/*" style="display:none" on:change={handleFileChange} />
+
 			{#if typeof data.profile.display_name === "string"}
 				<TextField label="Display Name" type="text" placeholder={data.profile.display_name} bind:value={temp_display_name} />
 			{/if}
@@ -183,7 +243,7 @@
 						bind:value={temp_email_visible}
 						appearance="subtle"
 					>
-						Make an choice!
+						Make a choice!
 					</Dropdown>
 				</FlexWrapper>
 			</div>
@@ -199,7 +259,7 @@
 						bind:value={temp_timezone_visible}
 						appearance="subtle"
 					>
-						Make an choice!
+						Make a choice!
 					</Dropdown>
 				</FlexWrapper>
 			</div>
@@ -225,6 +285,30 @@
 	}
 	.profile {
 		border-radius: 50%;
+		object-fit: cover;
+	}
+
+	.avatar-wrapper {
+		position: relative;
+		cursor: pointer;
+		display: inline-block;
+	}
+	.avatar-wrapper:hover .change-overlay {
+		opacity: 1;
+	}
+	.change-overlay {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		text-align: center;
+		background: rgba(0, 0, 0, 0.5);
+		color: white;
+		font-size: 0.8rem;
+		padding: 0.2rem;
+		border-radius: 0 0 50% 50%;
+		opacity: 0;
+		transition: opacity 0.2s ease-in-out;
 	}
 
 	.option {
