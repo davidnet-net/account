@@ -1,15 +1,9 @@
 <script lang="ts">
-	import type { SessionInfo } from "$lib/types.ts";
 	import { page } from "$app/state";
-	import Error from "$lib/components/Error.svelte";
-	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
-	import { accessToken, authFetch, getSessionInfo, refreshAccessToken } from "$lib/session";
-	import type { ProfileResponse } from "$lib/types";
-	import { FlexWrapper, Space, Loader, toast, ToolTip, LinkIconButton, Button, IconButton, Icon } from "@davidnet/svelte-ui";
+	import { authFetch, refreshAccessToken } from "$lib/session";
+	import { FlexWrapper, Space, toast, Button, Icon, Modal } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
-	import { get } from "svelte/store";
-	import { formatDate_PREFERREDTIME, wait } from "$lib/utils/time";
 
 	let correlationID = crypto.randomUUID();
 
@@ -50,6 +44,36 @@
 			});
 		}
 	}
+
+	async function deleteprofilepicture() {
+		const res = await authFetch(authapiurl + "moderate/reset_profile_picture", correlationID, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ id })
+		});
+		if (res.ok) {
+			toast({
+				title: "Profile picture deleted",
+				desc: "You are the best admin ever (:",
+				icon: "check",
+				appearance: "success",
+				position: "bottom-left",
+				autoDismiss: 5000
+			});
+			history.back();
+		} else {
+			toast({
+				title: "Profile picture not deleted",
+				desc: "ERROR",
+				icon: "crisis_alert",
+				appearance: "danger",
+				position: "bottom-left",
+				autoDismiss: 5000
+			});
+		}
+	}
+
+	let showDeleteAccModal = $state(false);
 </script>
 
 <FlexWrapper height="100%" width="100%" gap="var(--token-space-2);">
@@ -57,6 +81,7 @@
 
 	<Space height="var(--token-space-4);"/>
 	<Button iconbefore="delete_forever" appearance="danger" onClick={deleteacc}>Delete user</Button>
+	<Button iconbefore="delete_forever" appearance="danger" onClick={()=>{showDeleteAccModal = true}}>Delete profile picture</Button>
 	<Button
 		appearance="subtle"
 		onClick={() => {
@@ -64,3 +89,21 @@
 		}}>Back</Button
 	>
 </FlexWrapper>
+
+{#if showDeleteAccModal}
+	<Modal
+		title="Delete this account?"
+		titleIcon="delete_forever"
+		desc="This cannot be undone?"
+		hasCloseBtn
+		on:close={() => (showDeleteAccModal = false)}
+		options={[
+			{
+				appearance: "subtle",
+				content: "Cancel",
+				onClick: () => (showDeleteAccModal = false)
+			},
+			{ appearance: "danger", content: "Delete account", onClick: deleteprofilepicture }
+		]}
+	/>
+{/if}
