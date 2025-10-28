@@ -5,7 +5,7 @@
 	import { getSessionInfo, authFetch, refreshAccessToken } from "$lib/session";
 	import type { SessionInfo } from "$lib/types";
 	import { wait } from "$lib/utils/time";
-	import { FlexWrapper, Space, LinkButton, Button, Loader, Dropdown, toast } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, LinkButton, Button, Dropdown, toast } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 
 	let correlationID = crypto.randomUUID();
@@ -94,7 +94,7 @@
 				icon: "tune",
 				appearance: "success",
 				position: "bottom-left",
-                autoDismiss: 5000
+				autoDismiss: 5000
 			});
 		} catch (e) {
 			console.error(e);

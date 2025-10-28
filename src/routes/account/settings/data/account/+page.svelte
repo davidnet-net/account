@@ -2,8 +2,7 @@
 	import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
-	import { authFetch, getSessionInfo } from "$lib/session";
-	import type { SessionInfo } from "$lib/types";
+	import { authFetch } from "$lib/session";
 	import { formatDate_PREFERREDTIME } from "$lib/utils/time";
 	import { FlexWrapper, Space, Icon, LinkButton, Button, Modal, toast } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
@@ -11,17 +10,11 @@
 	let correlationID = crypto.randomUUID();
 	let error = false;
 	let loading = true;
-	let sessionInfo: SessionInfo | null;
 	let showDeleteAccModal = false;
 	let errorMSG = "Unknown";
 	let deletedacc = false;
-	let showExportModal = false;
 
 	onMount(async () => {
-		const si = await getSessionInfo(correlationID);
-
-		sessionInfo = si;
-
 		loading = false;
 	});
 
@@ -78,7 +71,7 @@
 
 				toast({
 					title: "Data Export Failed",
-					desc: (body?.error || "Unknown error"),
+					desc: body?.error || "Unknown error",
 					icon: "timer",
 					appearance: "danger",
 					position: "bottom-left",
@@ -93,7 +86,6 @@
 			error = true;
 		} finally {
 			loading = false;
-			showExportModal = false;
 		}
 	}
 </script>

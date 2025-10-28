@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FlexWrapper, Space, Icon, Loader, LinkButton, Button, metadata } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, Icon, LinkButton, Button, metadata } from "@davidnet/svelte-ui";
 </script>
 
 <Space height="var(--token-space-4)" />
@@ -25,13 +25,13 @@
 	</FlexWrapper>
 	<FlexWrapper direction="row" gap="var(--token-space-6)">
 		<div class="info">
-			<Icon icon="identity_platform"/>
+			<Icon icon="identity_platform" />
 			<span>Version Unknown</span>
 		</div>
 	</FlexWrapper>
 </FlexWrapper>
 <Space height="var(--token-space-2)" />
-<p style="text-align: center; color: orange;">TODO: Add account request logs. </p>
+<p style="text-align: center; color: orange;">TODO: Add account request logs.</p>
 
 <style>
 	.profile {

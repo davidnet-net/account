@@ -2,7 +2,6 @@
 	import { onMount } from "svelte";
 	import { page } from "$app/state";
 	import { goto } from "$app/navigation";
-	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import Error from "$lib/components/Error.svelte";
 	import { authapiurl } from "$lib/config";
 	import { Button, FlexWrapper, Icon, LinkButton, Loader } from "@davidnet/svelte-ui";
@@ -17,7 +16,7 @@
 	let resendcodedone = false;
 	let resendcodeloading = false; // Give fake feel of its actually doing stuff
 
-	$: email = page.params.email || "";
+	const email = page.params.email || "";
 
 	async function checkVerification() {
 		if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) || email.length > 254) {
@@ -47,7 +46,7 @@
 						expired = false;
 
 						await wait(2000);
-						goto("/")
+						goto("/");
 						return;
 					}
 					await new Promise((r) => setTimeout(r, 5000));
@@ -112,12 +111,7 @@
 			<h1>Verify your email!</h1>
 			<p>An email has been sent to you. Please click the verify button in the email.</p>
 			{#if !resendcodedone}
-				<Button
-					onClick={ResendVerificationEmail}
-					appearance="subtle"
-					loading={resendcodeloading}>
-					Resend Email
-				</Button>
+				<Button onClick={ResendVerificationEmail} appearance="subtle" loading={resendcodeloading}>Resend Email</Button>
 			{:else}
 				<Button onClick={() => {}} disabled iconbefore="notification_multiple">Sended Email</Button>
 			{/if}
@@ -139,7 +133,7 @@
 		<div class="center">
 			<Icon icon="mark_email_read" size="100px" color="var(--token-color-text-success)" />
 			<h1>Email verified!</h1>
-			<Loader/>
+			<Loader />
 		</div>
 	</FlexWrapper>
 {/if}

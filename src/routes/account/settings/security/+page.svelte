@@ -6,7 +6,7 @@
 	import { getSessionInfo, authFetch, refreshAccessToken } from "$lib/session";
 	import type { securitydata, SessionInfo, session } from "$lib/types";
 	import { formatDate_PREFERREDTIME, wait } from "$lib/utils/time";
-	import { FlexWrapper, Space, LinkButton, Button, Loader, Dropdown, TextField, Modal, toast, IconButton } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, LinkButton, Button, TextField, Modal, toast, IconButton } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	import { jsPDF } from "jspdf";
 
@@ -299,7 +299,7 @@
 				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
 					2FA - TOTP
 					<Space width="var(--token-space-4);" />
-					<Button onClick={toggletotp} loading={true || loadingbtn}>{!data ? "Loading" : data?.twofa_totp_enabled ? "Disable" : "Enable"}</Button>
+					<Button onClick={toggletotp} loading={loadingbtn}>{!data ? "Loading" : data?.twofa_totp_enabled ? "Disable" : "Enable"}</Button>
 				</FlexWrapper>
 			</div>
 
@@ -307,7 +307,7 @@
 				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
 					2FA - Email
 					<Space width="var(--token-space-4);" />
-					<Button onClick={toggle2faemail} loading={true || loadingbtn}
+					<Button onClick={toggle2faemail} loading={loadingbtn}
 						>{!data ? "Loading" : data?.twofa_email_enabled ? "Disable" : "Enable"}</Button
 					>
 				</FlexWrapper>
@@ -351,7 +351,7 @@
 		<h2>Sessions</h2>
 
 		<FlexWrapper gap="var(--token-space-2)" direction="column">
-			{#each sessions as s}
+			{#each sessions as s (s.id)}
 				<div class="option">
 					<FlexWrapper direction="row" justifycontent="space-between" width="100%" alignitems="center">
 						<div class="session-info">

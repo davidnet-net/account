@@ -195,7 +195,6 @@
 		<h1>Profile Settings</h1>
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
-		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<FlexWrapper justifycontent="flex-start" width="100%" height="fit-content">
 			<!-- svelte-ignore a11y_click_events_have_key_events -->
 			<div class="avatar-wrapper" on:click={() => document.getElementById("avatarInput")?.click()}>

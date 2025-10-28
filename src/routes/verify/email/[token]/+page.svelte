@@ -12,7 +12,8 @@
 	let correlationID = crypto.randomUUID();
 	let expired = false;
 
-	$: token = page.params.token || "";
+	const 
+	token = page.params.token || "";
 
 	onMount(async () => {
 		if (!token || typeof token !== "string" || token.length !== 64) {
@@ -76,8 +77,13 @@
 			<Icon icon="mark_email_read" size="100px" color="var(--token-color-text-success)" />
 			<h1>Email verified!</h1>
 			<p>You can now close this tab.</p>
-			<Space height="var(--token-space-4)"/>
-			<Button appearance="primary" onClick={() => {window.close();}}>Close Tab</Button>
+			<Space height="var(--token-space-4)" />
+			<Button
+				appearance="primary"
+				onClick={() => {
+					window.close();
+				}}>Close Tab</Button
+			>
 		</div>
 	</FlexWrapper>
 {/if}

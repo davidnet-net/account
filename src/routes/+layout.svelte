@@ -3,7 +3,7 @@
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { getSessionInfo } from "$lib/session";
 	import type { SessionInfo } from "$lib/types";
-	import { ThemeProvider, Toaster, ConnectivityCheck, FlexWrapper, Avatar, IconButton, Modal, ThemeMenu, LinkIconButton } from "@davidnet/svelte-ui";
+	import { ThemeProvider, Toaster, ConnectivityCheck, FlexWrapper, Avatar, ThemeMenu, LinkIconButton } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	let correlationID = crypto.randomUUID();
 
@@ -11,7 +11,7 @@
 
 	let fontsLoaded = $state(false);
 	let si: SessionInfo | null = $state(null);
-	
+
 	// This will run only in the browser
 	if (typeof window !== "undefined") {
 		document.fonts.ready.then(() => {
@@ -37,11 +37,13 @@
 
 {#if fontsLoaded}
 	<nav id="main-nav">
-		<div class="nav-left"><LinkIconButton icon="apps" alt="Davidnet Home" href="https://home.davidnet.net" appearance="subtle"/><a href="/">My Account</a></div>
+		<div class="nav-left">
+			<LinkIconButton icon="apps" alt="Davidnet Home" href="https://home.davidnet.net" appearance="subtle" /><a href="/">My Account</a>
+		</div>
 		<div class="nav-center">Davidnet</div>
 		<div class="nav-right">
 			<ThemeMenu />
-			<Avatar id={String(si?.userId)} owner name={si?.display_name} presence="online" src={si?.profilePicture}/>
+			<Avatar id={String(si?.userId)} owner name={si?.display_name} presence="online" src={si?.profilePicture} />
 		</div>
 	</nav>
 {/if}

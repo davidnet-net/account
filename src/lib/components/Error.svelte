@@ -15,7 +15,7 @@
 Page: ${pageName}
 Message: ${errorMSG}
 CorrelationID: ${correlationID}
-Date: ${new Date}`;
+Date: ${new Date()}`;
 
 			await navigator.clipboard.writeText(clipboardText);
 			await tick();

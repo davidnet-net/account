@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TextField, Button, Space, toast, Icon, FlexWrapper } from "@davidnet/svelte-ui";
+	import { TextField, Button, Space, toast } from "@davidnet/svelte-ui";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
 	import Error from "$lib/components/Error.svelte";
@@ -45,7 +45,7 @@
 		}
 	}
 
-	$: redirectTo = safeRedirect(page.url.searchParams.get("redirect"));
+	const redirectTo = safeRedirect(page.url.searchParams.get("redirect"));
 
 	async function handleLogin() {
 		if (!validate()) return;

@@ -54,7 +54,6 @@
 	});
 </script>
 
-
 <div class="input-root" style="width: {width};">
 	<label for={id} class="centered-label">
 		{label}
@@ -64,7 +63,7 @@
 	</label>
 
 	<div class="totp-inputs">
-		{#each Array(6) as _, i}
+		{#each Array(6), i (i)}
 			<input
 				bind:this={inputs[i]}
 				type="text"

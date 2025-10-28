@@ -1,21 +1,13 @@
 <script lang="ts">
 	import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
-	import { getSessionInfo } from "$lib/session";
-	import type { SessionInfo } from "$lib/types";
 	import { FlexWrapper, Space, Icon, LinkButton, Button } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 
-	let correlationID = crypto.randomUUID();
 	let error = false;
 	let loading = true;
-	let sessionInfo: SessionInfo | null;
 
-    onMount(async () => {
-		const si = await getSessionInfo(correlationID);
-
-		sessionInfo = si;
-
+	onMount(async () => {
 		loading = false;
 	});
 </script>
@@ -28,12 +20,17 @@
 {:else}
 	<Space height="var(--token-space-4)" />
 	<FlexWrapper width="100%" justifycontent="space-around" direction="row">
-        <Button onClick={() => {history.back();}} iconbefore="arrow_back">Back</Button>
-        <LinkButton href="/logout" iconafter="logout">Log out</LinkButton>
-    </FlexWrapper>
-    <Space height="var(--token-space-4)" />
-	<FlexWrapper height="100%" width="100%"> 
-        <h1>Account management</h1>
+		<Button
+			onClick={() => {
+				history.back();
+			}}
+			iconbefore="arrow_back">Back</Button
+		>
+		<LinkButton href="/logout" iconafter="logout">Log out</LinkButton>
+	</FlexWrapper>
+	<Space height="var(--token-space-4)" />
+	<FlexWrapper height="100%" width="100%">
+		<h1>Account management</h1>
 		<Space height="var(--token-space-4)" />
 		<FlexWrapper direction="row" gap="var(--token-space-6)">
 			<a href="settings/preferences" class="option">
@@ -55,8 +52,8 @@
 				</FlexWrapper>
 			</a>
 		</FlexWrapper>
-        <Space height="var(--token-space-4)" />
-        <FlexWrapper direction="row" gap="var(--token-space-6)">
+		<Space height="var(--token-space-4)" />
+		<FlexWrapper direction="row" gap="var(--token-space-6)">
 			<a href="settings/connections" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="groups" size="3rem" />
@@ -76,7 +73,7 @@
 				</FlexWrapper>
 			</a>
 		</FlexWrapper>
-        <Space height="var(--token-space-4)" />
+		<Space height="var(--token-space-4)" />
 	</FlexWrapper>
 {/if}
 
@@ -93,9 +90,11 @@
 		border-radius: 2rem;
 		background-color: var(--token-color-surface-raised-normal);
 		padding: 1rem;
-		transition: transform 0.4s ease, box-shadow 0.4s ease;
-        height: 8rem;
-        width: 4rem;
+		transition:
+			transform 0.4s ease,
+			box-shadow 0.4s ease;
+		height: 8rem;
+		width: 4rem;
 	}
 
 	.option:hover {
@@ -104,13 +103,14 @@
 		box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 	}
 
-	.option:active, .option:focus {
+	.option:active,
+	.option:focus {
 		background-color: var(--token-color-surface-raised-pressed);
 	}
 
-    .option:focus {
-        outline: 2px solid var(--token-color-focusring);
-    }
+	.option:focus {
+		outline: 2px solid var(--token-color-focusring);
+	}
 
 	.option-text {
 		line-height: 1.2;

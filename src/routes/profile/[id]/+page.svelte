@@ -274,7 +274,15 @@
 	<Space height="var(--token-space-6)" />
 	<FlexWrapper justifycontent="flex-start" height="100%" width="100%">
 		{#if data.profile.avatar_url}
-			<img class="profile" src={data.profile.avatar_url} crossorigin="anonymous" aria-hidden="true" alt="Profile Picture" height="100px" width="100px" />
+			<img
+				class="profile"
+				src={data.profile.avatar_url}
+				crossorigin="anonymous"
+				aria-hidden="true"
+				alt="Profile Picture"
+				height="100px"
+				width="100px"
+			/>
 		{:else}
 			<Loader />
 			<Space height="var(--token-space-4)" />

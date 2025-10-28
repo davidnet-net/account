@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
-	import { page } from "$app/state";
 	import { authapiurl } from "$lib/config";
-	import { accessToken, authFetch, getSessionInfo, refreshAccessToken } from "$lib/session";
-	import type { SessionInfo } from "$lib/types";
-	import { FlexWrapper, Space, Button, IconButton, toast, Loader, LinkButton } from "@davidnet/svelte-ui";
+	import { accessToken, authFetch, refreshAccessToken } from "$lib/session";
+	import { FlexWrapper, Space, Button, IconButton, toast, LinkButton } from "@davidnet/svelte-ui";
 	import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 
@@ -13,16 +11,16 @@
 	let loading = true;
 	let error = false;
 	let errorMSG = "Unknown";
-	let sessionInfo: SessionInfo | null = null;
 
+	/* eslint-disable @typescript-eslint/no-explicit-any */
 	let connections: Array<any> = [];
 	let incomingRequests: Array<any> = [];
 	let outgoingRequests: Array<any> = [];
+	/* eslint-enable @typescript-eslint/no-explicit-any */
 
 	async function loadConnections() {
 		try {
 			await refreshAccessToken(correlationID, true);
-			sessionInfo = await getSessionInfo(correlationID, false);
 			const token = get(accessToken);
 			if (!token) {
 				error = true;
@@ -179,9 +177,9 @@
 		</FlexWrapper>
 	{:else}
 		<FlexWrapper direction="column" gap="var(--token-space-2)" width="100%">
-			{#each connections as user}
+			{#each connections as user (user.id)}
 				<div class="user">
-                    <img src={user.avatar_url} alt="profile picture" aria-hidden="true" />
+					<img src={user.avatar_url} alt="profile picture" aria-hidden="true" />
 					<span>{user.display_name} (@{user.username})</span>
 					<IconButton icon="group_remove" alt="Remove connection" onClick={() => removeConnection(user.id)} appearance="danger" />
 				</div>
@@ -197,7 +195,7 @@
 		</FlexWrapper>
 	{:else}
 		<FlexWrapper direction="column" gap="var(--token-space-2)" width="100%">
-			{#each incomingRequests as user}
+			{#each incomingRequests as user (user.id)}
 				<div class="user">
 					<img src={user.avatar_url} alt="profile picture" aria-hidden="true" />
 					<span>{user.display_name} (@{user.username})</span>
@@ -215,9 +213,9 @@
 		</FlexWrapper>
 	{:else}
 		<FlexWrapper direction="column" gap="var(--token-space-2)" width="100%">
-			{#each outgoingRequests as user}
+			{#each outgoingRequests as user (user.id)}
 				<div class="user">
-                    <img src={user.avatar_url} alt="profile picture" aria-hidden="true" />
+					<img src={user.avatar_url} alt="profile picture" aria-hidden="true" />
 					<span>{user.display_name} (@{user.username})</span>
 					<IconButton icon="group_remove" alt="Cancel request" onClick={() => cancelRequest(user.id)} appearance="warning" />
 				</div>

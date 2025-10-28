@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FlexWrapper, Space, Icon, Loader, LinkButton, Button } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, Icon, LinkButton, Button } from "@davidnet/svelte-ui";
 </script>
 
 <Space height="var(--token-space-4)" />
@@ -22,7 +22,7 @@
 		<a href="/admin/users" class="option">
 			<FlexWrapper height="100%" width="100%">
 				<Icon icon="admin_panel_settings" size="3rem" />
-				<p class="option-text">Manage<br>users</p>
+				<p class="option-text">Manage<br />users</p>
 			</FlexWrapper>
 		</a>
 		<a href="/admin/reports" class="option">

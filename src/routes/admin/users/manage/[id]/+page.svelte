@@ -79,9 +79,15 @@
 <FlexWrapper height="100%" width="100%" gap="var(--token-space-2);">
 	<Icon icon="shield" size="10rem" />
 
-	<Space height="var(--token-space-4);"/>
+	<Space height="var(--token-space-4);" />
 	<Button iconbefore="delete_forever" appearance="danger" onClick={deleteacc}>Delete user</Button>
-	<Button iconbefore="delete_forever" appearance="danger" onClick={()=>{showDeleteAccModal = true}}>Delete profile picture</Button>
+	<Button
+		iconbefore="delete_forever"
+		appearance="danger"
+		onClick={() => {
+			showDeleteAccModal = true;
+		}}>Delete profile picture</Button
+	>
 	<Button
 		appearance="subtle"
 		onClick={() => {
