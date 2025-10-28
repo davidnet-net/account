@@ -12,7 +12,6 @@
 	let errorMSG = "Unknown";
 	let correlationID = crypto.randomUUID();
 	let expired = false;
-	let email = "";
 	let resendcodedone = false;
 	let resendcodeloading = false; // Give fake feel of its actually doing stuff
 
