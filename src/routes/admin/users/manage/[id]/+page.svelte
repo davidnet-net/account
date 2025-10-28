@@ -79,6 +79,7 @@
 
 <FlexWrapper height="100%" width="100%" gap="var(--token-space-2);">
 	<Icon icon="shield" size="10rem" />
+	<h1>{id}</h1>
 
 	<Space height="var(--token-space-4);" />
 	<Button
@@ -95,6 +96,7 @@
 			showDeleteProfilePictureModal = true;
 		}}>Delete profile picture</Button
 	>
+	<Space height="var(--token-space-4);" />
 	<Button
 		appearance="subtle"
 		onClick={() => {
