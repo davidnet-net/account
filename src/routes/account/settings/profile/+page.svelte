@@ -62,6 +62,19 @@
 				error = true;
 			}
 		}
+
+		const src = data.profile.avatar_url;
+		try {
+			const response = await fetch(String(src), { method: "GET", mode: "cors" });
+
+			if (!response.ok) {
+				alert(`❌ Failed to load image: ${src}\nStatus: ${response.status} ${response.statusText}`);
+			} else {
+				console.log(`✅ Image fetched successfully: ${src}`);
+			}
+		} catch (err) {
+			alert(`❌ Error fetching image: ${src}\n${err}`);
+		}
 	});
 
 	function handleFileChange(e: Event) {
@@ -69,15 +82,7 @@
 		const file = input.files?.[0];
 		if (!file) return;
 
-		const validTypes = [
-			"image/jpeg",
-			"image/pjpeg",
-			"image/jfif",
-			"image/jiff",
-			"image/png",
-			"image/webp",
-			"image/gif"
-		];
+		const validTypes = ["image/jpeg", "image/pjpeg", "image/jfif", "image/jiff", "image/png", "image/webp", "image/gif"];
 		if (!validTypes.includes(file.type.toLowerCase())) {
 			toast({
 				title: "Invalid file",
@@ -162,13 +167,13 @@
 		}
 	}
 
-	$: hasChanges = data?.profile && (
-		temp_display_name !== data.profile.display_name ||
-		temp_Description !== data.profile.description ||
-		temp_timezone_visible !== data.profile.timezone_visible ||
-		temp_email_visible !== data.profile.email_visible ||
-		temp_avatar_file !== null
-	);
+	$: hasChanges =
+		data?.profile &&
+		(temp_display_name !== data.profile.display_name ||
+			temp_Description !== data.profile.description ||
+			temp_timezone_visible !== data.profile.timezone_visible ||
+			temp_email_visible !== data.profile.email_visible ||
+			temp_avatar_file !== null);
 
 	async function undo() {
 		if (data && typeof data.profile.display_name === "string" && typeof data.profile.description === "string") {
@@ -206,7 +211,7 @@
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<FlexWrapper justifycontent="flex-start" width="100%" height="fit-content">
 			<!-- svelte-ignore a11y_click_events_have_key_events -->
-			<div class="avatar-wrapper" on:click={() => document.getElementById('avatarInput')?.click()}>
+			<div class="avatar-wrapper" on:click={() => document.getElementById("avatarInput")?.click()}>
 				{#if temp_avatar_preview}
 					<img class="profile" src={temp_avatar_preview} alt="New profile preview" height="100" width="100" />
 				{:else if data.profile.avatar_url}

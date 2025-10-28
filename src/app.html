@@ -60,39 +60,6 @@
 		<p>Initializing resources...</p>
 	</div>
 	<div style="display: contents">%sveltekit.body%</div>
-
-	<script>
-		// Function to log errors
-		function logImageError(img) {
-			alert("Profile picture failed to load:", img.src);
-		}
-
-		// Listen for errors on all current and future images
-		document.addEventListener("DOMContentLoaded", () => {
-			const imgs = document.querySelectorAll("img");
-			imgs.forEach((img) => {
-				img.addEventListener("error", () => logImageError(img));
-			});
-		});
-
-		// Optional: observe newly added images dynamically
-		const observer = new MutationObserver((mutations) => {
-			mutations.forEach((mutation) => {
-				mutation.addedNodes.forEach((node) => {
-					if (node.tagName === "IMG") {
-						node.addEventListener("error", () => logImageError(node));
-					} else if (node.querySelectorAll) {
-						node.querySelectorAll("img").forEach((img) => {
-							img.addEventListener("error", () => logImageError(img));
-						});
-					}
-				});
-			});
-		});
-
-		observer.observe(document.body, { childList: true, subtree: true });
-	</script>
-
 </body>
 
 </html>
