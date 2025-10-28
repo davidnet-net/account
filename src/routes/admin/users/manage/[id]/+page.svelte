@@ -74,18 +74,25 @@
 	}
 
 	let showDeleteAccModal = $state(false);
+	let showDeleteProfilePictureModal = $state(false);
 </script>
 
 <FlexWrapper height="100%" width="100%" gap="var(--token-space-2);">
 	<Icon icon="shield" size="10rem" />
 
 	<Space height="var(--token-space-4);" />
-	<Button iconbefore="delete_forever" appearance="danger" onClick={deleteacc}>Delete user</Button>
 	<Button
 		iconbefore="delete_forever"
 		appearance="danger"
 		onClick={() => {
 			showDeleteAccModal = true;
+		}}>Delete user</Button
+	>
+	<Button
+		iconbefore="delete_forever"
+		appearance="danger"
+		onClick={() => {
+			showDeleteProfilePictureModal = true;
 		}}>Delete profile picture</Button
 	>
 	<Button
@@ -95,6 +102,24 @@
 		}}>Back</Button
 	>
 </FlexWrapper>
+
+{#if showDeleteProfilePictureModal}
+	<Modal
+		title="Delete this profile picture?"
+		titleIcon="delete_forever"
+		desc="This cannot be undone?"
+		hasCloseBtn
+		on:close={() => (showDeleteProfilePictureModal = false)}
+		options={[
+			{
+				appearance: "subtle",
+				content: "Cancel",
+				onClick: () => (showDeleteProfilePictureModal = false)
+			},
+			{ appearance: "danger", content: "Delete profile picture", onClick: deleteprofilepicture }
+		]}
+	/>
+{/if}
 
 {#if showDeleteAccModal}
 	<Modal
@@ -109,7 +134,7 @@
 				content: "Cancel",
 				onClick: () => (showDeleteAccModal = false)
 			},
-			{ appearance: "danger", content: "Delete account", onClick: deleteprofilepicture }
+			{ appearance: "danger", content: "Delete account", onClick: deleteacc }
 		]}
 	/>
 {/if}
