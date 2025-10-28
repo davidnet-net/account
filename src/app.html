@@ -64,19 +64,7 @@
 	<script>
 		// Function to log errors
 		function logImageError(img) {
-			console.error("Profile picture failed to load:", img.src);
-			// Optional: send to your server for tracking
-			/*
-			fetch("/log-image-error", {
-			  method: "POST",
-			  headers: { "Content-Type": "application/json" },
-			  body: JSON.stringify({
-				src: img.src,
-				userAgent: navigator.userAgent,
-				timestamp: Date.now()
-			  })
-			});
-			*/
+			alert("Profile picture failed to load:", img.src);
 		}
 
 		// Listen for errors on all current and future images
