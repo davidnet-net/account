@@ -62,19 +62,6 @@
 				error = true;
 			}
 		}
-
-		const src = data.profile.avatar_url;
-		try {
-			const response = await fetch(String(src), { method: "GET", mode: "cors" });
-
-			if (!response.ok) {
-				alert(`❌ Failed to load image: ${src}\nStatus: ${response.status} ${response.statusText}`);
-			} else {
-				console.log(`✅ Image fetched successfully: ${src}`);
-			}
-		} catch (err) {
-			alert(`❌ Error fetching image: ${src}\n${err}`);
-		}
 	});
 
 	function handleFileChange(e: Event) {
@@ -213,10 +200,10 @@
 			<!-- svelte-ignore a11y_click_events_have_key_events -->
 			<div class="avatar-wrapper" on:click={() => document.getElementById("avatarInput")?.click()}>
 				{#if temp_avatar_preview}
-					<img class="profile" src={temp_avatar_preview} alt="New profile preview" height="100" width="100" />
+					<img class="profile" src={temp_avatar_preview} crossorigin="anonymous" alt="New profile preview" height="100" width="100" />
 				{:else if data.profile.avatar_url}
 					<!-- svelte-ignore a11y_img_redundant_alt -->
-					<img class="profile" src={data.profile.avatar_url} alt="Profile picture" height="100" width="100" />
+					<img class="profile" src={data.profile.avatar_url} crossorigin="anonymous" alt="Profile picture" height="100" width="100" />
 				{:else}
 					<Loader />
 				{/if}
