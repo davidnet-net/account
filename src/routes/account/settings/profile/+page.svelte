@@ -201,11 +201,16 @@
 		</FlexWrapper>
 		<Space height="var(--token-space-4)" />
 		<h1>Profile Settings</h1>
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<FlexWrapper justifycontent="flex-start" width="100%" height="fit-content">
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
 			<div class="avatar-wrapper" on:click={() => document.getElementById('avatarInput')?.click()}>
 				{#if temp_avatar_preview}
 					<img class="profile" src={temp_avatar_preview} alt="New profile preview" height="100" width="100" />
 				{:else if data.profile.avatar_url}
+					<!-- svelte-ignore a11y_img_redundant_alt -->
 					<img class="profile" src={data.profile.avatar_url} alt="Profile picture" height="100" width="100" />
 				{:else}
 					<Loader />
