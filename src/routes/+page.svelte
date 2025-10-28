@@ -60,7 +60,7 @@
 	</FlexWrapper>
 	<FlexWrapper height="100%" width="100%">
 		{#if sessionInfo && sessionInfo.profilePicture}
-			<img class="profile" src={sessionInfo.profilePicture} aria-hidden="true" alt="Profile Picture" height="100px" width="100px" />
+			<img class="profile" src={sessionInfo.profilePicture} crossorigin="anonymous" aria-hidden="true" alt="Profile Picture" height="100px" width="100px" />
 		{:else}
 			<Loader />
 			<Space height="var(--token-space-4)" />
