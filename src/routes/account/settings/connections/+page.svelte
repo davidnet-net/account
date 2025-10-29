@@ -2,8 +2,7 @@
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
 	import { authapiurl } from "$lib/config";
-	import { accessToken, authFetch, refreshAccessToken } from "$lib/session";
-	import { FlexWrapper, Space, Button, IconButton, toast, LinkButton } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, Button, IconButton, toast, LinkButton, accessToken, authFetch, refreshAccessToken } from "@davidnet/svelte-ui";
 	import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 

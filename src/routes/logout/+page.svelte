@@ -4,9 +4,7 @@
 	import Error from "$lib/components/Error.svelte";
 	import { goto } from "$app/navigation";
 	import { onMount } from "svelte";
-	import { authFetch, getSessionInfo, refreshAccessToken } from "$lib/session";
-	import { toast } from "@davidnet/svelte-ui";
-	import { wait } from "$lib/utils/time";
+	import { authFetch, getSessionInfo, refreshAccessToken, wait, toast } from "@davidnet/svelte-ui";
 
 	let loading = true;
 	let error = false;

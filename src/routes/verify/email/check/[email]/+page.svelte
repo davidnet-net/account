@@ -4,8 +4,7 @@
 	import { goto } from "$app/navigation";
 	import Error from "$lib/components/Error.svelte";
 	import { authapiurl } from "$lib/config";
-	import { Button, FlexWrapper, Icon, LinkButton, Loader } from "@davidnet/svelte-ui";
-	import { wait } from "$lib/utils/time";
+	import { Button, FlexWrapper, Icon, LinkButton, Loader, wait } from "@davidnet/svelte-ui";
 
 	let waiting = true;
 	let error = false;

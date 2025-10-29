@@ -2,12 +2,10 @@
 	import { onMount } from "svelte";
 	import Error from "$lib/components/Error.svelte";
 	import QRCode from "qrcode";
-	import { toast, FlexWrapper, Button, Space, CodeBlock, LinkButton } from "@davidnet/svelte-ui";
+	import { toast, FlexWrapper, Button, Space, CodeBlock, LinkButton, wait, authFetch, getSessionInfo, refreshAccessToken  } from "@davidnet/svelte-ui";
 	import TOTP from "$lib/components/TOTP.svelte";
-	import { authFetch, getSessionInfo, refreshAccessToken } from "$lib/session";
 	import { authapiurl } from "$lib/config";
 	import type { SessionInfo } from "$lib/types";
-	import { wait } from "$lib/utils/time";
 	import { TOTP as TOTPClass, Secret } from "otpauth";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { goto } from "$app/navigation";

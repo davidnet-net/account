@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { TextField, Button, toast, Space } from "@davidnet/svelte-ui";
+	import { TextField, Button, toast, Space, wait } from "@davidnet/svelte-ui";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
 	import Error from "$lib/components/Error.svelte";
 	import { goto } from "$app/navigation";
-	import { wait } from "$lib/utils/time";
 
 	let email = "";
 	let username = "";

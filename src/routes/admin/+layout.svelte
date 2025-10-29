@@ -3,9 +3,9 @@
 	import { page } from "$app/state";
 	import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
-	import { getSessionInfo, isAuthenticated, refreshAccessToken } from "$lib/session";
 	import type { SessionInfo } from "$lib/types";
 	import { onMount } from "svelte";
+	import { refreshAccessToken, getSessionInfo, isAuthenticated } from "@davidnet/svelte-ui";
 
 	let correlationID = crypto.randomUUID();
 	let error = false;

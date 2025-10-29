@@ -1,9 +1,8 @@
 <script lang="ts">
 	import favicon from "$lib/assets/favicon.svg";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
-	import { getSessionInfo } from "$lib/session";
 	import type { SessionInfo } from "$lib/types";
-	import { ThemeProvider, Toaster, ConnectivityCheck, FlexWrapper, Avatar, ThemeMenu, LinkIconButton } from "@davidnet/svelte-ui";
+	import { ThemeProvider, Toaster, ConnectivityCheck, FlexWrapper, Avatar, ThemeMenu, LinkIconButton, getSessionInfo } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	let correlationID = crypto.randomUUID();
 

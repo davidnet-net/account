@@ -2,9 +2,8 @@
 	import { goto } from "$app/navigation";
 	import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
-	import { getSessionInfo, isAuthenticated, refreshAccessToken } from "$lib/session";
 	import type { SessionInfo } from "$lib/types";
-	import { FlexWrapper, Space, Icon, Loader, LinkButton, Button } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, Icon, Loader, LinkButton, Button, getSessionInfo, isAuthenticated, refreshAccessToken } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	import { fly } from "svelte/transition";
 

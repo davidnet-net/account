@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { page } from "$app/state";
 	import { authapiurl } from "$lib/config";
-	import { authFetch, refreshAccessToken } from "$lib/session";
-	import { FlexWrapper, Space, toast, Button, Icon, Modal } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, toast, Button, Icon, Modal, authFetch, refreshAccessToken } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 
 	let correlationID = crypto.randomUUID();

@@ -2,9 +2,7 @@
 	import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
-	import { authFetch } from "$lib/session";
-	import { formatDate_PREFERREDTIME } from "$lib/utils/time";
-	import { FlexWrapper, Space, Icon, LinkButton, Button, Modal, toast } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, Icon, LinkButton, Button, Modal, toast, formatDate_PREFERREDTIME, authFetch } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 
 	let correlationID = crypto.randomUUID();

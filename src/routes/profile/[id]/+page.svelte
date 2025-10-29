@@ -4,12 +4,10 @@
 	import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
-	import { accessToken, authFetch, getSessionInfo, refreshAccessToken } from "$lib/session";
 	import type { ProfileResponse } from "$lib/types";
-	import { FlexWrapper, Space, Loader, toast, ToolTip, LinkIconButton, Button, IconButton } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, Loader, toast, ToolTip, LinkIconButton, Button, IconButton, formatDate_PREFERREDTIME, wait, accessToken, authFetch, getSessionInfo, refreshAccessToken } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
-	import { formatDate_PREFERREDTIME, wait } from "$lib/utils/time";
 
 	let correlationID = crypto.randomUUID();
 	let error = false;

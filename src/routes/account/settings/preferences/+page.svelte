@@ -2,10 +2,8 @@
 	import Error from "$lib/components/Error.svelte";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
-	import { getSessionInfo, authFetch, refreshAccessToken } from "$lib/session";
 	import type { SessionInfo } from "$lib/types";
-	import { wait } from "$lib/utils/time";
-	import { FlexWrapper, Space, LinkButton, Button, Dropdown, toast } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, LinkButton, Button, Dropdown, toast, wait, getSessionInfo, authFetch, refreshAccessToken } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 
 	let correlationID = crypto.randomUUID();
