@@ -11,6 +11,7 @@
 	let loading = true;
 	let error = false;
 	let errorMSG = "Unknown";
+                                       
 
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	let connections: Array<any> = [];
@@ -179,7 +180,7 @@
 		<FlexWrapper direction="column" gap="var(--token-space-2)" width="100%">
 			{#each connections as user (user.id)}
 				<div class="user">
-					<img src={user.avatar_url} alt="profile picture" aria-hidden="true" />
+					<img src={user.avatar_url} crossorigin="anonymous" alt="profile picture" aria-hidden="true" />
 					<span>{user.display_name} (@{user.username})</span>
 					<IconButton icon="group_remove" alt="Remove connection" onClick={() => removeConnection(user.id)} appearance="danger" />
 				</div>
@@ -197,7 +198,7 @@
 		<FlexWrapper direction="column" gap="var(--token-space-2)" width="100%">
 			{#each incomingRequests as user (user.id)}
 				<div class="user">
-					<img src={user.avatar_url} alt="profile picture" aria-hidden="true" />
+					<img crossorigin="anonymous" src={user.avatar_url} alt="profile picture" aria-hidden="true" />
 					<span>{user.display_name} (@{user.username})</span>
 					<IconButton icon="group_add" alt="Accept request" onClick={() => acceptRequest(user.id)} appearance="primary" />
 				</div>
@@ -215,7 +216,7 @@
 		<FlexWrapper direction="column" gap="var(--token-space-2)" width="100%">
 			{#each outgoingRequests as user (user.id)}
 				<div class="user">
-					<img src={user.avatar_url} alt="profile picture" aria-hidden="true" />
+					<img crossorigin="anonymous" src={user.avatar_url} alt="profile picture" aria-hidden="true" />
 					<span>{user.display_name} (@{user.username})</span>
 					<IconButton icon="group_remove" alt="Cancel request" onClick={() => cancelRequest(user.id)} appearance="warning" />
 				</div>
