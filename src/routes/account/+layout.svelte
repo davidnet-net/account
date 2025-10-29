@@ -13,7 +13,7 @@
 
 	onMount(async () => {
 		try {
-			const si: SessionInfo | null = await getSessionInfo(correlationID);
+			const si: SessionInfo | null = await getSessionInfo(correlationID, true);
 
 			if (!(await isAuthenticated(correlationID)) || !si) {
 				goto("/login?redirect=" + encodeURIComponent(page.url.toString()));
