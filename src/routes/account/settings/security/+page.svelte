@@ -336,6 +336,8 @@
 			</FlexWrapper>
 		</div>
 
+		<p style="color: var(--token-color-text-danger);">Notice changing some of these settings may give you an email.</p>
+
 		<Space height="var(--token-space-5)" />
 		<h2>Recovery Codes</h2>
 		<div class="option">
