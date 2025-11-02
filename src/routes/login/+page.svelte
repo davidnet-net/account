@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { TextField, Button, Space, toast, wait } from "@davidnet/svelte-ui";
+	import { onMount } from "svelte";
+	import { TextField, Button, Space, toast, wait, BlockNote, FlexWrapper, refreshAccessToken, getSessionInfo  } from "@davidnet/svelte-ui";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
-	import { authapiurl } from "$lib/config";
 	import Error from "$lib/components/Error.svelte";
 	import { page } from "$app/state";
 	import { goto } from "$app/navigation";
-
+	import { authapiurl } from "$lib/config";
+	
 	let identifier = "";
 	let password = "";
 	let identifierInvalid = false;
@@ -16,6 +17,28 @@
 	let Login_400 = "";
 	let errorMSG = "";
 
+	let alreadySignedIn = false;
+	let signedInUsername: string | null = null;
+
+	onMount(async () => {
+		const refreshed = await refreshAccessToken(correlationID, true, false); // silent refresh
+		if (refreshed) {
+			const session = await getSessionInfo(correlationID, false);
+			if (session) {
+				alreadySignedIn = true;
+				signedInUsername = session.username;
+				toast({
+					title: "Already signed in",
+					desc: `Welcome back, ${session.username}!`,
+					icon: "check_circle",
+					appearance: "success",
+					position: "bottom-left",
+					autoDismiss: 5000
+				});
+			}
+		}
+	});
+
 	function validate() {
 		identifierInvalid = identifier.trim().length === 0;
 		passwordInvalid = password.length < 6;
@@ -24,20 +47,13 @@
 
 	function safeRedirect(raw: string | null): string {
 		if (!raw) return "/";
-
 		try {
 			const decoded = decodeURIComponent(raw);
-
-			// relative paths are safe
 			if (decoded.startsWith("/")) return decoded;
-
 			const url = new URL(decoded, window.location.origin);
-
-			// allow only your domains
 			if (url.hostname === "localhost" || url.hostname.endsWith(".davidnet.net")) {
-				return url.href; // <--- use full URL
+				return url.href;
 			}
-
 			return "/";
 		} catch {
 			return "/";
@@ -48,7 +64,6 @@
 
 	async function handleLogin() {
 		if (!validate()) return;
-
 		loading = true;
 		try {
 			const res = await fetch(authapiurl + "login", {
@@ -79,12 +94,10 @@
 				});
 				errorMSG = res.status + "_" + res.statusText;
 				error = true;
-				console.warn(res);
 				return;
 			}
 
 			const data = await res.json();
-
 			await wait(500);
 
 			if (data.email_verified === 0 || false) {
@@ -100,6 +113,7 @@
 				goto("/verify/email/check/" + data.email);
 				return;
 			}
+
 			toast({
 				title: "Welcome back " + data.display_name,
 				desc: "Login successfull!",
@@ -108,15 +122,11 @@
 				position: "bottom-left",
 				autoDismiss: 5000
 			});
-			if (redirectTo.length < 2) {
-				goto("/");
-			} else {
-				if (redirectTo.startsWith("http")) {
-					window.location.href = redirectTo;
-				} else {
-					goto(redirectTo);
-				}
-			}
+
+			if (redirectTo.length < 2) goto("/");
+			else if (redirectTo.startsWith("http")) window.location.href = redirectTo;
+			else goto(redirectTo);
+
 		} catch (err) {
 			error = true;
 			toast({
@@ -128,7 +138,6 @@
 				autoDismiss: 5000
 			});
 			errorMSG = String(err);
-			console.error(err);
 		} finally {
 			loading = false;
 		}
@@ -183,6 +192,18 @@
 		<a class="link" href="/signup">Don't have an account? Sign up.</a>
 		<a class="link" href="/recovery">Recover account.</a>
 		<a class="link" href="mailto:contact@davidnet.net">Get help.</a>
+
+{#if alreadySignedIn}
+	<FlexWrapper width="100%">
+		<Space height="var(--token-space-4)"/>
+		<BlockNote
+			appearance="success"
+			title="Already signed in"
+			stretchwidth
+			actions={[{ content: "My Account", appearance: "link", href: "/", onClick: ()=>{} }]}
+		>{signedInUsername}</BlockNote>
+	</FlexWrapper>
+{/if}
 	</form>
 {/if}
 
