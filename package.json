@@ -11,7 +11,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"fmt": "prettier --write .",
-		"lint": "prettier --check . && eslint ."
+		"lint": "prettier --check . && eslint .",
+		"extract": "svelte-i18n extract \"src/**/*.svelte\" src/lib/i18n/lang/en.json"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
@@ -36,6 +37,7 @@
 		"@davidnet/svelte-ui": "^1.13.9",
 		"jspdf": "^3.0.1",
 		"otpauth": "^9.4.1",
-		"qrcode": "^1.5.4"
+		"qrcode": "^1.5.4",
+		"svelte-i18n": "^4.0.1"
 	}
 }

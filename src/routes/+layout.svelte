@@ -1,6 +1,7 @@
 <script lang="ts">
 	import favicon from "$lib/assets/favicon.svg";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
+	import { setAppLanguage } from "$lib/i18n/i18n";
 	import type { SessionInfo } from "$lib/types";
 	import { ThemeProvider, Toaster, ConnectivityCheck, FlexWrapper, Avatar, ThemeMenu, LinkIconButton, getSessionInfo } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
@@ -23,6 +24,9 @@
 		if (initloader) initloader.remove();
 
 		si = await getSessionInfo(correlationID, true);
+		if (si) {
+			setAppLanguage(si.preferences.language);
+		}
 	});
 </script>
 
