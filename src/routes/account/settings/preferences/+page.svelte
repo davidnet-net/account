@@ -13,7 +13,10 @@
 		wait,
 		getSessionInfo,
 		authFetch,
-		refreshAccessToken
+		refreshAccessToken,
+
+		BlockNote
+
 	} from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 
@@ -186,6 +189,10 @@
 			<Button onClick={undo} disabled={!hasChanges} appearance="danger">Undo</Button>
 			<Button onClick={saveSettings} appearance="primary" loading={saving} disabled={!hasChanges}>Save</Button>
 		</FlexWrapper>
+
+		{#if userPreferences.language !== "en"}
+			<BlockNote appearance="warning" title="About translations">Not all parts of Davidnet are translated into {userPreferences.language}. Some texts will appear in english.</BlockNote>
+		{/if}
 
 		<Space height="var(--token-space-3)" />
 	</div>
