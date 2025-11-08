@@ -191,9 +191,9 @@
 		</FlexWrapper>
 
 		<Space height="var(--token-space-3)" />
-		
+
 		{#if userPreferences.language !== "en" || initialPreferences.language !== "en" }
-			<BlockNote appearance="warning" title="About translations">Not all parts of Davidnet are translated into {userPreferences.language}. Some texts will appear in english.</BlockNote>
+			<BlockNote appearance="warning" title="About translations">Not all parts of Davidnet are translated into "{userPreferences.language}". Some texts will appear in english.</BlockNote>
 		{/if}
 	</div>
 {/if}
