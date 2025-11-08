@@ -3,7 +3,18 @@
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
 	import type { SessionInfo } from "$lib/types";
-	import { FlexWrapper, Space, LinkButton, Button, Dropdown, toast, wait, getSessionInfo, authFetch, refreshAccessToken } from "@davidnet/svelte-ui";
+	import {
+		FlexWrapper,
+		Space,
+		LinkButton,
+		Button,
+		Dropdown,
+		toast,
+		wait,
+		getSessionInfo,
+		authFetch,
+		refreshAccessToken
+	} from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 
 	let correlationID = crypto.randomUUID();
@@ -24,11 +35,18 @@
 		{ label: "Monday", value: "monday" },
 		{ label: "Sunday", value: "sunday" }
 	];
+	const languages = [
+		{ label: "English", value: "en" },
+		{ label: "Deutsch", value: "de" },
+		{ label: "Nederlands", value: "nl" },
+		{ label: "Español", value: "es" }
+	];
 
 	let userPreferences = {
 		timezone: "UTC",
 		dateFormat: "DD-MM-YYYY HH:mm",
-		firstDay: "monday"
+		firstDay: "monday",
+		language: "en"
 	};
 
 	let initialPreferences = { ...userPreferences };
@@ -54,7 +72,8 @@
 			userPreferences = {
 				timezone: json.timezone,
 				dateFormat: json.dateFormat,
-				firstDay: json.firstDay
+				firstDay: json.firstDay,
+				language: json.language
 			};
 			initialPreferences = { ...userPreferences };
 		} catch (e) {
@@ -112,7 +131,8 @@
 	$: hasChanges =
 		userPreferences.timezone !== initialPreferences.timezone ||
 		userPreferences.dateFormat !== initialPreferences.dateFormat ||
-		userPreferences.firstDay !== initialPreferences.firstDay;
+		userPreferences.firstDay !== initialPreferences.firstDay ||
+		userPreferences.language !== initialPreferences.language;
 </script>
 
 {#if error}
@@ -134,22 +154,29 @@
 		<FlexWrapper gap="var(--token-space-2)" direction="column">
 			<div class="option">
 				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
-					Preferred Timezone
+					Preferred timezone
 					<Dropdown actions={timezones.map((tz) => ({ label: tz, value: tz }))} bind:value={userPreferences.timezone} appearance="subtle" />
 				</FlexWrapper>
 			</div>
 
 			<div class="option">
 				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
-					Preferred Date Format
+					Preferred date format
 					<Dropdown actions={dateFormats} bind:value={userPreferences.dateFormat} appearance="subtle" />
 				</FlexWrapper>
 			</div>
 
 			<div class="option">
 				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
-					First Day of the Week
+					First day of the week
 					<Dropdown actions={firstDays} bind:value={userPreferences.firstDay} appearance="subtle" />
+				</FlexWrapper>
+			</div>
+
+			<div class="option">
+				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
+					Preferred language
+					<Dropdown actions={languages} bind:value={userPreferences.language} appearance="subtle" />
 				</FlexWrapper>
 			</div>
 		</FlexWrapper>
