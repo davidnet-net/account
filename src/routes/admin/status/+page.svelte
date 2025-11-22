@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { FlexWrapper, Space, Icon, LinkButton, Button, metadata } from "@davidnet/svelte-ui";
 
+	const commitHash = import.meta.env.VITE_COMMIT_HASH || "unknown";
+	const commitUrl = import.meta.env.VITE_COMMIT_URL || "unknown";
+
 	// Import your locale JSONs
 	import de from "$lib/i18n/lang/de.json";
 	import en from "$lib/i18n/lang/en.json";
@@ -56,8 +59,12 @@
 	</FlexWrapper>
 	<FlexWrapper direction="row" gap="var(--token-space-6)">
 		<div class="info">
-			<Icon icon="identity_platform" />
-			<span>Version Unknown</span>
+			<Icon icon="deployed_code" />
+			{#if commitUrl === "unknown"}
+				<span>Version Unknown</span>
+			{:else}
+				<span>{metadata.version} | <a href={metadata.commitUrl}>{metadata.commitHash}</a></span>
+			{/if}
 		</div>
 	</FlexWrapper>
 </FlexWrapper>
@@ -70,27 +77,16 @@
 <table style="width: 100%; border-collapse: collapse;">
 	<thead>
 		<tr>
-			<th style="text-align: left; padding: var(--token-space-2); border-bottom: 1px solid #ccc;">Locale</th>
-			<th style="text-align: left; padding: var(--token-space-2); border-bottom: 1px solid #ccc;">Coverage</th>
-			<th style="text-align: left; padding: var(--token-space-2); border-bottom: 1px solid #ccc;">Missing Keys</th>
+			<th style="text-align: left; padding: var(--token-space-2); border-bottom: 1px solid var(--token-color-surface-raised-normal);">Locale</th>
+			<th style="text-align: left; padding: var(--token-space-2); border-bottom: 1px solid var(--token-color-surface-raised-normal);">Coverage</th>
+			<th style="text-align: left; padding: var(--token-space-2); border-bottom: 1px solid var(--token-color-surface-raised-normal);">Missing Keys</th>
 		</tr>
 	</thead>
 	<tbody>
 		{#each reports as report}
 			<tr>
-				<td style="padding: var(--token-space-2); border-bottom: 1px solid #eee;">{report.locale}</td>
-				<td style="padding: var(--token-space-2); border-bottom: 1px solid #eee;">{report.coverage.toFixed(1)}%</td>
-				<td style="padding: var(--token-space-2); border-bottom: 1px solid #eee;">
-					{#if report.missing.length > 0}
-						<ul style="margin:0; padding-left: 1rem;">
-							{#each report.missing as key}
-								<li>{key}</li>
-							{/each}
-						</ul>
-					{:else}
-						✅ Complete
-					{/if}
-				</td>
+				<td style="padding: var(--token-space-2); border-bottom: 1px solid var(--token-color-surface-raised-normal);">{report.locale}</td>
+				<td style="padding: var(--token-space-2); border-bottom: 1px solid var(--token-color-surface-raised-normal);">{report.coverage.toFixed(1)}%</td>
 			</tr>
 		{/each}
 	</tbody>
