@@ -1,11 +1,12 @@
 <script lang="ts">
 	import favicon from "$lib/assets/favicon.svg";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
-	import { setAppLanguage } from "$lib/i18n/i18n";
 	import type { SessionInfo } from "$lib/types";
 	import { ThemeProvider, Toaster, ConnectivityCheck, FlexWrapper, Avatar, ThemeMenu, LinkIconButton, getSessionInfo } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	let correlationID = crypto.randomUUID();
+	import { isLocaleLoaded, setAppLanguage } from "$lib/i18n/i18n";
+	import { get } from "svelte/store";
 
 	let { children } = $props();
 
@@ -20,6 +21,10 @@
 	}
 
 	onMount(async () => {
+		while (!get(isLocaleLoaded)) {
+			await new Promise((r) => setTimeout(r, 50));
+		}
+
 		const initloader = document.getElementById("initloader");
 		if (initloader) initloader.remove();
 
@@ -49,7 +54,7 @@
 
 <FlexWrapper direction="column" height="calc(100vh - 48px);" width="100%;" justifycontent="center" alignitems="center">
 	<div id="background">
-		{#if fontsLoaded}
+		{#if fontsLoaded && $isLocaleLoaded}
 			{@render children?.()}
 		{:else}
 			<ProfileLoader width="5rem" height="5rem" />
