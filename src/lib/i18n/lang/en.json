@@ -1,551 +1,551 @@
 {
-  "account": {
-    "index": {
-      "greeting": {
-        "night": "Good night, {name}.",
-        "morning": "Good morning, {name}.",
-        "afternoon": "Good afternoon, {name}.",
-        "evening": "Good evening, {name}."
-      },
-      "error": {
-        "title": "An error occurred",
-        "unknown": "An unknown error has occurred."
-      },
-      "btn": {
-        "back": "Back",
-        "logout": "Log out"
-      },
-      "profile": {
-        "alt": "Profile picture"
-      },
-      "option": {
-        "home": "Davidnet Home",
-        "manage": "Manage your account",
-        "profile": "View your profile"
-      },
-      "title": "My Davidnet Account"
-    },
-    "settings": {
-      "title": "Account Settings",
-      "error": {
-        "unknown": "Unknown"
-      },
-      "btn": {
-        "back": "Back",
-        "logout": "Log out"
-      },
-      "management": {
-        "title": "Account management"
-      },
-      "option": {
-        "preferences": "Preferences",
-        "security": "Security",
-        "profile": "Profile",
-        "connections": "Connections",
-        "data": "Data",
-        "policies": "Policies"
-      },
-      "connections": {
-        "error": {
-          "unknown": "Unknown error occurred.",
-          "not_authenticated": "Not authenticated."
-        },
-        "toast": {
-          "connection_removed": {
-            "title": "Connection removed",
-            "desc": "You are no longer connected with this user."
-          },
-          "error": {
-            "remove_connection": {
-              "title": "Error",
-              "desc": "Could not remove connection."
-            },
-            "accept_request": {
-              "title": "Error",
-              "desc": "Could not accept request."
-            },
-            "cancel_request": {
-              "title": "Error",
-              "desc": "Could not cancel request."
-            }
-          },
-          "request_accepted": {
-            "title": "Request accepted",
-            "desc": "You are now connected with this user."
-          },
-          "request_cancelled": {
-            "title": "Request cancelled",
-            "desc": "The connection request has been cancelled."
-          }
-        },
-        "title": "Connections",
-        "btn": {
-          "back": "Back",
-          "logout": "Log out"
-        },
-        "sections": {
-          "my_connections": "My Connections",
-          "incoming_requests": "Incoming Requests",
-          "outgoing_requests": "Outgoing Requests"
-        },
-        "empty": {
-          "connections": "No connections yet.",
-          "incoming_requests": "No incoming requests.",
-          "outgoing_requests": "No pending requests."
-        },
-        "alt": {
-          "profile_picture": "Profile picture",
-          "remove_connection": "Remove connection",
-          "accept_request": "Accept request",
-          "cancel_request": "Cancel request"
-        }
-      },
-      "data": {
-        "title": "Data",
-        "btn": {
-          "back": "Back",
-          "logout": "Log out"
-        },
-        "option": {
-          "my_files": "My Files",
-          "account_data": "Account Data",
-          "moderation": "Moderation"
-        },
-        "error": {
-          "unknown": "Unknown error occurred."
-        },
-        "account": {
-          "toast": {
-            "export_success": {
-              "title": "Data Export Successful!",
-              "desc": "Check your email!"
-            },
-            "export_limit": {
-              "title": "Data Export Failed: LIMIT reached.",
-              "desc": "Try again at {retry_at}!"
-            },
-            "export_failed": {
-              "title": "Data Export Failed",
-              "desc": "Unknown error"
-            }
-          },
-          "title": "Account Data",
-          "deleted": {
-            "title": "Account scheduled for deletion",
-            "desc": "View your email for more information.",
-            "learn_more": "Learn more"
-          },
-          "btn": {
-            "back": "Back",
-            "logout": "Log out",
-            "delete_account": "Delete my account",
-            "request_data": "Request my data"
-          },
-          "modal": {
-            "delete": {
-              "title": "Delete your account?",
-              "desc": "This cannot be undone?",
-              "cancel": "Cancel",
-              "confirm": "Delete account"
-            }
-          }
-        }
-      },
-      "preferences": {
-        "error": {
-          "unknown": "Unknown error occurred.",
-          "session_invalid": "Session invalid.",
-          "save_failed": "Failed to save preferences."
-        },
-        "first_day": {
-          "monday": "Monday",
-          "sunday": "Sunday"
-        },
-        "toast": {
-          "saved": {
-            "title": "Preferences saved!",
-            "desc": "Your preferences have been saved."
-          }
-        },
-        "title": "Preferences",
-        "btn": {
-          "back": "Back",
-          "logout": "Log out",
-          "undo": "Undo",
-          "save": "Save"
-        },
-        "label": {
-          "timezone": "Preferred timezone",
-          "date_format": "Preferred date format",
-          "first_day": "First day of the week",
-          "language": "Preferred language"
-        },
-        "note": {
-          "translations": {
-            "title": "About translations",
-            "desc": "Not all parts of Davidnet are translated into \"{lang}\". Some texts will appear in English."
-          }
-        }
-      },
-      "profile": {
-        "error": {
-          "session_invalid": "Session invalid.",
-          "load_failed": "Could not load your profile!",
-          "data_invalid": "Profile data invalid.",
-          "save_failed": "Failed to save profile."
-        },
-        "toast": {
-          "avatar_invalid": {
-            "title": "Invalid file",
-            "desc": "Only JPEG, PNG, WEBP, GIF, JFIF, or JIFF images are allowed."
-          },
-          "saved": {
-            "title": "Profile saved!",
-            "desc": "Your profile has been updated."
-          }
-        },
-        "title": "Profile Settings",
-        "btn": {
-          "back": "Back",
-          "logout": "Log out",
-          "save": "Save",
-          "undo": "Undo"
-        },
-        "label": {
-          "avatar": "Profile picture",
-          "display_name": "Display Name",
-          "description": "Profile description",
-          "privacy": "Profile privacy",
-          "email_visible": "Who can see my email?",
-          "timezone_visible": "Who can see my timezone?"
-        },
-        "placeholder": {
-          "description": "Hello 👋, I am {display_name}."
-        },
-        "option": {
-          "private": "Only me",
-          "connections": "Connections",
-          "public": "Everyone"
-        }
-      },
-      "security": {
-        "error": {
-          "unknown": "Unknown",
-          "session_invalid": "Session Invalid",
-          "enable_email_2fa": "Failed to enable email 2FA!",
-          "disable_email_2fa": "Failed to disable email 2FA!",
-          "toggle_email_2fa": "Failed to toggle email 2FA!",
-          "change_password": "Failed to change password!",
-          "revoke_session": "Failed to revoke session!"
-        },
-        "toast": {
-          "totp_disabled": {
-            "title": "Disabled TOTP 2FA!",
-            "desc": "Note: 2FA is more secure."
-          },
-          "email_2fa_disabled": {
-            "title": "Disabled email 2FA!",
-            "desc": "Note: 2FA is more secure."
-          },
-          "email_2fa_enabled": {
-            "title": "Enabled email 2FA!",
-            "desc": "Note: That TOTP is more secure."
-          },
-          "email_2fa_warning": {
-            "title": "2FA WARNING!",
-            "desc": "Make sure that you generate recovery codes. And keep access to your 2FA method."
-          },
-          "password_changed": {
-            "title": "Password changed!",
-            "desc": "Your password has been successfully changed."
-          },
-          "error": "Error",
-          "session_revoked": {
-            "title": "Session revoked!",
-            "desc": "Session {id} has been revoked successfully."
-          },
-          "error_desc": "An unexpected error occurred while revoking the session."
-        },
-        "recovery_kit": {
-          "title": "Davidnet Recovery Kit",
-          "generated": "Generated",
-          "instructions": "Keep this file in a safe place. \nAnyone with 1 of these codes can access your account.",
-          "warning": "Notice: Each code can only be used once! (PROOF OF CONCEPT - DO NOT USE)",
-          "codes": "Recovery Codes:",
-          "support": "Questions: contact@davidnet.net",
-          "version_info": "If you generate an new Recovery Kit, The old one will become invalid this one is:",
-          "version_number": "Version: {number}"
-        },
-        "title": "Security",
-        "btn": {
-          "back": "Back",
-          "logout": "Log out",
-          "disable": "Disable",
-          "enable": "Enable",
-          "change_password": "Change Password",
-          "download": "Download"
-        },
-        "section": {
-          "2fa": "2FA",
-          "password": "Password",
-          "recovery_codes": "Recovery Codes",
-          "sessions": "Sessions"
-        },
-        "option": {
-          "totp": "2FA - TOTP",
-          "email_2fa": "2FA - Email",
-          "recovery_kit": "Recovery Kit"
-        },
-        "loading": "Loading",
-        "input": {
-          "password": "Password",
-          "password_placeholder": "Enter a password",
-          "password_invalid": "Password must be at least 6 characters"
-        },
-        "notice": "Notice changing some of these settings may give you an email.",
-        "session": {
-          "ip": "IP",
-          "device": "Device",
-          "created": "Created",
-          "last_active": "Last Active",
-          "expires": "Expires",
-          "revoke_alt": "Revoke session"
-        },
-        "modal": {
-          "change_password": {
-            "title": "Change password?",
-            "desc": "Are you sure you want to change your password?",
-            "btn": "Change Password"
-          },
-          "cancel": "Cancel"
-        },
-        "TOTP": {
-          "error": {
-            "session_invalid": "Session Invalid",
-            "enable_totp": "Failed to enable TOTP!"
-          },
-          "toast": {
-            "enabled": {
-              "title": "TOTP Enabled!",
-              "desc": "Your account is now more secure."
-            }
-          },
-          "title": "Security",
-          "setup_notice": "Make sure to generate recovery codes. And keep access to your authenticator.",
-          "btn": {
-            "back": "Back",
-            "cancel": "Cancel",
-            "hide_advanced": "Hide advanced",
-            "show_advanced": "Show advanced"
-          },
-          "scan_qr": "Scan this QR code in your authenticator app:",
-          "qr_alt": "TOTP QR Code",
-          "input_label": "Enter TOTP code",
-          "advanced": {
-            "secret": "Secret:",
-            "url": "URL:"
-          }
-        }
-      }
-    },
-    "logout": {
-      "title": "Logout",
-      "error": {
-        "session_invalid": "Already logged out? Session Invalid.",
-        "failed": "Logout failed"
-      },
-      "toast": {
-        "success": {
-          "title": "Logout successfully!",
-          "desc": "Bye {username}👋."
-        }
-      }
-    },
-    "login": {
-      "toast": {
-        "already_signed_in": {
-          "title": "Already signed in",
-          "desc": "Welcome back, {username}!"
-        },
-        "failed": {
-          "title": "Login failed",
-          "desc": "Error: {status} | {statusText}",
-          "unknown": "Error: Unknown"
-        },
-        "verify_email": {
-          "title": "Verify your email!",
-          "desc": "We already had send you an request!"
-        },
-        "welcome": {
-          "title": "Welcome back {display_name}",
-          "desc": "Login successfull!"
-        }
-      },
-      "title": "Login",
-      "subtitle": "To continue.",
-      "input": {
-        "username_email": {
-          "label": "Username or Email",
-          "placeholder": "Enter your username or email",
-          "invalid": "Please enter your username or email"
-        },
-        "password": {
-          "label": "Password",
-          "placeholder": "Enter your password",
-          "invalid": "Invalid password"
-        }
-      },
-      "btn": {
-        "login": "Log In"
-      },
-      "link": {
-        "signup": "Don't have an account? Sign up.",
-        "recover": "Recover account.",
-        "help": "Get help."
-      },
-      "blocknote": {
-        "already_signed_in": {
-          "title": "Already signed in"
-        },
-        "my_account": "My Account"
-      }
-    },
-    "verify_email": {
-      "network_error": "Network error.",
-      "invalid_token": "Invalid or missing token.",
-      "page_name": "Verify Email",
-      "token_expired": "Token Expired",
-      "token_expired_desc": "Accounts must be verified within 24 hours of signup. This account was not verified in time and has been deleted.",
-      "verified": "Email verified!",
-      "verified_desc": "You can now close this tab.",
-      "boring": "We could not find your account. <br />So we assumed it got expired.",
-      "btn": {
-        "signup": "Sign Up",
-        "contact": "Mail us.",
-        "close_tab": "Close Tab"
-      }
-    },
-    "verify_email_check": {
-      "network_error": "Network error.",
-      "invalid_email": "Invalid or missing email.",
-      "page_name": "Verify Email",
-      "verify_email": "Verify your email!",
-      "verify_email_desc": "An email has been sent to you. Please click the verify button in the email.",
-      "btn": {
-        "resend": "Resend Email",
-        "resend_done": "Sended Email",
-        "signup": "Sign Up",
-        "contact": "Mail us."
-      },
-      "token_expired": "Token Expired",
-      "token_expired_desc": "Accounts must be verified within 24 hours of signup. This account was not verified in time and has been deleted.",
-      "verified": "Email verified!",
-      "boring": "We could not find your account. <br />So we assumed it got expired."
-    },
-    "verify_export": {
-      "network_error": "Network error.",
-      "invalid_token": "Invalid or missing token.",
-      "page_name": "Verify Export",
-      "expired": "Export Expired",
-      "expired_desc": "Export must be downloaded within 24 hours for your safety.",
-      "btn": {
-        "request_new": "Request new one",
-        "contact": "Mail us."
-      },
-      "boring": "We could not find your Export. <br />So we assumed it got expired.",
-      "ready": "Export Ready!",
-      "ready_desc": "Your export is downloading."
-    }
-  },
-  "profile": {
-    "loading_date": "Loading...",
-    "invalid_id": "Invalid or missing Profile ID.",
-    "not_authenticated_title": "Not Authenticated",
-    "not_authenticated_desc": "See more when you are logged in!",
-    "not_found": "Profile does not exist.",
-    "connection_request_failed_title": "Failed to send request",
-    "connection_request_failed_desc": "Could not send connection request.",
-    "connection_request_sent_title": "Connection request sent",
-    "connection_request_sent_desc": "You sent a connection request to this user.",
-    "error": "Error",
-    "connection_request_error": "Could not send connection request.",
-    "remove_connection_failed_title": "Failed to remove connection",
-    "remove_connection_failed_desc": "Could not remove connection.",
-    "connection_removed_title": "Connection removed",
-    "connection_removed_desc": "You are no longer connected with this user.",
-    "remove_connection_error": "Could not remove connection.",
-    "cancel_request_failed_title": "Failed to cancel request",
-    "cancel_request_failed_desc": "Could not cancel connection request.",
-    "request_cancelled_title": "Request cancelled",
-    "request_cancelled_desc": "Your connection request has been cancelled.",
-    "cancel_request_error": "Could not cancel the connection request.",
-    "page_name": "Profile",
-    "btn": {
-      "back": "Back"
-    },
-    "alt": {
-      "remove_connection": "Remove connection",
-      "send_request": "Send connection request",
-      "cancel_request": "Cancel connection request",
-      "edit_profile": "Edit profile",
-      "manage_connections": "Manage Connections",
-      "admin_manage": "Manage user as admin",
-      "profile_picture": "Profile Picture"
-    },
-    "tag": {
-      "you": "You",
-      "you_tooltip": "This is your profile.",
-      "admin": "Admin",
-      "admin_tooltip": "Account has special access.",
-      "internal": "Internal",
-      "internal_tooltip": "Account has access to internal services.",
-      "connection": "Connection",
-      "connection_tooltip": "You have a connection with this account."
-    },
-    "created_on": "Profile created on",
-    "email": "Email",
-    "email_private": "Email is private.",
-    "timezone": "Timezone",
-    "timezone_private": "Timezone is private."
-  },
-  "signup": {
-    "network_error": "Network error.",
-    "failed_title": "Signup failed",
-    "failed_desc": "Error: {status} | {statusText}",
-    "success_title": "Signup successful (:",
-    "success_desc": "Now verify your email!",
-    "failed_unknown": "Error: Unknown",
-    "page_name": "Sign Up",
-    "subtitle": "To continue.",
-    "input": {
-      "email": {
-        "label": "Email",
-        "placeholder": "you@example.com",
-        "invalid": "Please enter a valid email"
-      },
-      "username": {
-        "label": "Username",
-        "placeholder": "Choose a username",
-        "invalid": "Username must be at least 3 characters"
-      },
-      "password": {
-        "label": "Password",
-        "placeholder": "Enter a password",
-        "invalid": "Password must be at least 6 characters"
-      }
-    },
-    "btn": {
-      "signup": "Sign Up"
-    },
-    "link": {
-      "login": "Already have an Davidnet account? Login."
-    },
-    "legal": {
-      "text_before_links": "By continuing, you agree to our",
-      "tos": "Terms of Service",
-      "privacy": "Privacy Policy",
-      "and": "and",
-      "other": "Other things"
-    }
-  }
+	"account": {
+		"index": {
+			"greeting": {
+				"night": "Good night, {name}.",
+				"morning": "Good morning, {name}.",
+				"afternoon": "Good afternoon, {name}.",
+				"evening": "Good evening, {name}."
+			},
+			"error": {
+				"title": "An error occurred",
+				"unknown": "An unknown error has occurred."
+			},
+			"btn": {
+				"back": "Back",
+				"logout": "Log out"
+			},
+			"profile": {
+				"alt": "Profile picture"
+			},
+			"option": {
+				"home": "Davidnet Home",
+				"manage": "Manage your account",
+				"profile": "View your profile"
+			},
+			"title": "My Davidnet Account"
+		},
+		"settings": {
+			"title": "Account Settings",
+			"error": {
+				"unknown": "Unknown"
+			},
+			"btn": {
+				"back": "Back",
+				"logout": "Log out"
+			},
+			"management": {
+				"title": "Account management"
+			},
+			"option": {
+				"preferences": "Preferences",
+				"security": "Security",
+				"profile": "Profile",
+				"connections": "Connections",
+				"data": "Data",
+				"policies": "Policies"
+			},
+			"connections": {
+				"error": {
+					"unknown": "Unknown error occurred.",
+					"not_authenticated": "Not authenticated."
+				},
+				"toast": {
+					"connection_removed": {
+						"title": "Connection removed",
+						"desc": "You are no longer connected with this user."
+					},
+					"error": {
+						"remove_connection": {
+							"title": "Error",
+							"desc": "Could not remove connection."
+						},
+						"accept_request": {
+							"title": "Error",
+							"desc": "Could not accept request."
+						},
+						"cancel_request": {
+							"title": "Error",
+							"desc": "Could not cancel request."
+						}
+					},
+					"request_accepted": {
+						"title": "Request accepted",
+						"desc": "You are now connected with this user."
+					},
+					"request_cancelled": {
+						"title": "Request cancelled",
+						"desc": "The connection request has been cancelled."
+					}
+				},
+				"title": "Connections",
+				"btn": {
+					"back": "Back",
+					"logout": "Log out"
+				},
+				"sections": {
+					"my_connections": "My Connections",
+					"incoming_requests": "Incoming Requests",
+					"outgoing_requests": "Outgoing Requests"
+				},
+				"empty": {
+					"connections": "No connections yet.",
+					"incoming_requests": "No incoming requests.",
+					"outgoing_requests": "No pending requests."
+				},
+				"alt": {
+					"profile_picture": "Profile picture",
+					"remove_connection": "Remove connection",
+					"accept_request": "Accept request",
+					"cancel_request": "Cancel request"
+				}
+			},
+			"data": {
+				"title": "Data",
+				"btn": {
+					"back": "Back",
+					"logout": "Log out"
+				},
+				"option": {
+					"my_files": "My Files",
+					"account_data": "Account Data",
+					"moderation": "Moderation"
+				},
+				"error": {
+					"unknown": "Unknown error occurred."
+				},
+				"account": {
+					"toast": {
+						"export_success": {
+							"title": "Data Export Successful!",
+							"desc": "Check your email!"
+						},
+						"export_limit": {
+							"title": "Data Export Failed: LIMIT reached.",
+							"desc": "Try again at {retry_at}!"
+						},
+						"export_failed": {
+							"title": "Data Export Failed",
+							"desc": "Unknown error"
+						}
+					},
+					"title": "Account Data",
+					"deleted": {
+						"title": "Account scheduled for deletion",
+						"desc": "View your email for more information.",
+						"learn_more": "Learn more"
+					},
+					"btn": {
+						"back": "Back",
+						"logout": "Log out",
+						"delete_account": "Delete my account",
+						"request_data": "Request my data"
+					},
+					"modal": {
+						"delete": {
+							"title": "Delete your account?",
+							"desc": "This cannot be undone?",
+							"cancel": "Cancel",
+							"confirm": "Delete account"
+						}
+					}
+				}
+			},
+			"preferences": {
+				"error": {
+					"unknown": "Unknown error occurred.",
+					"session_invalid": "Session invalid.",
+					"save_failed": "Failed to save preferences."
+				},
+				"first_day": {
+					"monday": "Monday",
+					"sunday": "Sunday"
+				},
+				"toast": {
+					"saved": {
+						"title": "Preferences saved!",
+						"desc": "Your preferences have been saved."
+					}
+				},
+				"title": "Preferences",
+				"btn": {
+					"back": "Back",
+					"logout": "Log out",
+					"undo": "Undo",
+					"save": "Save"
+				},
+				"label": {
+					"timezone": "Preferred timezone",
+					"date_format": "Preferred date format",
+					"first_day": "First day of the week",
+					"language": "Preferred language"
+				},
+				"note": {
+					"translations": {
+						"title": "About translations",
+						"desc": "Not all parts of Davidnet are translated into \"{lang}\". Some texts will appear in English."
+					}
+				}
+			},
+			"profile": {
+				"error": {
+					"session_invalid": "Session invalid.",
+					"load_failed": "Could not load your profile!",
+					"data_invalid": "Profile data invalid.",
+					"save_failed": "Failed to save profile."
+				},
+				"toast": {
+					"avatar_invalid": {
+						"title": "Invalid file",
+						"desc": "Only JPEG, PNG, WEBP, GIF, JFIF, or JIFF images are allowed."
+					},
+					"saved": {
+						"title": "Profile saved!",
+						"desc": "Your profile has been updated."
+					}
+				},
+				"title": "Profile Settings",
+				"btn": {
+					"back": "Back",
+					"logout": "Log out",
+					"save": "Save",
+					"undo": "Undo"
+				},
+				"label": {
+					"avatar": "Profile picture",
+					"display_name": "Display Name",
+					"description": "Profile description",
+					"privacy": "Profile privacy",
+					"email_visible": "Who can see my email?",
+					"timezone_visible": "Who can see my timezone?"
+				},
+				"placeholder": {
+					"description": "Hello 👋, I am {display_name}."
+				},
+				"option": {
+					"private": "Only me",
+					"connections": "Connections",
+					"public": "Everyone"
+				}
+			},
+			"security": {
+				"error": {
+					"unknown": "Unknown",
+					"session_invalid": "Session Invalid",
+					"enable_email_2fa": "Failed to enable email 2FA!",
+					"disable_email_2fa": "Failed to disable email 2FA!",
+					"toggle_email_2fa": "Failed to toggle email 2FA!",
+					"change_password": "Failed to change password!",
+					"revoke_session": "Failed to revoke session!"
+				},
+				"toast": {
+					"totp_disabled": {
+						"title": "Disabled TOTP 2FA!",
+						"desc": "Note: 2FA is more secure."
+					},
+					"email_2fa_disabled": {
+						"title": "Disabled email 2FA!",
+						"desc": "Note: 2FA is more secure."
+					},
+					"email_2fa_enabled": {
+						"title": "Enabled email 2FA!",
+						"desc": "Note: That TOTP is more secure."
+					},
+					"email_2fa_warning": {
+						"title": "2FA WARNING!",
+						"desc": "Make sure that you generate recovery codes. And keep access to your 2FA method."
+					},
+					"password_changed": {
+						"title": "Password changed!",
+						"desc": "Your password has been successfully changed."
+					},
+					"error": "Error",
+					"session_revoked": {
+						"title": "Session revoked!",
+						"desc": "Session {id} has been revoked successfully."
+					},
+					"error_desc": "An unexpected error occurred while revoking the session."
+				},
+				"recovery_kit": {
+					"title": "Davidnet Recovery Kit",
+					"generated": "Generated",
+					"instructions": "Keep this file in a safe place. \nAnyone with 1 of these codes can access your account.",
+					"warning": "Notice: Each code can only be used once! (PROOF OF CONCEPT - DO NOT USE)",
+					"codes": "Recovery Codes:",
+					"support": "Questions: contact@davidnet.net",
+					"version_info": "If you generate an new Recovery Kit, The old one will become invalid this one is:",
+					"version_number": "Version: {number}"
+				},
+				"title": "Security",
+				"btn": {
+					"back": "Back",
+					"logout": "Log out",
+					"disable": "Disable",
+					"enable": "Enable",
+					"change_password": "Change Password",
+					"download": "Download"
+				},
+				"section": {
+					"2fa": "2FA",
+					"password": "Password",
+					"recovery_codes": "Recovery Codes",
+					"sessions": "Sessions"
+				},
+				"option": {
+					"totp": "2FA - TOTP",
+					"email_2fa": "2FA - Email",
+					"recovery_kit": "Recovery Kit"
+				},
+				"loading": "Loading",
+				"input": {
+					"password": "Password",
+					"password_placeholder": "Enter a password",
+					"password_invalid": "Password must be at least 6 characters"
+				},
+				"notice": "Notice changing some of these settings may give you an email.",
+				"session": {
+					"ip": "IP",
+					"device": "Device",
+					"created": "Created",
+					"last_active": "Last Active",
+					"expires": "Expires",
+					"revoke_alt": "Revoke session"
+				},
+				"modal": {
+					"change_password": {
+						"title": "Change password?",
+						"desc": "Are you sure you want to change your password?",
+						"btn": "Change Password"
+					},
+					"cancel": "Cancel"
+				},
+				"TOTP": {
+					"error": {
+						"session_invalid": "Session Invalid",
+						"enable_totp": "Failed to enable TOTP!"
+					},
+					"toast": {
+						"enabled": {
+							"title": "TOTP Enabled!",
+							"desc": "Your account is now more secure."
+						}
+					},
+					"title": "Security",
+					"setup_notice": "Make sure to generate recovery codes. And keep access to your authenticator.",
+					"btn": {
+						"back": "Back",
+						"cancel": "Cancel",
+						"hide_advanced": "Hide advanced",
+						"show_advanced": "Show advanced"
+					},
+					"scan_qr": "Scan this QR code in your authenticator app:",
+					"qr_alt": "TOTP QR Code",
+					"input_label": "Enter TOTP code",
+					"advanced": {
+						"secret": "Secret:",
+						"url": "URL:"
+					}
+				}
+			}
+		},
+		"logout": {
+			"title": "Logout",
+			"error": {
+				"session_invalid": "Already logged out? Session Invalid.",
+				"failed": "Logout failed"
+			},
+			"toast": {
+				"success": {
+					"title": "Logout successfully!",
+					"desc": "Bye {username}👋."
+				}
+			}
+		},
+		"login": {
+			"toast": {
+				"already_signed_in": {
+					"title": "Already signed in",
+					"desc": "Welcome back, {username}!"
+				},
+				"failed": {
+					"title": "Login failed",
+					"desc": "Error: {status} | {statusText}",
+					"unknown": "Error: Unknown"
+				},
+				"verify_email": {
+					"title": "Verify your email!",
+					"desc": "We already had send you an request!"
+				},
+				"welcome": {
+					"title": "Welcome back {display_name}",
+					"desc": "Login successfull!"
+				}
+			},
+			"title": "Login",
+			"subtitle": "To continue.",
+			"input": {
+				"username_email": {
+					"label": "Username or Email",
+					"placeholder": "Enter your username or email",
+					"invalid": "Please enter your username or email"
+				},
+				"password": {
+					"label": "Password",
+					"placeholder": "Enter your password",
+					"invalid": "Invalid password"
+				}
+			},
+			"btn": {
+				"login": "Log In"
+			},
+			"link": {
+				"signup": "Don't have an account? Sign up.",
+				"recover": "Recover account.",
+				"help": "Get help."
+			},
+			"blocknote": {
+				"already_signed_in": {
+					"title": "Already signed in"
+				},
+				"my_account": "My Account"
+			}
+		},
+		"verify_email": {
+			"network_error": "Network error.",
+			"invalid_token": "Invalid or missing token.",
+			"page_name": "Verify Email",
+			"token_expired": "Token Expired",
+			"token_expired_desc": "Accounts must be verified within 24 hours of signup. This account was not verified in time and has been deleted.",
+			"verified": "Email verified!",
+			"verified_desc": "You can now close this tab.",
+			"boring": "We could not find your account. <br />So we assumed it got expired.",
+			"btn": {
+				"signup": "Sign Up",
+				"contact": "Mail us.",
+				"close_tab": "Close Tab"
+			}
+		},
+		"verify_email_check": {
+			"network_error": "Network error.",
+			"invalid_email": "Invalid or missing email.",
+			"page_name": "Verify Email",
+			"verify_email": "Verify your email!",
+			"verify_email_desc": "An email has been sent to you. Please click the verify button in the email.",
+			"btn": {
+				"resend": "Resend Email",
+				"resend_done": "Sended Email",
+				"signup": "Sign Up",
+				"contact": "Mail us."
+			},
+			"token_expired": "Token Expired",
+			"token_expired_desc": "Accounts must be verified within 24 hours of signup. This account was not verified in time and has been deleted.",
+			"verified": "Email verified!",
+			"boring": "We could not find your account. <br />So we assumed it got expired."
+		},
+		"verify_export": {
+			"network_error": "Network error.",
+			"invalid_token": "Invalid or missing token.",
+			"page_name": "Verify Export",
+			"expired": "Export Expired",
+			"expired_desc": "Export must be downloaded within 24 hours for your safety.",
+			"btn": {
+				"request_new": "Request new one",
+				"contact": "Mail us."
+			},
+			"boring": "We could not find your Export. <br />So we assumed it got expired.",
+			"ready": "Export Ready!",
+			"ready_desc": "Your export is downloading."
+		}
+	},
+	"profile": {
+		"loading_date": "Loading...",
+		"invalid_id": "Invalid or missing Profile ID.",
+		"not_authenticated_title": "Not Authenticated",
+		"not_authenticated_desc": "See more when you are logged in!",
+		"not_found": "Profile does not exist.",
+		"connection_request_failed_title": "Failed to send request",
+		"connection_request_failed_desc": "Could not send connection request.",
+		"connection_request_sent_title": "Connection request sent",
+		"connection_request_sent_desc": "You sent a connection request to this user.",
+		"error": "Error",
+		"connection_request_error": "Could not send connection request.",
+		"remove_connection_failed_title": "Failed to remove connection",
+		"remove_connection_failed_desc": "Could not remove connection.",
+		"connection_removed_title": "Connection removed",
+		"connection_removed_desc": "You are no longer connected with this user.",
+		"remove_connection_error": "Could not remove connection.",
+		"cancel_request_failed_title": "Failed to cancel request",
+		"cancel_request_failed_desc": "Could not cancel connection request.",
+		"request_cancelled_title": "Request cancelled",
+		"request_cancelled_desc": "Your connection request has been cancelled.",
+		"cancel_request_error": "Could not cancel the connection request.",
+		"page_name": "Profile",
+		"btn": {
+			"back": "Back"
+		},
+		"alt": {
+			"remove_connection": "Remove connection",
+			"send_request": "Send connection request",
+			"cancel_request": "Cancel connection request",
+			"edit_profile": "Edit profile",
+			"manage_connections": "Manage Connections",
+			"admin_manage": "Manage user as admin",
+			"profile_picture": "Profile Picture"
+		},
+		"tag": {
+			"you": "You",
+			"you_tooltip": "This is your profile.",
+			"admin": "Admin",
+			"admin_tooltip": "Account has special access.",
+			"internal": "Internal",
+			"internal_tooltip": "Account has access to internal services.",
+			"connection": "Connection",
+			"connection_tooltip": "You have a connection with this account."
+		},
+		"created_on": "Profile created on",
+		"email": "Email",
+		"email_private": "Email is private.",
+		"timezone": "Timezone",
+		"timezone_private": "Timezone is private."
+	},
+	"signup": {
+		"network_error": "Network error.",
+		"failed_title": "Signup failed",
+		"failed_desc": "Error: {status} | {statusText}",
+		"success_title": "Signup successful (:",
+		"success_desc": "Now verify your email!",
+		"failed_unknown": "Error: Unknown",
+		"page_name": "Sign Up",
+		"subtitle": "To continue.",
+		"input": {
+			"email": {
+				"label": "Email",
+				"placeholder": "you@example.com",
+				"invalid": "Please enter a valid email"
+			},
+			"username": {
+				"label": "Username",
+				"placeholder": "Choose a username",
+				"invalid": "Username must be at least 3 characters"
+			},
+			"password": {
+				"label": "Password",
+				"placeholder": "Enter a password",
+				"invalid": "Password must be at least 6 characters"
+			}
+		},
+		"btn": {
+			"signup": "Sign Up"
+		},
+		"link": {
+			"login": "Already have an Davidnet account? Login."
+		},
+		"legal": {
+			"text_before_links": "By continuing, you agree to our",
+			"tos": "Terms of Service",
+			"privacy": "Privacy Policy",
+			"and": "and",
+			"other": "Other things"
+		}
+	}
 }

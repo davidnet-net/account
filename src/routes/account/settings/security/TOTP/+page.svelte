@@ -117,7 +117,7 @@
 </script>
 
 {#if error}
-	<Error pageName={$_("account.settings.security.TOTP.title")} errorMSG={errorMSG} {correlationID} />
+	<Error pageName={$_("account.settings.security.TOTP.title")} {errorMSG} {correlationID} />
 {:else if loading}
 	<h1>{$_("account.settings.security.TOTP.title")}</h1>
 	<ProfileLoader />

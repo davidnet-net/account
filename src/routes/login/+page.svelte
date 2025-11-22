@@ -153,13 +153,15 @@
 </div>
 
 {#if error}
-	<Error pageName={$_("account.login.title")} {correlationID} errorMSG={errorMSG} />
+	<Error pageName={$_("account.login.title")} {correlationID} {errorMSG} />
 {:else if loading}
 	<ProfileLoader width="5rem" height="5rem" />
 {:else}
 	<div class="header">
-		<h1>{$_("account.login.title")}</h1> <!-- "Login" -->
-		{$_("account.login.subtitle")} <!-- "To continue." -->
+		<h1>{$_("account.login.title")}</h1>
+		<!-- "Login" -->
+		{$_("account.login.subtitle")}
+		<!-- "To continue." -->
 	</div>
 	<Space height="var(--token-space-4)" />
 	<form on:submit|preventDefault={handleLogin}>
@@ -181,17 +183,21 @@
 			bind:value={password}
 			required
 			invalid={passwordInvalid}
-			invalidMessage={$_("account.login.input.password.invalid")} 
+			invalidMessage={$_("account.login.input.password.invalid")}
 			onEnter={() => handleLogin()}
 		/>
 
-		<Button appearance="primary" stretchwidth onClick={handleLogin} {loading}>{$_("account.login.btn.login")}</Button> <!-- "Log In" -->
+		<Button appearance="primary" stretchwidth onClick={handleLogin} {loading}>{$_("account.login.btn.login")}</Button>
+		<!-- "Log In" -->
 
 		<p style="text-align: center; color: var(--token-color-text-danger)">{Login_400}</p>
 
-		<a class="link" href="/signup">{$_("account.login.link.signup")}</a> <!-- "Don't have an account? Sign up." -->
-		<a class="link" href="/recovery">{$_("account.login.link.recover")}</a> <!-- "Recover account." -->
-		<a class="link" href="mailto:contact@davidnet.net">{$_("account.login.link.help")}</a> <!-- "Get help." -->
+		<a class="link" href="/signup">{$_("account.login.link.signup")}</a>
+		<!-- "Don't have an account? Sign up." -->
+		<a class="link" href="/recovery">{$_("account.login.link.recover")}</a>
+		<!-- "Recover account." -->
+		<a class="link" href="mailto:contact@davidnet.net">{$_("account.login.link.help")}</a>
+		<!-- "Get help." -->
 
 		{#if alreadySignedIn}
 			<FlexWrapper width="100%">
@@ -200,7 +206,8 @@
 					appearance="success"
 					title={$_("account.login.blocknote.already_signed_in.title")}
 					stretchwidth
-					actions={[{ content: $_("account.login.blocknote.my_account"), appearance: "link", href: "/", onClick: () => {} }]}>{signedInUsername}</BlockNote
+					actions={[{ content: $_("account.login.blocknote.my_account"), appearance: "link", href: "/", onClick: () => {} }]}
+					>{signedInUsername}</BlockNote
 				>
 			</FlexWrapper>
 		{/if}

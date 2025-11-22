@@ -1,5 +1,33 @@
 <script lang="ts">
 	import { FlexWrapper, Space, Icon, LinkButton, Button, metadata } from "@davidnet/svelte-ui";
+
+	// Import your locale JSONs
+	import en from "$lib/i18n/lang/en.json";
+
+	// Add all your locales here
+	const locales = { en };
+
+	// Base locale to compare against
+	const baseLocaleKey = "en";
+	const baseLocale = locales[baseLocaleKey];
+
+	type CoverageReport = {
+		locale: string;
+		coverage: number;
+		missing: string[];
+	};
+
+	function getCoverage(base: Record<string, any>, target: Record<string, any>, locale: string): CoverageReport {
+		const keys = Object.keys(base);
+		const translatedKeys = keys.filter((key) => key in target);
+		const coverage = (translatedKeys.length / keys.length) * 100;
+		const missing = keys.filter((key) => !(key in target));
+		return { locale, coverage, missing };
+	}
+
+	const reports: CoverageReport[] = Object.entries(locales)
+		.filter(([key]) => key !== baseLocaleKey)
+		.map(([localeKey, localeData]) => getCoverage(baseLocale, localeData, localeKey));
 </script>
 
 <Space height="var(--token-space-4)" />
@@ -30,16 +58,52 @@
 		</div>
 	</FlexWrapper>
 </FlexWrapper>
+
+<Space height="var(--token-space-4)" />
+
+<h2 style="text-align: center;">Translation Coverage</h2>
+<Space height="var(--token-space-2)" />
+
+<table style="width: 100%; border-collapse: collapse;">
+	<thead>
+		<tr>
+			<th style="text-align: left; padding: var(--token-space-2); border-bottom: 1px solid #ccc;">Locale</th>
+			<th style="text-align: left; padding: var(--token-space-2); border-bottom: 1px solid #ccc;">Coverage</th>
+			<th style="text-align: left; padding: var(--token-space-2); border-bottom: 1px solid #ccc;">Missing Keys</th>
+		</tr>
+	</thead>
+	<tbody>
+		{#each reports as report}
+			<tr>
+				<td style="padding: var(--token-space-2); border-bottom: 1px solid #eee;">{report.locale}</td>
+				<td style="padding: var(--token-space-2); border-bottom: 1px solid #eee;">{report.coverage.toFixed(1)}%</td>
+				<td style="padding: var(--token-space-2); border-bottom: 1px solid #eee;">
+					{#if report.missing.length > 0}
+						<ul style="margin:0; padding-left: 1rem;">
+							{#each report.missing as key}
+								<li>{key}</li>
+							{/each}
+						</ul>
+					{:else}
+						✅ Complete
+					{/if}
+				</td>
+			</tr>
+		{/each}
+	</tbody>
+</table>
+
 <Space height="var(--token-space-2)" />
 <p style="text-align: center; color: orange;">TODO: Add account request logs.</p>
 
 <style>
-
 	h1 {
 		text-align: center;
 		font-size: 1.85rem;
 	}
-
+	h2 {
+		font-size: 1.5rem;
+	}
 	.info {
 		display: flex;
 		flex-direction: row;
@@ -56,16 +120,18 @@
 			transform 0.4s ease,
 			box-shadow 0.4s ease;
 	}
-
 	.info:hover,
 	.info:focus {
 		background-color: var(--token-color-surface-raised-hover);
 		transform: scale(1.02);
 		box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 	}
-
 	.info > img {
 		height: 100%;
 		aspect-ratio: 1 / 1;
+	}
+	table th,
+	table td {
+		font-size: 0.95rem;
 	}
 </style>

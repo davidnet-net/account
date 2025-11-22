@@ -13,7 +13,7 @@
 	let usernameInvalid = false;
 	let passwordInvalid = false;
 	let error = false;
-	let errorMSG = $_('signup.network_error');
+	let errorMSG = $_("signup.network_error");
 	let correlationID = crypto.randomUUID();
 	let SignUP_400 = "";
 	let loading = false;
@@ -50,8 +50,8 @@
 
 			if (!res.ok) {
 				toast({
-					title: $_('signup.failed_title'),
-					desc: $_('signup.failed_desc') + ": " + res.status + " | " + res.statusText,
+					title: $_("signup.failed_title"),
+					desc: $_("signup.failed_desc") + ": " + res.status + " | " + res.statusText,
 					icon: "crisis_alert",
 					appearance: "danger",
 					position: "bottom-left",
@@ -66,8 +66,8 @@
 			await wait(500);
 
 			toast({
-				title: $_('signup.success_title'),
-				desc: $_('signup.success_desc'),
+				title: $_("signup.success_title"),
+				desc: $_("signup.success_desc"),
 				icon: "celebration",
 				appearance: "success",
 				position: "bottom-left",
@@ -78,8 +78,8 @@
 			email = username = password = "";
 		} catch (err) {
 			toast({
-				title: $_('signup.failed_title'),
-				desc: $_('signup.failed_unknown'),
+				title: $_("signup.failed_title"),
+				desc: $_("signup.failed_unknown"),
 				icon: "crisis_alert",
 				appearance: "danger",
 				position: "bottom-left",
@@ -107,63 +107,64 @@
 </div>
 
 {#if error}
-	<Error pageName={$_('signup.page_name')} {correlationID} {errorMSG} />
+	<Error pageName={$_("signup.page_name")} {correlationID} {errorMSG} />
 {:else if loading}
 	<ProfileLoader width="5rem" height="5rem" />
 {:else}
 	<div class="header">
-		<h1>{$_('signup.page_name')}</h1>
-		{$_('signup.subtitle')}
+		<h1>{$_("signup.page_name")}</h1>
+		{$_("signup.subtitle")}
 	</div>
 	<Space height="var(--token-space-4)" />
 	<form on:submit|preventDefault={handleSignup}>
 		<TextField
-			label={$_('signup.input.email.label')}
+			label={$_("signup.input.email.label")}
 			type="email"
-			placeholder={$_('signup.input.email.placeholder')}
+			placeholder={$_("signup.input.email.placeholder")}
 			bind:value={email}
 			required
 			invalid={emailInvalid}
-			invalidMessage={$_('signup.input.email.invalid')}
+			invalidMessage={$_("signup.input.email.invalid")}
 			onEnter={() => handleSignup()}
 		/>
 
 		<TextField
-			label={$_('signup.input.username.label')}
+			label={$_("signup.input.username.label")}
 			type="text"
-			placeholder={$_('signup.input.username.placeholder')}
+			placeholder={$_("signup.input.username.placeholder")}
 			bind:value={username}
 			required
 			invalid={usernameInvalid}
-			invalidMessage={$_('signup.input.username.invalid')}
+			invalidMessage={$_("signup.input.username.invalid")}
 			onEnter={() => handleSignup()}
 		/>
 
 		<TextField
-			label={$_('signup.input.password.label')}
+			label={$_("signup.input.password.label")}
 			type="password"
-			placeholder={$_('signup.input.password.placeholder')}
+			placeholder={$_("signup.input.password.placeholder")}
 			bind:value={password}
 			required
 			invalid={passwordInvalid}
-			invalidMessage={$_('signup.input.password.invalid')}
+			invalidMessage={$_("signup.input.password.invalid")}
 			onEnter={() => handleSignup()}
 		/>
 
 		<Button appearance="primary" stretchwidth onClick={handleSignup} {loading}>
-			{$_('signup.btn.signup')}
+			{$_("signup.btn.signup")}
 		</Button>
 
 		<p style="text-align: center; color: var(--token-color-text-danger)">{SignUP_400}</p>
 
-		<a class="link" href="/login">{$_('signup.link.login')}</a>
+		<a class="link" href="/login">{$_("signup.link.login")}</a>
 	</form>
 	<div class="seperator"></div>
 	<div class="legal">
-		{$_('signup.legal.text_before_links')}<br />
-		<a href="https://davidnet.net/legal/terms_of_service/">{$_('signup.legal.tos')}</a>,
-		<a href="https://davidnet.net/legal/privacy_policy/">{$_('signup.legal.privacy')}</a> {$_('signup.legal.and')}<br />
-		<a href="https://davidnet.net/legal/">{$_('signup.legal.other')}</a>.<br />
+		{$_("signup.legal.text_before_links")}<br />
+		<a href="https://davidnet.net/legal/terms_of_service/">{$_("signup.legal.tos")}</a>,
+		<a href="https://davidnet.net/legal/privacy_policy/">{$_("signup.legal.privacy")}</a>
+		{$_("signup.legal.and")}<br />
+		<a href="https://davidnet.net/legal/">{$_("signup.legal.other")}</a>.<br />
 	</div>
 {/if}
 

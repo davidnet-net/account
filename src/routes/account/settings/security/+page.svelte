@@ -4,7 +4,21 @@
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
 	import type { securitydata, SessionInfo, session } from "$lib/types";
-	import { FlexWrapper, Space, LinkButton, Button, TextField, Modal, toast, IconButton, formatDate_PREFERREDTIME, wait, getSessionInfo, authFetch, refreshAccessToken } from "@davidnet/svelte-ui";
+	import {
+		FlexWrapper,
+		Space,
+		LinkButton,
+		Button,
+		TextField,
+		Modal,
+		toast,
+		IconButton,
+		formatDate_PREFERREDTIME,
+		wait,
+		getSessionInfo,
+		authFetch,
+		refreshAccessToken
+	} from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	import { jsPDF } from "jspdf";
 	import { _ } from "svelte-i18n";
@@ -205,7 +219,9 @@
 
 		doc.text($_("account.settings.security.recovery_kit.support"), 20, 75 + recovery_codes.length * 12 + 20);
 		doc.text($_("account.settings.security.recovery_kit.version_info"), 20, 75 + recovery_codes.length * 12 + 40, { maxWidth: 170 });
-		doc.text($_("account.settings.security.recovery_kit.version_number", { values: { number: 1 } }), 20, 75 + recovery_codes.length * 12 + 45, { maxWidth: 170 });
+		doc.text($_("account.settings.security.recovery_kit.version_number", { values: { number: 1 } }), 20, 75 + recovery_codes.length * 12 + 45, {
+			maxWidth: 170
+		});
 
 		doc.save("recovery-kit.pdf");
 	}
@@ -259,7 +275,7 @@
 </script>
 
 {#if error}
-	<Error pageName={$_("account.settings.security.title")} errorMSG={errorMSG} {correlationID} />
+	<Error pageName={$_("account.settings.security.title")} {errorMSG} {correlationID} />
 {:else if loading}
 	<h1>{$_("account.settings.security.title")}</h1>
 	<ProfileLoader />
@@ -282,7 +298,11 @@
 					{$_("account.settings.security.option.totp")}
 					<Space width="var(--token-space-4);" />
 					<Button onClick={toggletotp} loading={loadingbtn}>
-						{!data ? $_("account.settings.security.loading") : data?.twofa_totp_enabled ? $_("account.settings.security.btn.disable") : $_("account.settings.security.btn.enable")}
+						{!data
+							? $_("account.settings.security.loading")
+							: data?.twofa_totp_enabled
+								? $_("account.settings.security.btn.disable")
+								: $_("account.settings.security.btn.enable")}
 					</Button>
 				</FlexWrapper>
 			</div>
@@ -292,7 +312,11 @@
 					{$_("account.settings.security.option.email_2fa")}
 					<Space width="var(--token-space-4);" />
 					<Button onClick={toggle2faemail} loading={loadingbtn}>
-						{!data ? $_("account.settings.security.loading") : data?.twofa_email_enabled ? $_("account.settings.security.btn.disable") : $_("account.settings.security.btn.enable")}
+						{!data
+							? $_("account.settings.security.loading")
+							: data?.twofa_email_enabled
+								? $_("account.settings.security.btn.disable")
+								: $_("account.settings.security.btn.enable")}
 					</Button>
 				</FlexWrapper>
 			</div>
@@ -318,7 +342,8 @@
 					appearance="primary"
 					onClick={() => {
 						if (new_password.length > 5) changepassmodal = true;
-					}}>
+					}}
+				>
 					{$_("account.settings.security.btn.change_password")}
 				</Button>
 			</FlexWrapper>

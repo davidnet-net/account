@@ -7,9 +7,9 @@ import { init, register, locale, waitLocale } from "svelte-i18n";
 // Register base languages
 // ------------------------------
 register("en", () => import("./lang/en.json"));
-//register('de', () => import('./lang/de.json'));
-//register('nl', () => import('./lang/nl.json'));
-//register('es', () => import('./lang/es.json'));
+register("de", () => import("./lang/de.json"));
+register("nl", () => import("./lang/nl.json"));
+register("es", () => import("./lang/es.json"));
 
 // ------------------------------
 // Region aliases

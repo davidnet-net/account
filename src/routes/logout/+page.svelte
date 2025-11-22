@@ -50,7 +50,7 @@
 </script>
 
 {#if error}
-	<Error pageName={$_("account.logout.title")} {correlationID} errorMSG={errorMSG} />
+	<Error pageName={$_("account.logout.title")} {correlationID} {errorMSG} />
 {:else if loading}
 	<ProfileLoader width="5rem" height="5rem" />
 {/if}
