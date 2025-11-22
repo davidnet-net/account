@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from "$app/state";
 	import { authapiurl } from "$lib/config";
-	import { FlexWrapper, Space, toast, Button, Icon, Modal, authFetch, refreshAccessToken } from "@davidnet/svelte-ui";
+	import { FlexWrapper, Space, toast, Button, Icon, Modal, authFetch, refreshAccessToken, LinkButton } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 
 	let correlationID = crypto.randomUUID();
@@ -77,6 +77,17 @@
 </script>
 
 <FlexWrapper height="100%" width="100%" gap="var(--token-space-2);">
+	<FlexWrapper width="100%" justifycontent="space-around" direction="row">
+		<LinkButton href="/admin">Admin</LinkButton>
+		<Button
+			onClick={() => {
+				history.back();
+			}}
+			iconbefore="arrow_back">Back</Button
+		>
+
+		<LinkButton href="/logout" iconafter="logout">Log out</LinkButton>
+	</FlexWrapper>
 	<Icon icon="shield" size="10rem" />
 	<h1>{id}</h1>
 	<Space height="var(--token-space-2);" />

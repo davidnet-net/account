@@ -38,7 +38,8 @@
 </script>
 
 <Space height="var(--token-space-4)" />
-<FlexWrapper width="100%" justifycontent="flex-end" direction="row">
+<FlexWrapper width="100%" justifycontent="space-around" direction="row">
+	<LinkButton href="/admin">Admin</LinkButton>
 	<Button
 		onClick={() => {
 			history.back();

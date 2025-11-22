@@ -38,20 +38,15 @@
 			</FlexWrapper>
 		</a>
 	</FlexWrapper>
+	<FlexWrapper width="100%">
+		<LinkButton href="https://home.davidnet.net/admin">Central Admin</LinkButton>
+	</FlexWrapper>
 </FlexWrapper>
 
 <style>
-	.profile {
-		border-radius: 50%;
-	}
-
 	h1 {
 		text-align: center;
 		font-size: 1.85rem;
-	}
-
-	h2 {
-		text-align: center;
 	}
 
 	.option {
