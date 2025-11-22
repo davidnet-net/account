@@ -3,17 +3,7 @@
 </script>
 
 <Space height="var(--token-space-4)" />
-<FlexWrapper width="100%" justifycontent="flex-end" direction="row">
-	<Button
-		onClick={() => {
-			history.back();
-		}}
-		iconbefore="arrow_back">Back</Button
-	>
 
-	<LinkButton href="/logout" iconafter="logout">Log out</LinkButton>
-</FlexWrapper>
-<FlexWrapper height="100%" width="100%">
 	<Space height="var(--token-space-2)" />
 	<h1>Admin</h1>
 
@@ -42,7 +32,6 @@
 	<FlexWrapper width="100%">
 		<LinkButton href="https://home.davidnet.net/admin">Central Admin</LinkButton>
 	</FlexWrapper>
-</FlexWrapper>
 
 <style>
 	h1 {

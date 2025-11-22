@@ -5,7 +5,7 @@
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import type { SessionInfo } from "$lib/types";
 	import { onMount } from "svelte";
-	import { refreshAccessToken, getSessionInfo, isAuthenticated } from "@davidnet/svelte-ui";
+	import { refreshAccessToken, getSessionInfo, isAuthenticated, Button, FlexWrapper, LinkButton, Space } from "@davidnet/svelte-ui";
 
 	let correlationID = crypto.randomUUID();
 	let error = false;
@@ -39,10 +39,23 @@
 	});
 </script>
 
-{#if error}
-	<Error pageName="My Davidnet Account" errorMSG="Unknown" />
-{:else if Authenticated}
-	<slot />
-{:else}
-	<ProfileLoader />
-{/if}
+<FlexWrapper width="100%" justifycontent="flex-end" direction="row">
+	<Button
+		onClick={() => {
+			history.back();
+		}}
+		iconbefore="arrow_back">Back</Button
+	>
+
+	<LinkButton href="/logout" iconafter="logout">Log out</LinkButton>
+</FlexWrapper>
+<Space height="var(--token-space-4)" />
+<FlexWrapper height="100%" width="100%">
+	{#if error}
+		<Error pageName="My Davidnet Account" errorMSG="Unknown" />
+	{:else if Authenticated}
+		<slot />
+	{:else}
+		<ProfileLoader />
+	{/if}
+</FlexWrapper>
