@@ -19,17 +19,17 @@ const regionAliases: Record<string, string> = {
 	"en-GB": "en",
 	"en-CA": "en",
 	"en-AU": "en",
-	//'de-DE': 'de',
-	//'de-AT': 'de',
-	//'de-CH': 'de',
-	//'nl-NL': 'nl',
-	//'nl-BE': 'nl',
-	//'es-ES': 'es',
-	//'es-MX': 'es',
-	//'es-AR': 'es',
-	en: "en"
-	//'de': 'de',
-	//'nl': 'nl'
+	'de-DE': 'de',
+	'de-AT': 'de',
+	'de-CH': 'de',
+	'nl-NL': 'nl',
+	'nl-BE': 'nl',
+	'es-ES': 'es',
+	'es-MX': 'es',
+	'es-AR': 'es',
+	'en': "en",
+	'de': 'de',
+	'nl': 'nl'
 };
 
 // ------------------------------
