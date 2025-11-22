@@ -5,10 +5,11 @@
 	import { onMount } from "svelte";
 	import { page } from "$app/state";
 	import { Button, FlexWrapper, Icon, LinkButton, Space } from "@davidnet/svelte-ui";
+	import { _ } from "svelte-i18n";
 
 	let loading = true;
 	let error = false;
-	let errorMSG = "Unknown";
+	let errorMSG = $_('account.verify_email.network_error');
 	let correlationID = crypto.randomUUID();
 	let expired = false;
 
@@ -16,7 +17,7 @@
 
 	onMount(async () => {
 		if (!token || typeof token !== "string" || token.length !== 64) {
-			errorMSG = "Invalid or missing token.";
+			errorMSG = $_('account.verify_email.invalid_token');
 			error = true;
 			loading = false;
 			return;
@@ -46,26 +47,25 @@
 				return;
 			}
 		} catch (err) {
-			errorMSG = "Network error.";
 			console.error(err);
+			errorMSG = String(err);
 			error = true;
 			loading = false;
-			errorMSG = String(err);
 		}
 	});
 </script>
 
 {#if error}
-	<Error pageName="Verify Email" {correlationID} {errorMSG} />\
+	<Error pageName={$_('account.verify_email.page_name')} {correlationID} {errorMSG} />
 {:else if expired}
 	<FlexWrapper height="100%" width="100%">
 		<div class="center">
 			<Icon icon="crisis_alert" size="100px" color="var(--token-color-text-warning)" />
-			<h1>Token Expired</h1>
-			<p>Accounts must be verified within 24 hours of signup. This account was not verified in time and has been deleted.</p>
-			<LinkButton href="/signup" appearance="primary">Sign Up</LinkButton>
-			<LinkButton href="mailto:contact@davidnet.net">Mail us.</LinkButton>
-			<p class="boring">We could not find your account. <br />So we assumed it got expired.</p>
+			<h1>{$_('account.verify_email.token_expired')}</h1>
+			<p>{$_('account.verify_email.token_expired_desc')}</p>
+			<LinkButton href="/signup" appearance="primary">{$_('account.verify_email.btn.signup')}</LinkButton>
+			<LinkButton href="mailto:contact@davidnet.net">{$_('account.verify_email.btn.contact')}</LinkButton>
+			<p class="boring">{$_('account.verify_email.boring')}</p>
 		</div>
 	</FlexWrapper>
 {:else if loading}
@@ -74,15 +74,14 @@
 	<FlexWrapper height="100%" width="100%">
 		<div class="center">
 			<Icon icon="mark_email_read" size="100px" color="var(--token-color-text-success)" />
-			<h1>Email verified!</h1>
-			<p>You can now close this tab.</p>
+			<h1>{$_('account.verify_email.verified')}</h1>
+			<p>{$_('account.verify_email.verified_desc')}</p>
 			<Space height="var(--token-space-4)" />
 			<Button
 				appearance="primary"
 				onClick={() => {
 					window.close();
-				}}>Close Tab</Button
-			>
+				}}>{$_('account.verify_email.btn.close_tab')}</Button>
 		</div>
 	</FlexWrapper>
 {/if}

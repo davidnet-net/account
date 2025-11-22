@@ -20,6 +20,7 @@
 	import { TOTP as TOTPClass, Secret } from "otpauth";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { goto } from "$app/navigation";
+	import { _ } from "svelte-i18n";
 
 	let correlationID = crypto.randomUUID();
 	let sessionInfo: SessionInfo | null = null;
@@ -45,7 +46,7 @@
 		refreshAccessToken(correlationID, false, true);
 		sessionInfo = await getSessionInfo(correlationID);
 		if (!sessionInfo) {
-			errorMSG = "Session Invalid";
+			errorMSG = $_("account.settings.security.TOTP.error.session_invalid");
 			error = true;
 		} else {
 			totpSecret = generateSecretBase32();
@@ -92,14 +93,14 @@
 			});
 
 			if (!res.ok) {
-				errorMSG = "Failed to enable TOTP!";
+				errorMSG = $_("account.settings.security.TOTP.error.enable_totp");
 				error = true;
 				return;
 			}
 
 			toast({
-				title: "TOTP Enabled!",
-				desc: "Your account is now more secure.",
+				title: $_("account.settings.security.TOTP.toast.enabled.title"),
+				desc: $_("account.settings.security.TOTP.toast.enabled.desc"),
 				icon: "fingerprint",
 				appearance: "success",
 				position: "bottom-left",
@@ -116,43 +117,51 @@
 </script>
 
 {#if error}
-	<Error pageName="Security" {errorMSG} {correlationID} />
+	<Error pageName={$_("account.settings.security.TOTP.title")} errorMSG={errorMSG} {correlationID} />
 {:else if loading}
-	<h1>Security</h1>
+	<h1>{$_("account.settings.security.TOTP.title")}</h1>
 	<ProfileLoader />
 {:else if settingUpTOTP}
-	<h1 style="text-align: center;">Security</h1>
+	<h1 style="text-align: center;">{$_("account.settings.security.TOTP.title")}</h1>
 	<ProfileLoader />
 
-	<span style="text-align: center; color: var(--token-color-text-default-tertiary);"
-		>Make sure to generate recovery codes. And keep access to your authencator.</span
-	>
+	<span style="text-align: center; color: var(--token-color-text-default-tertiary);">
+		{$_("account.settings.security.TOTP.setup_notice")}
+	</span>
 {:else}
 	<FlexWrapper width="100%" justifycontent="space-around" direction="row">
-		<Button onClick={() => history.back()} iconbefore="arrow_back">Back</Button>
-		<LinkButton href="/account/settings/security">Cancel</LinkButton>
+		<Button onClick={() => history.back()} iconbefore="arrow_back">
+			{$_("account.settings.security.TOTP.btn.back")}
+		</Button>
+		<LinkButton href="/account/settings/security">
+			{$_("account.settings.security.TOTP.btn.cancel")}
+		</LinkButton>
 	</FlexWrapper>
 
 	<FlexWrapper width="100%" height="100%">
-		<h1>TOTP Setup</h1>
+		<h1>{$_("account.settings.security.TOTP.title")}</h1>
 
-		<p style="text-align: center;">Scan this QR code in your authenticator app:</p>
+		<p style="text-align: center;">{$_("account.settings.security.TOTP.scan_qr")}</p>
 		{#if qrDataUrl}
-			<img style="border-radius: 1rem;" src={qrDataUrl} alt="TOTP QR Code" />
+			<img style="border-radius: 1rem;" src={qrDataUrl} alt={$_("account.settings.security.TOTP.qr_alt")} />
 		{/if}
 
 		<Space height="var(--token-space-6)" />
 
-		<TOTP bind:value={totpCode} invalid={totpInvalid} onComplete={trySetup} label="Enter TOTP code" />
+		<TOTP bind:value={totpCode} invalid={totpInvalid} onComplete={trySetup} label={$_("account.settings.security.TOTP.input_label")} />
 		<Space height="var(--token-space-3)" />
+
 		{#if showadvanced}
-			<p style="text-align: center;">Secret:</p>
+			<p style="text-align: center;">{$_("account.settings.security.TOTP.advanced.secret")}</p>
 			<CodeBlock code={totpSecret} language="plaintext" />
 
-			<p style="text-align: center;">URL:</p>
+			<p style="text-align: center;">{$_("account.settings.security.TOTP.advanced.url")}</p>
 			<CodeBlock code={otpauthUrl} language="plaintext" />
 		{/if}
+
 		<Space height="var(--token-space-3)" />
-		<Button onClick={() => (showadvanced = !showadvanced)}>{showadvanced ? "Hide advanced" : "Show advanced"}</Button>
+		<Button onClick={() => (showadvanced = !showadvanced)}>
+			{showadvanced ? $_("account.settings.security.TOTP.btn.hide_advanced") : $_("account.settings.security.TOTP.btn.show_advanced")}
+		</Button>
 	</FlexWrapper>
 {/if}

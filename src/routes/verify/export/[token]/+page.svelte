@@ -5,10 +5,11 @@
 	import { onMount } from "svelte";
 	import { page } from "$app/state";
 	import { FlexWrapper, Icon, LinkButton } from "@davidnet/svelte-ui";
+	import { _ } from "svelte-i18n";
 
 	let loading = true;
 	let error = false;
-	let errorMSG = "Unknown";
+	let errorMSG = $_("account.verify_export.network_error");
 	let correlationID = crypto.randomUUID();
 	let expired = false;
 
@@ -16,7 +17,7 @@
 
 	onMount(async () => {
 		if (!token || typeof token !== "string" || token.length !== 64) {
-			errorMSG = "Invalid or missing token.";
+			errorMSG = $_("account.verify_export.invalid_token");
 			error = true;
 			loading = false;
 			return;
@@ -49,26 +50,25 @@
 				expired = true;
 			}
 		} catch (err) {
-			errorMSG = "Network error.";
 			console.error(err);
+			errorMSG = String(err);
 			error = true;
 			loading = false;
-			errorMSG = String(err);
 		}
 	});
 </script>
 
 {#if error}
-	<Error pageName="Verify Export" {correlationID} {errorMSG} />\
+	<Error pageName={$_("account.verify_export.page_name")} {correlationID} {errorMSG} />
 {:else if expired}
 	<FlexWrapper height="100%" width="100%">
 		<div class="center">
 			<Icon icon="crisis_alert" size="100px" color="var(--token-color-text-warning)" />
-			<h1>Export Expired</h1>
-			<p>Export must be downloaded within 24 hours for your safety.</p>
-			<LinkButton href="/account/settings/data/account" appearance="primary">Request new one</LinkButton>
-			<LinkButton href="mailto:contact@davidnet.net">Mail us.</LinkButton>
-			<p class="boring">We could not find your Export. <br />So we assumed it got expired.</p>
+			<h1>{$_("account.verify_export.expired")}</h1>
+			<p>{$_("account.verify_export.expired_desc")}</p>
+			<LinkButton href="/account/settings/data/account" appearance="primary">{$_("account.verify_export.btn.request_new")}</LinkButton>
+			<LinkButton href="mailto:contact@davidnet.net">{$_("account.verify_export.btn.contact")}</LinkButton>
+			<p class="boring">{$_("account.verify_export.boring")}</p>
 		</div>
 	</FlexWrapper>
 {:else if loading}
@@ -77,8 +77,8 @@
 	<FlexWrapper height="100%" width="100%">
 		<div class="center">
 			<Icon icon="file_save" size="100px" color="var(--token-color-text-success)" />
-			<h1>Export Ready!</h1>
-			<p>Your export is downloading.</p>
+			<h1>{$_("account.verify_export.ready")}</h1>
+			<p>{$_("account.verify_export.ready_desc")}</p>
 		</div>
 	</FlexWrapper>
 {/if}

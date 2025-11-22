@@ -6,6 +6,7 @@
 	import { page } from "$app/state";
 	import { goto } from "$app/navigation";
 	import { authapiurl } from "$lib/config";
+	import { _ } from "svelte-i18n";
 
 	let identifier = "";
 	let password = "";
@@ -28,8 +29,8 @@
 				alreadySignedIn = true;
 				signedInUsername = session.username;
 				toast({
-					title: "Already signed in",
-					desc: `Welcome back, ${session.username}!`,
+					title: $_("account.login.toast.already_signed_in.title"), // "Already signed in"
+					desc: $_("account.login.toast.already_signed_in.desc", { values: { username: session.username } }), // "Welcome back, {username}!"
 					icon: "check_circle",
 					appearance: "success",
 					position: "bottom-left",
@@ -85,8 +86,8 @@
 
 			if (!res.ok) {
 				toast({
-					title: "Login failed",
-					desc: "Error: " + res.status + " | " + res.statusText,
+					title: $_("account.login.toast.failed.title"), // "Login failed"
+					desc: $_("account.login.toast.failed.desc", { values: { status: res.status, statusText: res.statusText } }), // "Error: {status} | {statusText}"
 					icon: "crisis_alert",
 					appearance: "danger",
 					position: "bottom-left",
@@ -102,8 +103,8 @@
 
 			if (data.email_verified === 0 || false) {
 				toast({
-					title: "Verify your email!",
-					desc: "We already had send you an request!",
+					title: $_("account.login.toast.verify_email.title"), // "Verify your email!"
+					desc: $_("account.login.toast.verify_email.desc"), // "We already had send you an request!"
 					icon: "cancel_schedule_send",
 					appearance: "info",
 					position: "bottom-left",
@@ -115,8 +116,8 @@
 			}
 
 			toast({
-				title: "Welcome back " + data.display_name,
-				desc: "Login successfull!",
+				title: $_("account.login.toast.welcome.title", { values: { display_name: data.display_name } }), // "Welcome back {display_name}"
+				desc: $_("account.login.toast.welcome.desc"), // "Login successfull!"
 				icon: "celebration",
 				appearance: "success",
 				position: "bottom-left",
@@ -129,8 +130,8 @@
 		} catch (err) {
 			error = true;
 			toast({
-				title: "Login failed",
-				desc: "Error: Unknown",
+				title: $_("account.login.toast.failed.title"), // "Login failed"
+				desc: $_("account.login.toast.failed.unknown"), // "Error: Unknown"
 				icon: "crisis_alert",
 				appearance: "danger",
 				position: "bottom-left",
@@ -152,54 +153,54 @@
 </div>
 
 {#if error}
-	<Error pageName="Login" {correlationID} {errorMSG} />
+	<Error pageName={$_("account.login.title")} {correlationID} errorMSG={errorMSG} />
 {:else if loading}
 	<ProfileLoader width="5rem" height="5rem" />
 {:else}
 	<div class="header">
-		<h1>Login</h1>
-		To continue.
+		<h1>{$_("account.login.title")}</h1> <!-- "Login" -->
+		{$_("account.login.subtitle")} <!-- "To continue." -->
 	</div>
 	<Space height="var(--token-space-4)" />
 	<form on:submit|preventDefault={handleLogin}>
 		<TextField
-			label="Username or Email"
+			label={$_("account.login.input.username_email.label")}
 			type="text"
-			placeholder="Enter your username or email"
+			placeholder={$_("account.login.input.username_email.placeholder")}
 			bind:value={identifier}
 			required
 			invalid={identifierInvalid}
-			invalidMessage="Please enter your username or email"
+			invalidMessage={$_("account.login.input.username_email.invalid")}
 			onEnter={() => handleLogin()}
 		/>
 
 		<TextField
-			label="Password"
+			label={$_("account.login.input.password.label")}
 			type="password"
-			placeholder="Enter your password"
+			placeholder={$_("account.login.input.password.placeholder")}
 			bind:value={password}
 			required
 			invalid={passwordInvalid}
-			invalidMessage="Invalid password"
+			invalidMessage={$_("account.login.input.password.invalid")} 
 			onEnter={() => handleLogin()}
 		/>
 
-		<Button appearance="primary" stretchwidth onClick={handleLogin} {loading}>Log In</Button>
+		<Button appearance="primary" stretchwidth onClick={handleLogin} {loading}>{$_("account.login.btn.login")}</Button> <!-- "Log In" -->
 
 		<p style="text-align: center; color: var(--token-color-text-danger)">{Login_400}</p>
 
-		<a class="link" href="/signup">Don't have an account? Sign up.</a>
-		<a class="link" href="/recovery">Recover account.</a>
-		<a class="link" href="mailto:contact@davidnet.net">Get help.</a>
+		<a class="link" href="/signup">{$_("account.login.link.signup")}</a> <!-- "Don't have an account? Sign up." -->
+		<a class="link" href="/recovery">{$_("account.login.link.recover")}</a> <!-- "Recover account." -->
+		<a class="link" href="mailto:contact@davidnet.net">{$_("account.login.link.help")}</a> <!-- "Get help." -->
 
 		{#if alreadySignedIn}
 			<FlexWrapper width="100%">
 				<Space height="var(--token-space-4)" />
 				<BlockNote
 					appearance="success"
-					title="Already signed in"
+					title={$_("account.login.blocknote.already_signed_in.title")}
 					stretchwidth
-					actions={[{ content: "My Account", appearance: "link", href: "/", onClick: () => {} }]}>{signedInUsername}</BlockNote
+					actions={[{ content: $_("account.login.blocknote.my_account"), appearance: "link", href: "/", onClick: () => {} }]}>{signedInUsername}</BlockNote
 				>
 			</FlexWrapper>
 		{/if}

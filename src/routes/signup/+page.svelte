@@ -4,6 +4,7 @@
 	import { authapiurl } from "$lib/config";
 	import Error from "$lib/components/Error.svelte";
 	import { goto } from "$app/navigation";
+	import { _ } from "svelte-i18n";
 
 	let email = "";
 	let username = "";
@@ -12,7 +13,7 @@
 	let usernameInvalid = false;
 	let passwordInvalid = false;
 	let error = false;
-	let errorMSG = "Network error.";
+	let errorMSG = $_('signup.network_error');
 	let correlationID = crypto.randomUUID();
 	let SignUP_400 = "";
 	let loading = false;
@@ -37,7 +38,7 @@
 					"x-correlation-id": correlationID
 				},
 				body: JSON.stringify({ email, username, password }),
-				credentials: "include" // Required else we dont accept set-cookie header
+				credentials: "include"
 			});
 
 			if (res.status === 400) {
@@ -49,8 +50,8 @@
 
 			if (!res.ok) {
 				toast({
-					title: "Signup failed",
-					desc: "Error: " + res.status + " | " + res.statusText,
+					title: $_('signup.failed_title'),
+					desc: $_('signup.failed_desc') + ": " + res.status + " | " + res.statusText,
 					icon: "crisis_alert",
 					appearance: "danger",
 					position: "bottom-left",
@@ -65,8 +66,8 @@
 			await wait(500);
 
 			toast({
-				title: "Signup sucessfull (:",
-				desc: "Now verify your email!",
+				title: $_('signup.success_title'),
+				desc: $_('signup.success_desc'),
 				icon: "celebration",
 				appearance: "success",
 				position: "bottom-left",
@@ -77,8 +78,8 @@
 			email = username = password = "";
 		} catch (err) {
 			toast({
-				title: "Signup failed",
-				desc: "Error: Unknown",
+				title: $_('signup.failed_title'),
+				desc: $_('signup.failed_unknown'),
 				icon: "crisis_alert",
 				appearance: "danger",
 				position: "bottom-left",
@@ -87,6 +88,8 @@
 			error = true;
 			console.error(err);
 			errorMSG = String(err);
+		} finally {
+			loading = false;
 		}
 	}
 </script>
@@ -104,61 +107,63 @@
 </div>
 
 {#if error}
-	<Error pageName="Sign Up" {correlationID} {errorMSG} />
+	<Error pageName={$_('signup.page_name')} {correlationID} {errorMSG} />
 {:else if loading}
 	<ProfileLoader width="5rem" height="5rem" />
 {:else}
 	<div class="header">
-		<h1>Sign Up</h1>
-		To continue.
+		<h1>{$_('signup.page_name')}</h1>
+		{$_('signup.subtitle')}
 	</div>
 	<Space height="var(--token-space-4)" />
 	<form on:submit|preventDefault={handleSignup}>
 		<TextField
-			label="Email"
+			label={$_('signup.input.email.label')}
 			type="email"
-			placeholder="you@example.com"
+			placeholder={$_('signup.input.email.placeholder')}
 			bind:value={email}
 			required
 			invalid={emailInvalid}
-			invalidMessage="Please enter a valid email"
+			invalidMessage={$_('signup.input.email.invalid')}
 			onEnter={() => handleSignup()}
 		/>
 
 		<TextField
-			label="Username"
+			label={$_('signup.input.username.label')}
 			type="text"
-			placeholder="Choose a username"
+			placeholder={$_('signup.input.username.placeholder')}
 			bind:value={username}
 			required
 			invalid={usernameInvalid}
-			invalidMessage="Username must be at least 3 characters"
+			invalidMessage={$_('signup.input.username.invalid')}
 			onEnter={() => handleSignup()}
 		/>
 
 		<TextField
-			label="Password"
+			label={$_('signup.input.password.label')}
 			type="password"
-			placeholder="Enter a password"
+			placeholder={$_('signup.input.password.placeholder')}
 			bind:value={password}
 			required
 			invalid={passwordInvalid}
-			invalidMessage="Password must be at least 6 characters"
+			invalidMessage={$_('signup.input.password.invalid')}
 			onEnter={() => handleSignup()}
 		/>
 
-		<Button appearance="primary" stretchwidth onClick={handleSignup} {loading}>Sign Up</Button>
+		<Button appearance="primary" stretchwidth onClick={handleSignup} {loading}>
+			{$_('signup.btn.signup')}
+		</Button>
 
 		<p style="text-align: center; color: var(--token-color-text-danger)">{SignUP_400}</p>
 
-		<a class="link" href="/login">Already have an Davidnet account? Login.</a>
+		<a class="link" href="/login">{$_('signup.link.login')}</a>
 	</form>
 	<div class="seperator"></div>
 	<div class="legal">
-		By continuing, you agree to our<br />
-		<a href="https://davidnet.net/legal/terms_of_service/">Terms of Service</a>,
-		<a href="https://davidnet.net/legal/privacy_policy/">Privacy Policy</a> and <br />
-		<a href="https://davidnet.net/legal/">Other things</a>.<br />
+		{$_('signup.legal.text_before_links')}<br />
+		<a href="https://davidnet.net/legal/terms_of_service/">{$_('signup.legal.tos')}</a>,
+		<a href="https://davidnet.net/legal/privacy_policy/">{$_('signup.legal.privacy')}</a> {$_('signup.legal.and')}<br />
+		<a href="https://davidnet.net/legal/">{$_('signup.legal.other')}</a>.<br />
 	</div>
 {/if}
 

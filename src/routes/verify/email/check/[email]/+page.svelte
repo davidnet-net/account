@@ -5,20 +5,21 @@
 	import Error from "$lib/components/Error.svelte";
 	import { authapiurl } from "$lib/config";
 	import { Button, FlexWrapper, Icon, LinkButton, Loader, wait } from "@davidnet/svelte-ui";
+	import { _ } from "svelte-i18n";
 
 	let waiting = true;
 	let error = false;
-	let errorMSG = "Unknown";
+	let errorMSG = $_('account.verify_email_check.network_error');
 	let correlationID = crypto.randomUUID();
 	let expired = false;
 	let resendcodedone = false;
-	let resendcodeloading = false; // Give fake feel of its actually doing stuff
+	let resendcodeloading = false;
 
 	const email = page.params.email || "";
 
 	async function checkVerification() {
 		if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) || email.length > 254) {
-			errorMSG = "Invalid or missing email.";
+			errorMSG = $_('account.verify_email_check.invalid_email');
 			error = true;
 			waiting = false;
 			return;
@@ -60,7 +61,6 @@
 				}
 			}
 		} catch (err) {
-			errorMSG = "Network error.";
 			console.error(err);
 			errorMSG = String(err);
 			error = true;
@@ -101,17 +101,17 @@
 </script>
 
 {#if error}
-	<Error pageName="Verify Email" {correlationID} {errorMSG} />
+	<Error pageName={$_('account.verify_email_check.page_name')} {correlationID} {errorMSG} />
 {:else if waiting}
 	<FlexWrapper height="100%" width="100%">
 		<div class="center">
 			<Icon icon="forward_to_inbox" size="100px" color="var(--token-color-text-information)" />
-			<h1>Verify your email!</h1>
-			<p>An email has been sent to you. Please click the verify button in the email.</p>
+			<h1>{$_('account.verify_email_check.verify_email')}</h1>
+			<p>{$_('account.verify_email_check.verify_email_desc')}</p>
 			{#if !resendcodedone}
-				<Button onClick={ResendVerificationEmail} appearance="subtle" loading={resendcodeloading}>Resend Email</Button>
+				<Button onClick={ResendVerificationEmail} appearance="subtle" loading={resendcodeloading}>{$_('account.verify_email_check.btn.resend')}</Button>
 			{:else}
-				<Button onClick={() => {}} disabled iconbefore="notification_multiple">Sended Email</Button>
+				<Button onClick={() => {}} disabled iconbefore="notification_multiple">{$_('account.verify_email_check.btn.resend_done')}</Button>
 			{/if}
 		</div>
 	</FlexWrapper>
@@ -119,18 +119,18 @@
 	<FlexWrapper height="100%" width="100%">
 		<div class="center">
 			<Icon icon="crisis_alert" size="100px" color="var(--token-color-text-warning)" />
-			<h1>Token Expired</h1>
-			<p>Accounts must be verified within 24 hours of signup. This account was not verified in time and has been deleted.</p>
-			<LinkButton href="/signup" appearance="primary">Sign Up</LinkButton>
-			<LinkButton href="mailto:contact@davidnet.net">Mail us.</LinkButton>
-			<p class="boring">We could not find your account. <br />So we assumed it got expired.</p>
+			<h1>{$_('account.verify_email_check.token_expired')}</h1>
+			<p>{$_('account.verify_email_check.token_expired_desc')}</p>
+			<LinkButton href="/signup" appearance="primary">{$_('account.verify_email_check.btn.signup')}</LinkButton>
+			<LinkButton href="mailto:contact@davidnet.net">{$_('account.verify_email_check.btn.contact')}</LinkButton>
+			<p class="boring">{$_('account.verify_email_check.boring')}</p>
 		</div>
 	</FlexWrapper>
 {:else}
 	<FlexWrapper height="100%" width="100%">
 		<div class="center">
 			<Icon icon="mark_email_read" size="100px" color="var(--token-color-text-success)" />
-			<h1>Email verified!</h1>
+			<h1>{$_('account.verify_email_check.verified')}</h1>
 			<Loader />
 		</div>
 	</FlexWrapper>

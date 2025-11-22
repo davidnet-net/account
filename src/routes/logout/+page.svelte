@@ -1,10 +1,11 @@
-<script>
+<script lang="ts">
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
 	import Error from "$lib/components/Error.svelte";
 	import { goto } from "$app/navigation";
 	import { onMount } from "svelte";
 	import { authFetch, getSessionInfo, refreshAccessToken, wait, toast } from "@davidnet/svelte-ui";
+	import { _ } from "svelte-i18n";
 
 	let loading = true;
 	let error = false;
@@ -17,7 +18,7 @@
 		const si = await getSessionInfo(correlationID);
 
 		if (!si) {
-			errorMSG = "Already logged out? Session Invalid.";
+			errorMSG = $_("account.logout.error.session_invalid"); // Already logged out? Session Invalid.
 			error = true;
 			loading = false;
 			return;
@@ -28,10 +29,10 @@
 				method: "POST",
 				headers: { "Content-Type": "application/json" }
 			});
-			if (!res.ok) throw "Logout failed";
+			if (!res.ok) throw $_("account.logout.error.failed"); // Logout failed
 			toast({
-				title: "Logout successfully!",
-				desc: "Bye " + si.username + "👋.",
+				title: $_("account.logout.toast.success.title"), // Logout successfully!
+				desc: $_("account.logout.toast.success.desc", { values: { username: si.username } }), // Bye {username} 👋.
 				icon: "logout",
 				appearance: "success",
 				position: "bottom-left",
@@ -49,7 +50,7 @@
 </script>
 
 {#if error}
-	<Error pageName="Logout" {correlationID} {errorMSG} />
+	<Error pageName={$_("account.logout.title")} {correlationID} errorMSG={errorMSG} />
 {:else if loading}
 	<ProfileLoader width="5rem" height="5rem" />
 {/if}
