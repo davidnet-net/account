@@ -34,50 +34,10 @@
 <p style="text-align: center; color: orange;">TODO: Add account request logs.</p>
 
 <style>
-	.profile {
-		border-radius: 50%;
-	}
 
 	h1 {
 		text-align: center;
 		font-size: 1.85rem;
-	}
-
-	h2 {
-		text-align: center;
-	}
-
-	.option {
-		text-decoration: none;
-		color: var(--token-color-text-default-normal);
-		text-align: center;
-		border-radius: 2rem;
-		background-color: var(--token-color-surface-raised-normal);
-		padding: 1rem;
-		transition:
-			transform 0.4s ease,
-			box-shadow 0.4s ease;
-		height: 8rem;
-		width: 4rem;
-	}
-
-	.option:hover {
-		background-color: var(--token-color-surface-raised-hover);
-		transform: scale(1.05);
-		box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-	}
-
-	.option:active,
-	.option:focus {
-		background-color: var(--token-color-surface-raised-pressed);
-	}
-
-	.option:focus {
-		outline: 2px solid var(--token-color-focusring);
-	}
-
-	.option-text {
-		line-height: 1.2;
 	}
 
 	.info {
