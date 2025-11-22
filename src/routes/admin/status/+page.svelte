@@ -97,7 +97,6 @@
 </table>
 
 <Space height="var(--token-space-2)" />
-<p style="text-align: center; color: orange;">TODO: Add account request logs.</p>
 
 <style>
 	h1 {
