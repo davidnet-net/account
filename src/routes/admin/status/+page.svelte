@@ -2,10 +2,13 @@
 	import { FlexWrapper, Space, Icon, LinkButton, Button, metadata } from "@davidnet/svelte-ui";
 
 	// Import your locale JSONs
+	import de from "$lib/i18n/lang/de.json";
 	import en from "$lib/i18n/lang/en.json";
+	import es from "$lib/i18n/lang/es.json";
+	import nl from "$lib/i18n/lang/nl.json";
 
 	// Add all your locales here
-	const locales = { en };
+	const locales = { de, en, es, nl };
 
 	// Base locale to compare against
 	const baseLocaleKey = "en";
