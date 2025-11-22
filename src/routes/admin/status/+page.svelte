@@ -63,7 +63,7 @@
 			{#if commitUrl === "unknown"}
 				<span>Account | Version Unknown</span>
 			{:else}
-				<span>Account | {metadata.version} | <a href={metadata.commitUrl}>{metadata.commitHash}</a></span>
+				<span>Account | <a href={commitUrl}>{commitHash}</a></span>
 			{/if}
 		</div>
 	</FlexWrapper>
@@ -111,7 +111,7 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-around;
-		width: 100%;
+		width: 150%;
 		vertical-align: middle;
 		height: 30px;
 		background-color: var(--token-color-surface-raised-normal);
