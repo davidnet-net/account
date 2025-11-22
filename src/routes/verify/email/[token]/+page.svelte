@@ -12,8 +12,7 @@
 	let correlationID = crypto.randomUUID();
 	let expired = false;
 
-	const 
-	token = page.params.token || "";
+	const token = page.params.token || "";
 
 	onMount(async () => {
 		if (!token || typeof token !== "string" || token.length !== 64) {

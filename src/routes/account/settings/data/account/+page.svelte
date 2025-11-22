@@ -105,9 +105,7 @@
 {:else}
 	<Space height="var(--token-space-4)" />
 	<FlexWrapper width="100%" justifycontent="space-around" direction="row">
-		<Button
-			onClick={() => history.back()}
-			iconbefore="arrow_back">{$_("account.settings.data.account.btn.back")}</Button>
+		<Button onClick={() => history.back()} iconbefore="arrow_back">{$_("account.settings.data.account.btn.back")}</Button>
 		<LinkButton href="/logout" iconafter="logout">{$_("account.settings.data.account.btn.logout")}</LinkButton>
 	</FlexWrapper>
 	<Space height="var(--token-space-4)" />
@@ -115,8 +113,11 @@
 		<h1>{$_("account.settings.data.account.title")}</h1>
 		<Space height="var(--token-space-4)" />
 		<Button
-			onClick={() => { showDeleteAccModal = true; }}
-			appearance="danger">{$_("account.settings.data.account.btn.delete_account")}</Button>
+			onClick={() => {
+				showDeleteAccModal = true;
+			}}
+			appearance="danger">{$_("account.settings.data.account.btn.delete_account")}</Button
+		>
 		<Space height="var(--token-space-4)" />
 		<Button onClick={reqdata} appearance="discover">{$_("account.settings.data.account.btn.request_data")}</Button>
 		<Space height="var(--token-space-4)" />

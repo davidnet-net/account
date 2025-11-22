@@ -13,9 +13,9 @@
 </script>
 
 {#if error}
-	<Error pageName="{$_('account.settings.data.title')}" errorMSG="{$_('account.settings.data.error.unknown')}" />
+	<Error pageName={$_("account.settings.data.title")} errorMSG={$_("account.settings.data.error.unknown")} />
 {:else if loading}
-	<h1>{$_('account.settings.data.title')}</h1>
+	<h1>{$_("account.settings.data.title")}</h1>
 	<ProfileLoader />
 {:else}
 	<Space height="var(--token-space-4)" />
@@ -24,31 +24,31 @@
 			onClick={() => {
 				history.back();
 			}}
-			iconbefore="arrow_back">{$_('account.settings.data.btn.back')}</Button
+			iconbefore="arrow_back">{$_("account.settings.data.btn.back")}</Button
 		>
-		<LinkButton href="/logout" iconafter="logout">{$_('account.settings.data.btn.logout')}</LinkButton>
+		<LinkButton href="/logout" iconafter="logout">{$_("account.settings.data.btn.logout")}</LinkButton>
 	</FlexWrapper>
 	<Space height="var(--token-space-4)" />
 	<FlexWrapper height="100%" width="100%">
-		<h1>{$_('account.settings.data.title')}</h1>
+		<h1>{$_("account.settings.data.title")}</h1>
 		<Space height="var(--token-space-4)" />
 		<FlexWrapper direction="row" gap="var(--token-space-6)">
 			<a href="https://files.davidnet.net/" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="file_copy" size="3rem" />
-					<p class="option-text">{$_('account.settings.data.option.my_files')}</p>
+					<p class="option-text">{$_("account.settings.data.option.my_files")}</p>
 				</FlexWrapper>
 			</a>
 			<a href="/account/settings/data/account" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="identity_platform" size="3rem" />
-					<p class="option-text">{$_('account.settings.data.option.account_data')}</p>
+					<p class="option-text">{$_("account.settings.data.option.account_data")}</p>
 				</FlexWrapper>
 			</a>
 			<a href="/account/settings/data/moderation" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="flag" size="3rem" />
-					<p class="option-text">{$_('account.settings.data.option.moderation')}</p>
+					<p class="option-text">{$_("account.settings.data.option.moderation")}</p>
 				</FlexWrapper>
 			</a>
 		</FlexWrapper>

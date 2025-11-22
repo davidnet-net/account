@@ -3,7 +3,7 @@
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { FlexWrapper, Space, Icon, LinkButton, Button } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
-	import { _ } from 'svelte-i18n';
+	import { _ } from "svelte-i18n";
 
 	let error = false;
 	let loading = true;
@@ -14,9 +14,9 @@
 </script>
 
 {#if error}
-	<Error pageName={$_('account.settings.title')} errorMSG={$_('account.settings.error.unknown')} />
+	<Error pageName={$_("account.settings.title")} errorMSG={$_("account.settings.error.unknown")} />
 {:else if loading}
-	<h1>{$_('account.settings.title')}</h1>
+	<h1>{$_("account.settings.title")}</h1>
 	<ProfileLoader />
 {:else}
 	<Space height="var(--token-space-4)" />
@@ -25,31 +25,32 @@
 			onClick={() => {
 				history.back();
 			}}
-			iconbefore="arrow_back">{$_('account.settings.btn.back')}</Button>
+			iconbefore="arrow_back">{$_("account.settings.btn.back")}</Button
+		>
 
-		<LinkButton href="/logout" iconafter="logout">{$_('account.settings.btn.logout')}</LinkButton>
+		<LinkButton href="/logout" iconafter="logout">{$_("account.settings.btn.logout")}</LinkButton>
 	</FlexWrapper>
 	<Space height="var(--token-space-4)" />
 	<FlexWrapper height="100%" width="100%">
-		<h1>{$_('account.settings.management.title')}</h1>
+		<h1>{$_("account.settings.management.title")}</h1>
 		<Space height="var(--token-space-4)" />
 		<FlexWrapper direction="row" gap="var(--token-space-6)">
 			<a href="settings/preferences" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="tune" size="3rem" />
-					<p class="option-text">{$_('account.settings.option.preferences')}</p>
+					<p class="option-text">{$_("account.settings.option.preferences")}</p>
 				</FlexWrapper>
 			</a>
 			<a href="settings/security" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="security" size="3rem" />
-					<p class="option-text">{$_('account.settings.option.security')}</p>
+					<p class="option-text">{$_("account.settings.option.security")}</p>
 				</FlexWrapper>
 			</a>
 			<a href="settings/profile" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="identity_platform" size="3rem" />
-					<p class="option-text">{$_('account.settings.option.profile')}</p>
+					<p class="option-text">{$_("account.settings.option.profile")}</p>
 				</FlexWrapper>
 			</a>
 		</FlexWrapper>
@@ -58,19 +59,19 @@
 			<a href="settings/connections" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="groups" size="3rem" />
-					<p class="option-text">{$_('account.settings.option.connections')}</p>
+					<p class="option-text">{$_("account.settings.option.connections")}</p>
 				</FlexWrapper>
 			</a>
 			<a href="settings/data" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="data_usage" size="3rem" />
-					<p class="option-text">{$_('account.settings.option.data')}</p>
+					<p class="option-text">{$_("account.settings.option.data")}</p>
 				</FlexWrapper>
 			</a>
 			<a href="https://davidnet.net/legal/" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="policy" size="3rem" />
-					<p class="option-text">{$_('account.settings.option.policies')}</p>
+					<p class="option-text">{$_("account.settings.option.policies")}</p>
 				</FlexWrapper>
 			</a>
 		</FlexWrapper>

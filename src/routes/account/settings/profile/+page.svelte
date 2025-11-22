@@ -3,7 +3,21 @@
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
 	import type { SessionInfo, ProfileResponse } from "$lib/types";
-	import { FlexWrapper, Space, LinkButton, Button, Loader, TextArea, TextField, Dropdown, toast, wait, getSessionInfo, authFetch, refreshAccessToken } from "@davidnet/svelte-ui";
+	import {
+		FlexWrapper,
+		Space,
+		LinkButton,
+		Button,
+		Loader,
+		TextArea,
+		TextField,
+		Dropdown,
+		toast,
+		wait,
+		getSessionInfo,
+		authFetch,
+		refreshAccessToken
+	} from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	import { _ } from "svelte-i18n";
 
@@ -179,20 +193,37 @@
 	<div class="root">
 		<Space height="var(--token-space-4)" />
 		<FlexWrapper width="100%" justifycontent="space-around" direction="row">
-			<Button
-				onClick={() => history.back()}
-				iconbefore="arrow_back">{$_("account.settings.profile.btn.back")}</Button>
+			<Button onClick={() => history.back()} iconbefore="arrow_back">{$_("account.settings.profile.btn.back")}</Button>
 			<LinkButton href="/logout" iconafter="logout">{$_("account.settings.profile.btn.logout")}</LinkButton>
 		</FlexWrapper>
 		<Space height="var(--token-space-4)" />
 		<h1>{$_("account.settings.profile.title")}</h1>
 
 		<FlexWrapper justifycontent="flex-start" width="100%" height="fit-content">
-			<button type="button" class="avatar-wrapper" aria-label={$_("account.settings.profile.label.avatar")} on:click={() => document.getElementById("avatarInput")?.click()}>
+			<button
+				type="button"
+				class="avatar-wrapper"
+				aria-label={$_("account.settings.profile.label.avatar")}
+				on:click={() => document.getElementById("avatarInput")?.click()}
+			>
 				{#if temp_avatar_preview}
-					<img class="profile" src={temp_avatar_preview} crossorigin="anonymous" alt={$_("account.settings.profile.label.avatar")} height="100" width="100" />
+					<img
+						class="profile"
+						src={temp_avatar_preview}
+						crossorigin="anonymous"
+						alt={$_("account.settings.profile.label.avatar")}
+						height="100"
+						width="100"
+					/>
 				{:else if data.profile.avatar_url}
-					<img class="profile" src={data.profile.avatar_url} crossorigin="anonymous" alt={$_("account.settings.profile.label.avatar")} height="100" width="100" />
+					<img
+						class="profile"
+						src={data.profile.avatar_url}
+						crossorigin="anonymous"
+						alt={$_("account.settings.profile.label.avatar")}
+						height="100"
+						width="100"
+					/>
 				{:else}
 					<Loader />
 				{/if}
@@ -201,7 +232,12 @@
 			<input id="avatarInput" type="file" accept="image/*" style="display:none" on:change={handleFileChange} />
 
 			{#if typeof data.profile.display_name === "string"}
-				<TextField label={$_("account.settings.profile.label.display_name")} type="text" placeholder={data.profile.display_name} bind:value={temp_display_name} />
+				<TextField
+					label={$_("account.settings.profile.label.display_name")}
+					type="text"
+					placeholder={data.profile.display_name}
+					bind:value={temp_display_name}
+				/>
 			{/if}
 		</FlexWrapper>
 
@@ -255,12 +291,13 @@
 		<Space height="var(--token-space-6)" />
 		<FlexWrapper justifycontent="flex-end" width="100%" direction="row">
 			<Button onClick={undo} disabled={!hasChanges} appearance="danger">{$_("account.settings.profile.btn.undo")}</Button>
-			<Button onClick={saveSettings} appearance="primary" loading={saving} disabled={!hasChanges}>{$_("account.settings.profile.btn.save")}</Button>
+			<Button onClick={saveSettings} appearance="primary" loading={saving} disabled={!hasChanges}
+				>{$_("account.settings.profile.btn.save")}</Button
+			>
 		</FlexWrapper>
 		<Space height="var(--token-space-3)" />
 	</div>
 {/if}
-
 
 <style>
 	.root {

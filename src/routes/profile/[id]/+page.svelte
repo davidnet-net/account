@@ -5,7 +5,22 @@
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import { authapiurl } from "$lib/config";
 	import type { ProfileResponse } from "$lib/types";
-	import { FlexWrapper, Space, Loader, toast, ToolTip, LinkIconButton, Button, IconButton, formatDate_PREFERREDTIME, wait, accessToken, authFetch, getSessionInfo, refreshAccessToken } from "@davidnet/svelte-ui";
+	import {
+		FlexWrapper,
+		Space,
+		Loader,
+		toast,
+		ToolTip,
+		LinkIconButton,
+		Button,
+		IconButton,
+		formatDate_PREFERREDTIME,
+		wait,
+		accessToken,
+		authFetch,
+		getSessionInfo,
+		refreshAccessToken
+	} from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
 

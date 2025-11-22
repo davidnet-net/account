@@ -2,7 +2,18 @@
 	import { onMount } from "svelte";
 	import Error from "$lib/components/Error.svelte";
 	import QRCode from "qrcode";
-	import { toast, FlexWrapper, Button, Space, CodeBlock, LinkButton, wait, authFetch, getSessionInfo, refreshAccessToken  } from "@davidnet/svelte-ui";
+	import {
+		toast,
+		FlexWrapper,
+		Button,
+		Space,
+		CodeBlock,
+		LinkButton,
+		wait,
+		authFetch,
+		getSessionInfo,
+		refreshAccessToken
+	} from "@davidnet/svelte-ui";
 	import TOTP from "$lib/components/TOTP.svelte";
 	import { authapiurl } from "$lib/config";
 	import type { SessionInfo } from "$lib/types";

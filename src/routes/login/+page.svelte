@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { TextField, Button, Space, toast, wait, BlockNote, FlexWrapper, refreshAccessToken, getSessionInfo  } from "@davidnet/svelte-ui";
+	import { TextField, Button, Space, toast, wait, BlockNote, FlexWrapper, refreshAccessToken, getSessionInfo } from "@davidnet/svelte-ui";
 	import ProfileLoader from "$lib/components/ProfileLoader.svelte";
 	import Error from "$lib/components/Error.svelte";
 	import { page } from "$app/state";
 	import { goto } from "$app/navigation";
 	import { authapiurl } from "$lib/config";
-	
+
 	let identifier = "";
 	let password = "";
 	let identifierInvalid = false;
@@ -126,7 +126,6 @@
 			if (redirectTo.length < 2) goto("/");
 			else if (redirectTo.startsWith("http")) window.location.href = redirectTo;
 			else goto(redirectTo);
-
 		} catch (err) {
 			error = true;
 			toast({
@@ -193,17 +192,17 @@
 		<a class="link" href="/recovery">Recover account.</a>
 		<a class="link" href="mailto:contact@davidnet.net">Get help.</a>
 
-{#if alreadySignedIn}
-	<FlexWrapper width="100%">
-		<Space height="var(--token-space-4)"/>
-		<BlockNote
-			appearance="success"
-			title="Already signed in"
-			stretchwidth
-			actions={[{ content: "My Account", appearance: "link", href: "/", onClick: ()=>{} }]}
-		>{signedInUsername}</BlockNote>
-	</FlexWrapper>
-{/if}
+		{#if alreadySignedIn}
+			<FlexWrapper width="100%">
+				<Space height="var(--token-space-4)" />
+				<BlockNote
+					appearance="success"
+					title="Already signed in"
+					stretchwidth
+					actions={[{ content: "My Account", appearance: "link", href: "/", onClick: () => {} }]}>{signedInUsername}</BlockNote
+				>
+			</FlexWrapper>
+		{/if}
 	</form>
 {/if}
 
