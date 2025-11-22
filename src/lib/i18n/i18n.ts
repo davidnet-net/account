@@ -15,21 +15,21 @@ register("es", () => import("./lang/es.json"));
 // Region aliases
 // ------------------------------
 const regionAliases: Record<string, string> = {
-	//"en-US": "en",
-	//"en-GB": "en",
-	//"en-CA": "en",
-	//"en-AU": "en",
-	//'de-DE': 'de',
-	//'de-AT': 'de',
-	//'de-CH': 'de',
-	//'nl-NL': 'nl',
-	//'nl-BE': 'nl',
-	//'es-ES': 'es',
-	//'es-MX': 'es',
-	//'es-AR': 'es',
+	"en-US": "en",
+	"en-GB": "en",
+	"en-CA": "en",
+	"en-AU": "en",
+	'de-DE': 'de',
+	'de-AT': 'de',
+	'de-CH': 'de',
+	'nl-NL': 'nl',
+	'nl-BE': 'nl',
+	'es-ES': 'es',
+	'es-MX': 'es',
+	'es-AR': 'es',
 	'en': "en",
-	//'de': 'de',
-	//'nl': 'nl'
+	'de': 'de',
+	'nl': 'nl'
 };
 
 // ------------------------------
