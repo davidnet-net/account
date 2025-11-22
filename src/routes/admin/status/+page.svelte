@@ -3,7 +3,8 @@
 
 	const commitHash = import.meta.env.VITE_COMMIT_HASH || "unknown";
 	const commitUrl = import.meta.env.VITE_COMMIT_URL || "unknown";
-
+	console.log(import.meta.env.VITE_COMMIT_URL);
+	
 	// Import your locale JSONs
 	import de from "$lib/i18n/lang/de.json";
 	import en from "$lib/i18n/lang/en.json";
