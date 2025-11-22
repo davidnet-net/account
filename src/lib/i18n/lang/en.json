@@ -1,1 +1,233 @@
-{}
+{
+  "account": {
+    "index": {
+      "greeting": {
+        "night": "Good night, {name}.",
+        "morning": "Good morning, {name}.",
+        "afternoon": "Good afternoon, {name}.",
+        "evening": "Good evening, {name}."
+      },
+      "error": {
+        "title": "An error occurred",
+        "unknown": "An unknown error has occurred."
+      },
+      "btn": {
+        "back": "Back",
+        "logout": "Log out"
+      },
+      "profile": {
+        "alt": "Profile picture"
+      },
+      "option": {
+        "home": "Davidnet Home",
+        "manage": "Manage your account",
+        "profile": "View your profile"
+      },
+      "title": "My Davidnet Account"
+    },
+    "settings": {
+      "title": "Account Settings",
+      "error": {
+        "unknown": "Unknown"
+      },
+      "btn": {
+        "back": "Back",
+        "logout": "Log out"
+      },
+      "management": {
+        "title": "Account management"
+      },
+      "option": {
+        "preferences": "Preferences",
+        "security": "Security",
+        "profile": "Profile",
+        "connections": "Connections",
+        "data": "Data",
+        "policies": "Policies"
+      },
+      "connections": {
+        "error": {
+          "unknown": "Unknown error occurred.",
+          "not_authenticated": "Not authenticated."
+        },
+        "toast": {
+          "connection_removed": {
+            "title": "Connection removed",
+            "desc": "You are no longer connected with this user."
+          },
+          "error": {
+            "remove_connection": {
+              "title": "Error",
+              "desc": "Could not remove connection."
+            },
+            "accept_request": {
+              "title": "Error",
+              "desc": "Could not accept request."
+            },
+            "cancel_request": {
+              "title": "Error",
+              "desc": "Could not cancel request."
+            }
+          },
+          "request_accepted": {
+            "title": "Request accepted",
+            "desc": "You are now connected with this user."
+          },
+          "request_cancelled": {
+            "title": "Request cancelled",
+            "desc": "The connection request has been cancelled."
+          }
+        },
+        "title": "Connections",
+        "btn": {
+          "back": "Back",
+          "logout": "Log out"
+        },
+        "sections": {
+          "my_connections": "My Connections",
+          "incoming_requests": "Incoming Requests",
+          "outgoing_requests": "Outgoing Requests"
+        },
+        "empty": {
+          "connections": "No connections yet.",
+          "incoming_requests": "No incoming requests.",
+          "outgoing_requests": "No pending requests."
+        },
+        "alt": {
+          "profile_picture": "Profile picture",
+          "remove_connection": "Remove connection",
+          "accept_request": "Accept request",
+          "cancel_request": "Cancel request"
+        }
+      },
+      "data": {
+        "title": "Data",
+        "btn": {
+          "back": "Back",
+          "logout": "Log out"
+        },
+        "option": {
+          "my_files": "My Files",
+          "account_data": "Account Data",
+          "moderation": "Moderation"
+        },
+        "error": {
+          "unknown": "Unknown error occurred."
+        },
+        "account": {
+          "toast": {
+            "export_success": {
+              "title": "Data Export Successful!",
+              "desc": "Check your email!"
+            },
+            "export_limit": {
+              "title": "Data Export Failed: LIMIT reached.",
+              "desc": "Try again at {retry_at}!"
+            },
+            "export_failed": {
+              "title": "Data Export Failed",
+              "desc": "Unknown error"
+            }
+          },
+          "title": "Account Data",
+          "deleted": {
+            "title": "Account scheduled for deletion",
+            "desc": "View your email for more information.",
+            "learn_more": "Learn more"
+          },
+          "btn": {
+            "back": "Back",
+            "logout": "Log out",
+            "delete_account": "Delete my account",
+            "request_data": "Request my data"
+          },
+          "modal": {
+            "delete": {
+              "title": "Delete your account?",
+              "desc": "This cannot be undone?",
+              "cancel": "Cancel",
+              "confirm": "Delete account"
+            }
+          }
+        }
+      },
+      "preferences": {
+        "error": {
+          "unknown": "Unknown error occurred.",
+          "session_invalid": "Session invalid.",
+          "save_failed": "Failed to save preferences."
+        },
+        "first_day": {
+          "monday": "Monday",
+          "sunday": "Sunday"
+        },
+        "toast": {
+          "saved": {
+            "title": "Preferences saved!",
+            "desc": "Your preferences have been saved."
+          }
+        },
+        "title": "Preferences",
+        "btn": {
+          "back": "Back",
+          "logout": "Log out",
+          "undo": "Undo",
+          "save": "Save"
+        },
+        "label": {
+          "timezone": "Preferred timezone",
+          "date_format": "Preferred date format",
+          "first_day": "First day of the week",
+          "language": "Preferred language"
+        },
+        "note": {
+          "translations": {
+            "title": "About translations",
+            "desc": "Not all parts of Davidnet are translated into \"{lang}\". Some texts will appear in English."
+          }
+        }
+      },
+      "profile": {
+        "error": {
+          "session_invalid": "Session invalid.",
+          "load_failed": "Could not load your profile!",
+          "data_invalid": "Profile data invalid.",
+          "save_failed": "Failed to save profile."
+        },
+        "toast": {
+          "avatar_invalid": {
+            "title": "Invalid file",
+            "desc": "Only JPEG, PNG, WEBP, GIF, JFIF, or JIFF images are allowed."
+          },
+          "saved": {
+            "title": "Profile saved!",
+            "desc": "Your profile has been updated."
+          }
+        },
+        "title": "Profile Settings",
+        "btn": {
+          "back": "Back",
+          "logout": "Log out",
+          "save": "Save",
+          "undo": "Undo"
+        },
+        "label": {
+          "avatar": "Profile picture",
+          "display_name": "Display Name",
+          "description": "Profile description",
+          "privacy": "Profile privacy",
+          "email_visible": "Who can see my email?",
+          "timezone_visible": "Who can see my timezone?"
+        },
+        "placeholder": {
+          "description": "Hello 👋, I am {display_name}."
+        },
+        "option": {
+          "private": "Only me",
+          "connections": "Connections",
+          "public": "Everyone"
+        }
+      }
+    }
+  }
+}

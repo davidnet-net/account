@@ -14,17 +14,16 @@
 		getSessionInfo,
 		authFetch,
 		refreshAccessToken,
-
 		BlockNote
-
 	} from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
+	import { _ } from "svelte-i18n";
 
 	let correlationID = crypto.randomUUID();
 	let error = false;
 	let loading = true;
 	let sessionInfo: SessionInfo | null;
-	let errorMSG = "Unknown";
+	let errorMSG = $_("account.settings.preferences.error.unknown");
 	let saving = false;
 
 	// Timezone, date format, first day options
@@ -35,14 +34,14 @@
 		{ label: "YYYY-MM-DD", value: "YYYY-MM-DD HH:mm" }
 	];
 	const firstDays = [
-		{ label: "Monday", value: "monday" },
-		{ label: "Sunday", value: "sunday" }
+		{ label: $_("account.settings.preferences.first_day.monday"), value: "monday" },
+		{ label: $_("account.settings.preferences.first_day.sunday"), value: "sunday" }
 	];
 	const languages = [
 		{ label: "English", value: "en" },
 		{ label: "Deutsch", value: "de" },
 		{ label: "Nederlands", value: "nl" },
-		{ label: "Español", value: "es" }
+		{ label: "Espanol", value: "es" }
 	];
 
 	let userPreferences = {
@@ -59,7 +58,7 @@
 		sessionInfo = si;
 
 		if (!si) {
-			errorMSG = "Session Invalid";
+			errorMSG = $_("account.settings.preferences.error.session_invalid");
 			error = true;
 			loading = false;
 			return;
@@ -101,7 +100,7 @@
 
 			if (!res.ok) {
 				const json = await res.json();
-				errorMSG = json.error || "Failed to save preferences";
+				errorMSG = json.error || $_("account.settings.preferences.error.save_failed");
 				error = true;
 				return;
 			}
@@ -109,8 +108,8 @@
 			initialPreferences = { ...userPreferences };
 			error = false;
 			toast({
-				title: "Preferences saved!",
-				desc: "Your preferences has been saved.",
+				title: $_("account.settings.preferences.toast.saved.title"),
+				desc: $_("account.settings.preferences.toast.saved.desc"),
 				icon: "tune",
 				appearance: "success",
 				position: "bottom-left",
@@ -139,46 +138,46 @@
 </script>
 
 {#if error}
-	<Error pageName="Preferences" {errorMSG} {correlationID} />
+	<Error pageName={$_("account.settings.preferences.title")} {errorMSG} {correlationID} />
 {:else if loading}
-	<h1>Preferences</h1>
+	<h1>{$_("account.settings.preferences.title")}</h1>
 	<ProfileLoader />
 {:else}
 	<div class="root">
 		<Space height="var(--token-space-4)" />
 		<FlexWrapper width="100%" justifycontent="space-around" direction="row">
-			<Button onClick={() => history.back()} iconbefore="arrow_back">Back</Button>
-			<LinkButton href="/logout" iconafter="logout">Log out</LinkButton>
+			<Button onClick={() => history.back()} iconbefore="arrow_back">{$_("account.settings.preferences.btn.back")}</Button>
+			<LinkButton href="/logout" iconafter="logout">{$_("account.settings.preferences.btn.logout")}</LinkButton>
 		</FlexWrapper>
 
 		<Space height="var(--token-space-4)" />
-		<h1>Preferences</h1>
+		<h1>{$_("account.settings.preferences.title")}</h1>
 
 		<FlexWrapper gap="var(--token-space-2)" direction="column">
 			<div class="option">
 				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
-					Preferred timezone
+					{$_("account.settings.preferences.label.timezone")}
 					<Dropdown actions={timezones.map((tz) => ({ label: tz, value: tz }))} bind:value={userPreferences.timezone} appearance="subtle" />
 				</FlexWrapper>
 			</div>
 
 			<div class="option">
 				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
-					Preferred date format
+					{$_("account.settings.preferences.label.date_format")}
 					<Dropdown actions={dateFormats} bind:value={userPreferences.dateFormat} appearance="subtle" />
 				</FlexWrapper>
 			</div>
 
 			<div class="option">
 				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
-					First day of the week
+					{$_("account.settings.preferences.label.first_day")}
 					<Dropdown actions={firstDays} bind:value={userPreferences.firstDay} appearance="subtle" />
 				</FlexWrapper>
 			</div>
 
 			<div class="option">
 				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
-					Preferred language
+					{$_("account.settings.preferences.label.language")}
 					<Dropdown actions={languages} bind:value={userPreferences.language} appearance="subtle" />
 				</FlexWrapper>
 			</div>
@@ -186,14 +185,18 @@
 
 		<Space height="var(--token-space-6)" />
 		<FlexWrapper justifycontent="flex-end" width="100%" direction="row" gap="var(--token-space-2)">
-			<Button onClick={undo} disabled={!hasChanges} appearance="danger">Undo</Button>
-			<Button onClick={saveSettings} appearance="primary" loading={saving} disabled={!hasChanges}>Save</Button>
+			<Button onClick={undo} disabled={!hasChanges} appearance="danger">{$_("account.settings.preferences.btn.undo")}</Button>
+			<Button onClick={saveSettings} appearance="primary" loading={saving} disabled={!hasChanges}
+				>{$_("account.settings.preferences.btn.save")}</Button
+			>
 		</FlexWrapper>
 
 		<Space height="var(--token-space-3)" />
 
-		{#if userPreferences.language !== "en" || initialPreferences.language !== "en" }
-			<BlockNote appearance="warning" title="About translations">Not all parts of Davidnet are translated into "{userPreferences.language}". Some texts will appear in english.</BlockNote>
+		{#if userPreferences.language !== "en" || initialPreferences.language !== "en"}
+			<BlockNote appearance="warning" title={$_("account.settings.preferences.note.translations.title")}>
+				{$_("account.settings.preferences.note.translations.desc", { values: { lang: userPreferences.language } })}
+			</BlockNote>
 		{/if}
 	</div>
 {/if}

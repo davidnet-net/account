@@ -6,6 +6,7 @@
 	import { FlexWrapper, Space, Icon, Loader, LinkButton, Button, getSessionInfo, isAuthenticated, refreshAccessToken } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
 	import { fly } from "svelte/transition";
+	import { _ } from 'svelte-i18n';
 
 	let correlationID = crypto.randomUUID();
 	let error = false;
@@ -15,10 +16,10 @@
 	function getGreeting(name: string | undefined) {
 		if (!name) return "";
 		const hour = new Date().getHours();
-		if (hour < 6) return `Good night, ${name}.`;
-		if (hour < 12) return `Good morning, ${name}.`;
-		if (hour < 18) return `Good afternoon, ${name}.`;
-		return `Good evening, ${name}.`;
+		if (hour < 6) return `${$_('account.index.greeting.night', { values: { name } })}`;
+		if (hour < 12) return `${$_('account.index.greeting.morning', { values: { name } })}`;
+		if (hour < 18) return `${$_('account.index.greeting.afternoon', { values: { name } })}`;
+		return `${$_('account.index.greeting.evening', { values: { name } })}`;
 	}
 
 	onMount(async () => {
@@ -36,7 +37,6 @@
 		}
 
 		sessionInfo = si;
-
 		Authenticated = true;
 	});
 
@@ -44,7 +44,7 @@
 </script>
 
 {#if error}
-	<Error pageName="My Davidnet Account" errorMSG="Unknown" />
+	<Error pageName={$_('account.index.error.title')} errorMSG={$_('account.index.error.unknown')} />
 {:else if Authenticated}
 	<Space height="var(--token-space-4)" />
 	<FlexWrapper width="100%" justifycontent="flex-end" direction="row">
@@ -52,10 +52,9 @@
 			onClick={() => {
 				history.back();
 			}}
-			iconbefore="arrow_back">Back</Button
-		>
+			iconbefore="arrow_back">{$_('account.index.btn.back')}</Button>
 
-		<LinkButton href="/logout" iconafter="logout">Log out</LinkButton>
+		<LinkButton href="/logout" iconafter="logout">{$_('account.index.btn.logout')}</LinkButton>
 	</FlexWrapper>
 	<FlexWrapper height="100%" width="100%">
 		{#if sessionInfo && sessionInfo.profilePicture}
@@ -64,7 +63,7 @@
 				src={sessionInfo.profilePicture}
 				crossorigin="anonymous"
 				aria-hidden="true"
-				alt="Profile Picture"
+				alt={$_('account.index.profile.alt')}
 				height="100px"
 				width="100px"
 			/>
@@ -79,25 +78,25 @@
 			<a href="https://home.davidnet.net" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="home" size="3rem" />
-					<p class="option-text">Davidnet<br /> Home</p>
+					<p class="option-text">{$_('account.index.option.home')}</p>
 				</FlexWrapper>
 			</a>
 			<a href="/account/settings" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="settings_account_box" size="3rem" />
-					<p class="option-text">Manage your<br /> account</p>
+					<p class="option-text">{$_('account.index.option.manage')}</p>
 				</FlexWrapper>
 			</a>
 			<a href="/profile/{sessionInfo?.userId}" class="option">
 				<FlexWrapper height="100%" width="100%">
 					<Icon icon="identity_platform" size="3rem" />
-					<p class="option-text">Discover your<br /> profile</p>
+					<p class="option-text">{$_('account.index.option.profile')}</p>
 				</FlexWrapper>
 			</a>
 		</FlexWrapper>
 	</FlexWrapper>
 {:else}
-	<h1>My Davidnet Account</h1>
+	<h1>{$_('account.index.title')}</h1>
 	<ProfileLoader />
 {/if}
 

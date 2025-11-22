@@ -5,12 +5,13 @@
 	import type { SessionInfo, ProfileResponse } from "$lib/types";
 	import { FlexWrapper, Space, LinkButton, Button, Loader, TextArea, TextField, Dropdown, toast, wait, getSessionInfo, authFetch, refreshAccessToken } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
+	import { _ } from "svelte-i18n";
 
 	let correlationID = crypto.randomUUID();
 	let error = false;
 	let loading = true;
 	let sessionInfo: SessionInfo | null;
-	let errorMSG = "Unknown";
+	let errorMSG = $_("account.settings.profile.error.session_invalid");
 	let data: ProfileResponse;
 	let temp_Description: string = "";
 	let temp_display_name: string = "";
@@ -27,7 +28,7 @@
 		sessionInfo = si;
 
 		if (!si) {
-			errorMSG = "Session Invalid";
+			errorMSG = $_("account.settings.profile.error.session_invalid");
 			error = true;
 			loading = false;
 			return;
@@ -37,13 +38,12 @@
 			const res = await authFetch(`${authapiurl}profile/${encodeURIComponent(si.userId)}`, correlationID);
 
 			if (!res.ok || res.status === 404) {
-				errorMSG = "Could not load your profile!";
+				errorMSG = $_("account.settings.profile.error.load_failed");
 				error = true;
 				return;
 			}
 
 			data = await res.json();
-			console.log(data);
 		} catch (e) {
 			console.error(e);
 			errorMSG = String(e);
@@ -56,7 +56,7 @@
 				temp_timezone_visible = data.profile.timezone_visible;
 				loading = false;
 			} else {
-				errorMSG = "Profile Data Invalid";
+				errorMSG = $_("account.settings.profile.error.data_invalid");
 				error = true;
 			}
 		}
@@ -70,8 +70,8 @@
 		const validTypes = ["image/jpeg", "image/pjpeg", "image/jfif", "image/jiff", "image/png", "image/webp", "image/gif"];
 		if (!validTypes.includes(file.type.toLowerCase())) {
 			toast({
-				title: "Invalid file",
-				desc: "Only JPEG, PNG, WEBP, GIF, JFIF, or JIFF images are allowed.",
+				title: $_("account.settings.profile.toast.avatar_invalid.title"),
+				desc: $_("account.settings.profile.toast.avatar_invalid.desc"),
 				appearance: "danger",
 				icon: "warning",
 				position: "bottom-left",
@@ -89,7 +89,6 @@
 		saving = true;
 
 		try {
-			// 1️⃣ If a new avatar was selected, upload it first
 			if (temp_avatar_file) {
 				const formData = new FormData();
 				formData.append("file", temp_avatar_file);
@@ -101,7 +100,7 @@
 
 				if (!uploadRes.ok) {
 					const err = await uploadRes.json();
-					throw new Error(err.error || "Failed to upload profile picture");
+					throw new Error(err.error || $_("account.settings.profile.error.save_failed"));
 				}
 
 				const { avatar_url } = await uploadRes.json();
@@ -110,7 +109,6 @@
 				temp_avatar_preview = null;
 			}
 
-			// 2️⃣ Then update profile info
 			const res = await authFetch(`${authapiurl}settings/profile/save`, correlationID, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -124,7 +122,7 @@
 
 			if (!res.ok) {
 				const json = await res.json();
-				throw new Error(json.error || "Failed to save profile");
+				throw new Error(json.error || $_("account.settings.profile.error.save_failed"));
 			}
 
 			data.profile.display_name = temp_display_name;
@@ -134,8 +132,8 @@
 
 			error = false;
 			toast({
-				title: "Profile saved!",
-				desc: "Your profile has been updated.",
+				title: $_("account.settings.profile.toast.saved.title"),
+				desc: $_("account.settings.profile.toast.saved.desc"),
 				icon: "identity_platform",
 				appearance: "success",
 				position: "bottom-left",
@@ -173,99 +171,96 @@
 </script>
 
 {#if error}
-	<Error pageName="Account Settings" {errorMSG} {correlationID} />
+	<Error pageName={$_("account.settings.profile.title")} {errorMSG} {correlationID} />
 {:else if loading}
-	<h1>Profile Settings</h1>
+	<h1>{$_("account.settings.profile.title")}</h1>
 	<ProfileLoader />
 {:else}
 	<div class="root">
 		<Space height="var(--token-space-4)" />
 		<FlexWrapper width="100%" justifycontent="space-around" direction="row">
 			<Button
-				onClick={() => {
-					history.back();
-				}}
-				iconbefore="arrow_back">Back</Button
-			>
-			<LinkButton href="/logout" iconafter="logout">Log out</LinkButton>
+				onClick={() => history.back()}
+				iconbefore="arrow_back">{$_("account.settings.profile.btn.back")}</Button>
+			<LinkButton href="/logout" iconafter="logout">{$_("account.settings.profile.btn.logout")}</LinkButton>
 		</FlexWrapper>
 		<Space height="var(--token-space-4)" />
-		<h1>Profile Settings</h1>
-		<!-- svelte-ignore a11y_click_events_have_key_events -->
-		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<h1>{$_("account.settings.profile.title")}</h1>
+
 		<FlexWrapper justifycontent="flex-start" width="100%" height="fit-content">
-			<!-- svelte-ignore a11y_click_events_have_key_events -->
-			<div class="avatar-wrapper" on:click={() => document.getElementById("avatarInput")?.click()}>
+			<button type="button" class="avatar-wrapper" aria-label={$_("account.settings.profile.label.avatar")} on:click={() => document.getElementById("avatarInput")?.click()}>
 				{#if temp_avatar_preview}
-					<img class="profile" src={temp_avatar_preview} crossorigin="anonymous" alt="New profile preview" height="100" width="100" />
+					<img class="profile" src={temp_avatar_preview} crossorigin="anonymous" alt={$_("account.settings.profile.label.avatar")} height="100" width="100" />
 				{:else if data.profile.avatar_url}
-					<!-- svelte-ignore a11y_img_redundant_alt -->
-					<img class="profile" src={data.profile.avatar_url} crossorigin="anonymous" alt="Profile picture" height="100" width="100" />
+					<img class="profile" src={data.profile.avatar_url} crossorigin="anonymous" alt={$_("account.settings.profile.label.avatar")} height="100" width="100" />
 				{:else}
 					<Loader />
 				{/if}
-				<div class="change-overlay">Change</div>
-			</div>
+				<div class="change-overlay">{$_("account.settings.profile.btn.save")}</div>
+			</button>
 			<input id="avatarInput" type="file" accept="image/*" style="display:none" on:change={handleFileChange} />
 
 			{#if typeof data.profile.display_name === "string"}
-				<TextField label="Display Name" type="text" placeholder={data.profile.display_name} bind:value={temp_display_name} />
+				<TextField label={$_("account.settings.profile.label.display_name")} type="text" placeholder={data.profile.display_name} bind:value={temp_display_name} />
 			{/if}
 		</FlexWrapper>
+
 		<Space height="var(--token-space-6)" />
 		<TextArea
-			label="Profile description"
+			label={$_("account.settings.profile.label.description")}
 			bind:value={temp_Description}
-			placeholder="Hello 👋, i am {temp_display_name}."
+			placeholder={$_("account.settings.profile.placeholder.description", { values: { display_name: temp_display_name } })}
 			autoGrow={true}
 			maxLength={500}
 		/>
 
 		<Space height="var(--token-space-6)" />
-		<span>Profile privacy</span>
+		<span>{$_("account.settings.profile.label.privacy")}</span>
 		<Space height="var(--token-space-2)" />
 		<FlexWrapper gap="var(--token-space-2)">
 			<div class="option">
 				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
-					Who can see my email.
+					{$_("account.settings.profile.label.email_visible")}
 					<Dropdown
 						actions={[
-							{ label: "Only me", value: "private", iconbefore: "visibility_off" },
-							{ label: "Connections", value: "connections", iconbefore: "groups" },
-							{ label: "Everyone", value: "public", iconbefore: "public" }
+							{ label: $_("account.settings.profile.option.private"), value: "private", iconbefore: "visibility_off" },
+							{ label: $_("account.settings.profile.option.connections"), value: "connections", iconbefore: "groups" },
+							{ label: $_("account.settings.profile.option.public"), value: "public", iconbefore: "public" }
 						]}
 						bind:value={temp_email_visible}
 						appearance="subtle"
 					>
-						Make a choice!
+						{$_("account.settings.profile.btn.save")}
 					</Dropdown>
 				</FlexWrapper>
 			</div>
 			<div class="option">
 				<FlexWrapper direction="row" justifycontent="flex-start" height="100%" width="100%" gap="var(--token-space-1)">
-					Who can see my timezone.
+					{$_("account.settings.profile.label.timezone_visible")}
 					<Dropdown
 						actions={[
-							{ label: "Only me", value: "private", iconbefore: "visibility_off" },
-							{ label: "Connections", value: "connections", iconbefore: "groups" },
-							{ label: "Everyone", value: "public", iconbefore: "public" }
+							{ label: $_("account.settings.profile.option.private"), value: "private", iconbefore: "visibility_off" },
+							{ label: $_("account.settings.profile.option.connections"), value: "connections", iconbefore: "groups" },
+							{ label: $_("account.settings.profile.option.public"), value: "public", iconbefore: "public" }
 						]}
 						bind:value={temp_timezone_visible}
 						appearance="subtle"
 					>
-						Make a choice!
+						{$_("account.settings.profile.btn.save")}
 					</Dropdown>
 				</FlexWrapper>
 			</div>
 		</FlexWrapper>
+
 		<Space height="var(--token-space-6)" />
 		<FlexWrapper justifycontent="flex-end" width="100%" direction="row">
-			<Button onClick={undo} disabled={!hasChanges} appearance="danger">Undo</Button>
-			<Button onClick={saveSettings} appearance="primary" loading={saving} disabled={!hasChanges}>Save</Button>
+			<Button onClick={undo} disabled={!hasChanges} appearance="danger">{$_("account.settings.profile.btn.undo")}</Button>
+			<Button onClick={saveSettings} appearance="primary" loading={saving} disabled={!hasChanges}>{$_("account.settings.profile.btn.save")}</Button>
 		</FlexWrapper>
 		<Space height="var(--token-space-3)" />
 	</div>
 {/if}
+
 
 <style>
 	.root {
@@ -286,6 +281,10 @@
 		position: relative;
 		cursor: pointer;
 		display: inline-block;
+		background: transparent;
+		border: none;
+		padding: 0;
+		font: inherit;
 	}
 	.avatar-wrapper:hover .change-overlay {
 		opacity: 1;

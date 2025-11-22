@@ -4,6 +4,7 @@
 	import { authapiurl } from "$lib/config";
 	import { FlexWrapper, Space, Icon, LinkButton, Button, Modal, toast, formatDate_PREFERREDTIME, authFetch } from "@davidnet/svelte-ui";
 	import { onMount } from "svelte";
+	import { _ } from "svelte-i18n";
 
 	let correlationID = crypto.randomUUID();
 	let error = false;
@@ -46,8 +47,8 @@
 
 			if (res.status === 204) {
 				toast({
-					title: "Data Export Successful!",
-					desc: "Check your email!",
+					title: $_("account.settings.data.account.toast.export_success.title"),
+					desc: $_("account.settings.data.account.toast.export_success.desc"),
 					icon: "celebration",
 					appearance: "success",
 					position: "bottom-left"
@@ -56,9 +57,10 @@
 				const body = await res.json();
 
 				if (res.status === 429) {
+					const retryTime = await formatDate_PREFERREDTIME(body.retry_at, correlationID);
 					toast({
-						title: "Data Export Failed: LIMIT reached.",
-						desc: "Try again at " + (await formatDate_PREFERREDTIME(body.retry_at, correlationID)) + "!",
+						title: $_("account.settings.data.account.toast.export_limit.title"),
+						desc: $_("account.settings.data.account.toast.export_limit.desc", { values: { retry_at: retryTime } }),
 						icon: "timer",
 						appearance: "danger",
 						position: "bottom-left",
@@ -68,15 +70,15 @@
 				}
 
 				toast({
-					title: "Data Export Failed",
-					desc: body?.error || "Unknown error",
+					title: $_("account.settings.data.account.toast.export_failed.title"),
+					desc: body?.error || $_("account.settings.data.account.toast.export_failed.desc"),
 					icon: "timer",
 					appearance: "danger",
 					position: "bottom-left",
 					autoDismiss: 10000
 				});
 
-				throw new Error(body?.error || "Unknown error");
+				throw new Error(body?.error || $_("account.settings.data.account.toast.export_failed.desc"));
 			}
 		} catch (err) {
 			console.error(err);
@@ -89,58 +91,56 @@
 </script>
 
 {#if error}
-	<Error pageName="Data" {errorMSG} />
+	<Error pageName={$_("account.settings.data.account.title")} {errorMSG} />
 {:else if deletedacc}
 	<FlexWrapper width="100%" height="100%">
 		<Icon icon="delete_forever" size="10rem" color="var(--token-color-text-danger)" />
-		<h1>Account scheduled for deletion</h1>
-		<p>View your email for more information.</p>
-		<a href="https://davidnet.net/legal/info/delete_account/">Learn more</a>
+		<h1>{$_("account.settings.data.account.deleted.title")}</h1>
+		<p>{$_("account.settings.data.account.deleted.desc")}</p>
+		<a href="https://davidnet.net/legal/info/delete_account/">{$_("account.settings.data.account.deleted.learn_more")}</a>
 	</FlexWrapper>
 {:else if loading}
-	<h1>Data</h1>
+	<h1>{$_("account.settings.data.account.title")}</h1>
 	<ProfileLoader />
 {:else}
 	<Space height="var(--token-space-4)" />
 	<FlexWrapper width="100%" justifycontent="space-around" direction="row">
 		<Button
-			onClick={() => {
-				history.back();
-			}}
-			iconbefore="arrow_back">Back</Button
-		>
-		<LinkButton href="/logout" iconafter="logout">Log out</LinkButton>
+			onClick={() => history.back()}
+			iconbefore="arrow_back">{$_("account.settings.data.account.btn.back")}</Button>
+		<LinkButton href="/logout" iconafter="logout">{$_("account.settings.data.account.btn.logout")}</LinkButton>
 	</FlexWrapper>
 	<Space height="var(--token-space-4)" />
 	<FlexWrapper height="100%" width="100%">
-		<h1>Account Data</h1>
+		<h1>{$_("account.settings.data.account.title")}</h1>
 		<Space height="var(--token-space-4)" />
 		<Button
-			onClick={() => {
-				showDeleteAccModal = true;
-			}}
-			appearance="danger">Delete my account</Button
-		>
+			onClick={() => { showDeleteAccModal = true; }}
+			appearance="danger">{$_("account.settings.data.account.btn.delete_account")}</Button>
 		<Space height="var(--token-space-4)" />
-		<Button onClick={reqdata} appearance="discover">Request my data</Button>
+		<Button onClick={reqdata} appearance="discover">{$_("account.settings.data.account.btn.request_data")}</Button>
 		<Space height="var(--token-space-4)" />
 	</FlexWrapper>
 {/if}
 
 {#if showDeleteAccModal}
 	<Modal
-		title="Delete your account?"
+		title={$_("account.settings.data.account.modal.delete.title")}
 		titleIcon="delete_forever"
-		desc="This cannot be undone?"
+		desc={$_("account.settings.data.account.modal.delete.desc")}
 		hasCloseBtn
 		on:close={() => (showDeleteAccModal = false)}
 		options={[
 			{
 				appearance: "subtle",
-				content: "Cancel",
+				content: $_("account.settings.data.account.modal.delete.cancel"),
 				onClick: () => (showDeleteAccModal = false)
 			},
-			{ appearance: "danger", content: "Delete account", onClick: DeleteAcc }
+			{
+				appearance: "danger",
+				content: $_("account.settings.data.account.modal.delete.confirm"),
+				onClick: DeleteAcc
+			}
 		]}
 	/>
 {/if}
