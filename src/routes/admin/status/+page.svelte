@@ -54,16 +54,16 @@
 	<FlexWrapper direction="row" gap="var(--token-space-6)">
 		<div class="info">
 			<img src="https://design.davidnet.net/images/logos/svelte-ui.png" alt="svelte-ui logo" aria-hidden="true" />
-			<span>{metadata.version} | <a href={metadata.commitUrl}>{metadata.commitHash}</a></span>
+			<span>SvelteUI | {metadata.version} | <a href={metadata.commitUrl}>{metadata.commitHash}</a></span>
 		</div>
 	</FlexWrapper>
 	<FlexWrapper direction="row" gap="var(--token-space-6)">
 		<div class="info">
 			<Icon icon="deployed_code" />
 			{#if commitUrl === "unknown"}
-				<span>Version Unknown</span>
+				<span>Account | Version Unknown</span>
 			{:else}
-				<span>{metadata.version} | <a href={metadata.commitUrl}>{metadata.commitHash}</a></span>
+				<span>Account | {metadata.version} | <a href={metadata.commitUrl}>{metadata.commitHash}</a></span>
 			{/if}
 		</div>
 	</FlexWrapper>
