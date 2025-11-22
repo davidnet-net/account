@@ -88,8 +88,8 @@
 	<tbody>
 		{#each reports as report}
 			<tr>
-				<td style="padding: var(--token-space-2); border-bottom: 1px solid var(--token-color-surface-raised-normal);">{report.locale}</td>
-				<td style="padding: var(--token-space-2); border-bottom: 1px solid var(--token-color-surface-raised-normal);"
+				<td style="text-align: left; padding: var(--token-space-2); border-bottom: 1px solid var(--token-color-surface-raised-normal);">{report.locale}</td>
+				<td style="text-align: right; padding: var(--token-space-2); border-bottom: 1px solid var(--token-color-surface-raised-normal);"
 					>{report.coverage.toFixed(1)}%</td
 				>
 			</tr>
