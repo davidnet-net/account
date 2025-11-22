@@ -84,7 +84,7 @@
 
 <Space height="var(--token-space-4)" />
 
-<h2 style="text-align: center;">Translation Coverage</h2>
+<h2 style="text-align: center;">Account Translation Coverage</h2>
 <Space height="var(--token-space-2)" />
 
 <table style="width: 100%; border-collapse: collapse;">
