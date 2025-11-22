@@ -37,19 +37,6 @@
 		.map(([localeKey, localeData]) => getCoverage(baseLocale, localeData, localeKey));
 </script>
 
-<Space height="var(--token-space-4)" />
-<FlexWrapper width="100%" justifycontent="space-around" direction="row">
-	<LinkButton href="/admin">Admin</LinkButton>
-	<Button
-		onClick={() => {
-			history.back();
-		}}
-		iconbefore="arrow_back">Back</Button
-	>
-
-	<LinkButton href="/logout" iconafter="logout">Log out</LinkButton>
-</FlexWrapper>
-<Space height="var(--token-space-4)" />
 <h1>Status</h1>
 <Space height="var(--token-space-2)" />
 <FlexWrapper direction="column" gap="var(--token-space-4)" width="100%">

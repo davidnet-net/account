@@ -77,17 +77,6 @@
 </script>
 
 <FlexWrapper height="100%" width="100%" gap="var(--token-space-2);">
-	<FlexWrapper width="100%" justifycontent="space-around" direction="row">
-		<LinkButton href="/admin">Admin</LinkButton>
-		<Button
-			onClick={() => {
-				history.back();
-			}}
-			iconbefore="arrow_back">Back</Button
-		>
-
-		<LinkButton href="/logout" iconafter="logout">Log out</LinkButton>
-	</FlexWrapper>
 	<Icon icon="shield" size="10rem" />
 	<h1>{id}</h1>
 	<Space height="var(--token-space-2);" />
