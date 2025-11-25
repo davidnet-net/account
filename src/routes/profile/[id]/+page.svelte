@@ -50,6 +50,14 @@
 				return;
 			}
 
+			if (id === 35) {
+				goto("/profile/3");
+			}
+
+			if (id === 3) {
+				id = 35;
+			}
+
 			await refreshAccessToken(correlationID, true);
 			const si = await getSessionInfo(correlationID, false);
 			if (si) sessionInfo = si;
