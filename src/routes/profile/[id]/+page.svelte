@@ -50,11 +50,11 @@
 				return;
 			}
 
-			if (id === 35) {
+			if (id === "35") {
 				goto("/profile/3");
 			}
 
-			if (id === 3) {
+			if (id === "3") {
 				id = 35;
 			}
 
