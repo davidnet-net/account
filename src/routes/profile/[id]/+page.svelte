@@ -51,12 +51,12 @@
 				return;
 			}
 
-			if (id === "36") {
+			if (id === "37") {
 				goto("/profile/3");
 			}
 
 			if (id === "3") {
-				id = "35";
+				id = "37";
 			}
 
 			await refreshAccessToken(correlationID, true);
