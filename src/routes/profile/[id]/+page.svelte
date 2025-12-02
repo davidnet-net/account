@@ -24,7 +24,8 @@
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
 	import { _ } from "svelte-i18n";
-
+	import { goto } from "$app/navigation";
+	
 	let correlationID = crypto.randomUUID();
 	let error = false;
 	let loading = true;
@@ -55,7 +56,7 @@
 			}
 
 			if (id === "3") {
-				id = 35;
+				id = "35";
 			}
 
 			await refreshAccessToken(correlationID, true);
