@@ -1,1 +1,551 @@
-{}
+{
+    "account": {
+        "index": {
+            "greeting": {
+                "night": "Goedenacht, {name}.",
+                "morning": "Goedemorgen, {name}.",
+                "afternoon": "Goedemiddag, {name}.",
+                "evening": "Goedenavond, {name}."
+            },
+            "error": {
+                "title": "Er is een fout opgetreden",
+                "unknown": "Er is een onbekende fout opgetreden."
+            },
+            "btn": {
+                "back": "Terug",
+                "logout": "Uitloggen"
+            },
+            "profile": {
+                "alt": "Profielfoto"
+            },
+            "option": {
+                "home": "Davidnet Home",
+                "manage": "Beheer je account",
+                "profile": "Bekijk je profiel"
+            },
+            "title": "Mijn Davidnet Account"
+        },
+        "settings": {
+            "title": "Accountinstellingen",
+            "error": {
+                "unknown": "Onbekend"
+            },
+            "btn": {
+                "back": "Terug",
+                "logout": "Uitloggen"
+            },
+            "management": {
+                "title": "Accountbeheer"
+            },
+            "option": {
+                "preferences": "Voorkeuren",
+                "security": "Beveiliging",
+                "profile": "Profiel",
+                "connections": "Connecties",
+                "data": "Gegevens",
+                "policies": "Beleid"
+            },
+            "connections": {
+                "error": {
+                    "unknown": "Onbekende fout opgetreden.",
+                    "not_authenticated": "Niet geauthenticeerd."
+                },
+                "toast": {
+                    "connection_removed": {
+                        "title": "Connectie verwijderd",
+                        "desc": "Je bent niet langer verbonden met deze gebruiker."
+                    },
+                    "error": {
+                        "remove_connection": {
+                            "title": "Fout",
+                            "desc": "Kon connectie niet verwijderen."
+                        },
+                        "accept_request": {
+                            "title": "Fout",
+                            "desc": "Kon verzoek niet accepteren."
+                        },
+                        "cancel_request": {
+                            "title": "Fout",
+                            "desc": "Kon verzoek niet annuleren."
+                        }
+                    },
+                    "request_accepted": {
+                        "title": "Verzoek geaccepteerd",
+                        "desc": "Je bent nu verbonden met deze gebruiker."
+                    },
+                    "request_cancelled": {
+                        "title": "Verzoek geannuleerd",
+                        "desc": "Het connectieverzoek is geannuleerd."
+                    }
+                },
+                "title": "Connecties",
+                "btn": {
+                    "back": "Terug",
+                    "logout": "Uitloggen"
+                },
+                "sections": {
+                    "my_connections": "Mijn connecties",
+                    "incoming_requests": "Inkomende verzoeken",
+                    "outgoing_requests": "Uitgaande verzoeken"
+                },
+                "empty": {
+                    "connections": "Nog geen connecties.",
+                    "incoming_requests": "Geen inkomende verzoeken.",
+                    "outgoing_requests": "Geen openstaande verzoeken."
+                },
+                "alt": {
+                    "profile_picture": "Profielfoto",
+                    "remove_connection": "Verwijder connectie",
+                    "accept_request": "Accepteer verzoek",
+                    "cancel_request": "Annuleer verzoek"
+                }
+            },
+            "data": {
+                "title": "Gegevens",
+                "btn": {
+                    "back": "Terug",
+                    "logout": "Uitloggen"
+                },
+                "option": {
+                    "my_files": "Mijn bestanden",
+                    "account_data": "Accountgegevens",
+                    "moderation": "Moderatie"
+                },
+                "error": {
+                    "unknown": "Onbekende fout opgetreden."
+                },
+                "account": {
+                    "toast": {
+                        "export_success": {
+                            "title": "Gegevensexport succesvol!",
+                            "desc": "Check je e-mail!"
+                        },
+                        "export_limit": {
+                            "title": "Gegevensexport mislukt: LIMIET bereikt.",
+                            "desc": "Probeer het opnieuw om {retry_at}!"
+                        },
+                        "export_failed": {
+                            "title": "Gegevensexport mislukt",
+                            "desc": "Onbekende fout"
+                        }
+                    },
+                    "title": "Accountgegevens",
+                    "deleted": {
+                        "title": "Account gepland voor verwijdering",
+                        "desc": "Bekijk je e-mail voor meer informatie.",
+                        "learn_more": "Meer weten"
+                    },
+                    "btn": {
+                        "back": "Terug",
+                        "logout": "Uitloggen",
+                        "delete_account": "Verwijder mijn account",
+                        "request_data": "Vraag mijn gegevens op"
+                    },
+                    "modal": {
+                        "delete": {
+                            "title": "Je account verwijderen?",
+                            "desc": "Dit kan niet ongedaan worden gemaakt!",
+                            "cancel": "Annuleren",
+                            "confirm": "Account verwijderen"
+                        }
+                    }
+                }
+            },
+            "preferences": {
+                "error": {
+                    "unknown": "Onbekende fout opgetreden.",
+                    "session_invalid": "Sessie ongeldig.",
+                    "save_failed": "Opslaan van voorkeuren mislukt."
+                },
+                "first_day": {
+                    "monday": "Maandag",
+                    "sunday": "Zondag"
+                },
+                "toast": {
+                    "saved": {
+                        "title": "Voorkeuren opgeslagen!",
+                        "desc": "Je voorkeuren zijn opgeslagen."
+                    }
+                },
+                "title": "Voorkeuren",
+                "btn": {
+                    "back": "Terug",
+                    "logout": "Uitloggen",
+                    "undo": "Ongedaan maken",
+                    "save": "Opslaan"
+                },
+                "label": {
+                    "timezone": "Voorkeurstijdzone",
+                    "date_format": "Voorkeursdatumformaat",
+                    "first_day": "Eerste dag van de week",
+                    "language": "Voorkeurstaal"
+                },
+                "note": {
+                    "translations": {
+                        "title": "Over vertalingen",
+                        "desc": "Niet alle onderdelen van Davidnet zijn vertaald naar \"{lang}\". Sommige teksten worden in het Engels weergegeven."
+                    }
+                }
+            },
+            "profile": {
+                "error": {
+                    "session_invalid": "Sessie ongeldig.",
+                    "load_failed": "Kon je profiel niet laden!",
+                    "data_invalid": "Profielgegevens ongeldig.",
+                    "save_failed": "Opslaan van profiel mislukt."
+                },
+                "toast": {
+                    "avatar_invalid": {
+                        "title": "Ongeldig bestand",
+                        "desc": "Alleen JPEG, PNG, WEBP, GIF, JFIF of JIFF afbeeldingen zijn toegestaan."
+                    },
+                    "saved": {
+                        "title": "Profiel opgeslagen!",
+                        "desc": "Je profiel is bijgewerkt."
+                    }
+                },
+                "title": "Profielinstellingen",
+                "btn": {
+                    "back": "Terug",
+                    "logout": "Uitloggen",
+                    "save": "Opslaan",
+                    "undo": "Ongedaan maken"
+                },
+                "label": {
+                    "avatar": "Profielfoto",
+                    "display_name": "Weergavenaam",
+                    "description": "Profielbeschrijving",
+                    "privacy": "Profielprivacy",
+                    "email_visible": "Wie kan mijn e-mail zien?",
+                    "timezone_visible": "Wie kan mijn tijdzone zien?"
+                },
+                "placeholder": {
+                    "description": "Hallo 👋, ik ben {display_name}."
+                },
+                "option": {
+                    "private": "Alleen ik",
+                    "connections": "Connecties",
+                    "public": "Iedereen"
+                }
+            },
+            "security": {
+                "error": {
+                    "unknown": "Onbekend",
+                    "session_invalid": "Sessie ongeldig",
+                    "enable_email_2fa": "Kon e-mail 2FA niet inschakelen!",
+                    "disable_email_2fa": "Kon e-mail 2FA niet uitschakelen!",
+                    "toggle_email_2fa": "Kon e-mail 2FA niet wisselen!",
+                    "change_password": "Kon wachtwoord niet wijzigen!",
+                    "revoke_session": "Kon sessie niet intrekken!"
+                },
+                "toast": {
+                    "totp_disabled": {
+                        "title": "TOTP 2FA uitgeschakeld!",
+                        "desc": "Let op: 2FA is veiliger."
+                    },
+                    "email_2fa_disabled": {
+                        "title": "E-mail 2FA uitgeschakeld!",
+                        "desc": "Let op: 2FA is veiliger."
+                    },
+                    "email_2fa_enabled": {
+                        "title": "E-mail 2FA ingeschakeld!",
+                        "desc": "Let op: TOTP is veiliger."
+                    },
+                    "email_2fa_warning": {
+                        "title": "2FA WAARSCHUWING!",
+                        "desc": "Zorg ervoor dat je herstelcodes genereert. En houd toegang tot je 2FA-methode."
+                    },
+                    "password_changed": {
+                        "title": "Wachtwoord gewijzigd!",
+                        "desc": "Je wachtwoord is succesvol gewijzigd."
+                    },
+                    "error": "Fout",
+                    "session_revoked": {
+                        "title": "Sessie ingetrokken!",
+                        "desc": "Sessie {id} is succesvol ingetrokken."
+                    },
+                    "error_desc": "Er is een onverwachte fout opgetreden bij het intrekken van de sessie."
+                },
+                "recovery_kit": {
+                    "title": "Davidnet Herstelkit",
+                    "generated": "Gegenereerd",
+                    "instructions": "Bewaar dit bestand op een veilige plek. \nIedereen met 1 van deze codes heeft toegang tot je account.",
+                    "warning": "Let op: Elke code kan maar één keer gebruikt worden! (PROOF OF CONCEPT - NIET GEBRUIKEN)",
+                    "codes": "Herstelcodes:",
+                    "support": "Vragen: contact@davidnet.net",
+                    "version_info": "Als je een nieuwe Herstelkit genereert, wordt de oude ongeldig. Dit is:",
+                    "version_number": "Versie: {number}"
+                },
+                "title": "Beveiliging",
+                "btn": {
+                    "back": "Terug",
+                    "logout": "Uitloggen",
+                    "disable": "Uitschakelen",
+                    "enable": "Inschakelen",
+                    "change_password": "Wachtwoord wijzigen",
+                    "download": "Downloaden"
+                },
+                "section": {
+                    "2fa": "2FA",
+                    "password": "Wachtwoord",
+                    "recovery_codes": "Herstelcodes",
+                    "sessions": "Sessies"
+                },
+                "option": {
+                    "totp": "2FA - TOTP",
+                    "email_2fa": "2FA - E-mail",
+                    "recovery_kit": "Herstelkit"
+                },
+                "loading": "Laden",
+                "input": {
+                    "password": "Wachtwoord",
+                    "password_placeholder": "Voer een wachtwoord in",
+                    "password_invalid": "Wachtwoord moet minimaal 6 tekens bevatten"
+                },
+                "notice": "Let op: het wijzigen van sommige instellingen kan resulteren in een e-mailmelding.",
+                "session": {
+                    "ip": "IP",
+                    "device": "Apparaat",
+                    "created": "Aangemaakt",
+                    "last_active": "Laatst actief",
+                    "expires": "Verloopt",
+                    "revoke_alt": "Sessie intrekken"
+                },
+                "modal": {
+                    "change_password": {
+                        "title": "Wachtwoord wijzigen?",
+                        "desc": "Weet je zeker dat je je wachtwoord wilt wijzigen?",
+                        "btn": "Wachtwoord wijzigen"
+                    },
+                    "cancel": "Annuleren"
+                },
+                "TOTP": {
+                    "error": {
+                        "session_invalid": "Sessie ongeldig",
+                        "enable_totp": "Kon TOTP niet inschakelen!"
+                    },
+                    "toast": {
+                        "enabled": {
+                            "title": "TOTP Ingeschakeld!",
+                            "desc": "Je account is nu veiliger."
+                        }
+                    },
+                    "title": "Beveiliging",
+                    "setup_notice": "Zorg ervoor dat je herstelcodes genereert. En houd toegang tot je authenticator.",
+                    "btn": {
+                        "back": "Terug",
+                        "cancel": "Annuleren",
+                        "hide_advanced": "Verberg geavanceerd",
+                        "show_advanced": "Toon geavanceerd"
+                    },
+                    "scan_qr": "Scan deze QR-code met je authenticator-app:",
+                    "qr_alt": "TOTP QR-code",
+                    "input_label": "Voer TOTP-code in",
+                    "advanced": {
+                        "secret": "Geheim:",
+                        "url": "URL:"
+                    }
+                }
+            }
+        },
+        "logout": {
+            "title": "Uitloggen",
+            "error": {
+                "session_invalid": "Al uitgelogd? Sessie ongeldig.",
+                "failed": "Uitloggen mislukt"
+            },
+            "toast": {
+                "success": {
+                    "title": "Succesvol uitgelogd!",
+                    "desc": "Tot ziens {username}👋."
+                }
+            }
+        },
+        "login": {
+            "toast": {
+                "already_signed_in": {
+                    "title": "Al ingelogd",
+                    "desc": "Welkom terug, {username}!"
+                },
+                "failed": {
+                    "title": "Inloggen mislukt",
+                    "desc": "Fout: {status} | {statusText}",
+                    "unknown": "Fout: Onbekend"
+                },
+                "verify_email": {
+                    "title": "Verifieer je e-mail!",
+                    "desc": "We hebben je al een verzoek gestuurd!"
+                },
+                "welcome": {
+                    "title": "Welkom terug {display_name}",
+                    "desc": "Succesvol ingelogd!"
+                }
+            },
+            "title": "Inloggen",
+            "subtitle": "Om door te gaan.",
+            "input": {
+                "username_email": {
+                    "label": "Gebruikersnaam of E-mail",
+                    "placeholder": "Voer je gebruikersnaam of e-mail in",
+                    "invalid": "Voer je gebruikersnaam of e-mail in"
+                },
+                "password": {
+                    "label": "Wachtwoord",
+                    "placeholder": "Voer je wachtwoord in",
+                    "invalid": "Ongeldig wachtwoord"
+                }
+            },
+            "btn": {
+                "login": "Inloggen"
+            },
+            "link": {
+                "signup": "Geen account? Registreren.",
+                "recover": "Account herstellen.",
+                "help": "Hulp nodig."
+            },
+            "blocknote": {
+                "already_signed_in": {
+                    "title": "Al ingelogd"
+                },
+                "my_account": "Mijn Account"
+            }
+        },
+        "verify_email": {
+            "network_error": "Netwerkfout.",
+            "invalid_token": "Ongeldig of ontbrekend token.",
+            "page_name": "Verifieer E-mail",
+            "token_expired": "Token verlopen",
+            "token_expired_desc": "Accounts moeten binnen 24 uur na registratie worden geverifieerd. Dit account is niet op tijd geverifieerd en is verwijderd.",
+            "verified": "E-mail geverifieerd!",
+            "verified_desc": "Je kunt dit tabblad nu sluiten.",
+            "boring": "We konden je account niet vinden. <br />Dus we nemen aan dat het is verlopen.",
+            "btn": {
+                "signup": "Registreren",
+                "contact": "Mail ons.",
+                "close_tab": "Tabblad sluiten"
+            }
+        },
+        "verify_email_check": {
+            "network_error": "Netwerkfout.",
+            "invalid_email": "Ongeldig of ontbrekend e-mailadres.",
+            "page_name": "Verifieer E-mail",
+            "verify_email": "Verifieer je e-mail!",
+            "verify_email_desc": "Er is een e-mail naar je verzonden. Klik op de verificatieknop in de e-mail.",
+            "btn": {
+                "resend": "E-mail opnieuw sturen",
+                "resend_done": "E-mail verzonden",
+                "signup": "Registreren",
+                "contact": "Mail ons."
+            },
+            "token_expired": "Token verlopen",
+            "token_expired_desc": "Accounts moeten binnen 24 uur na registratie worden geverifieerd. Dit account is niet op tijd geverifieerd en is verwijderd.",
+            "verified": "E-mail geverifieerd!",
+            "boring": "We konden je account niet vinden. <br />Dus we nemen aan dat het is verlopen."
+        },
+        "verify_export": {
+            "network_error": "Netwerkfout.",
+            "invalid_token": "Ongeldig of ontbrekend token.",
+            "page_name": "Verifieer Export",
+            "expired": "Export verlopen",
+            "expired_desc": "Export moet binnen 24 uur worden gedownload voor je veiligheid.",
+            "btn": {
+                "request_new": "Nieuwe aanvragen",
+                "contact": "Mail ons."
+            },
+            "boring": "We konden je export niet vinden. <br />Dus we nemen aan dat deze is verlopen.",
+            "ready": "Export klaar!",
+            "ready_desc": "Je export wordt gedownload."
+        }
+    },
+    "profile": {
+        "loading_date": "Laden...",
+        "invalid_id": "Ongeldig of ontbrekend Profiel ID.",
+        "not_authenticated_title": "Niet geauthenticeerd",
+        "not_authenticated_desc": "Zie meer wanneer je bent ingelogd!",
+        "not_found": "Profiel bestaat niet.",
+        "connection_request_failed_title": "Verzoek versturen mislukt",
+        "connection_request_failed_desc": "Kon connectieverzoek niet versturen.",
+        "connection_request_sent_title": "Connectieverzoek verzonden",
+        "connection_request_sent_desc": "Je hebt een connectieverzoek gestuurd naar deze gebruiker.",
+        "error": "Fout",
+        "connection_request_error": "Kon connectieverzoek niet versturen.",
+        "remove_connection_failed_title": "Verwijderen connectie mislukt",
+        "remove_connection_failed_desc": "Kon connectie niet verwijderen.",
+        "connection_removed_title": "Connectie verwijderd",
+        "connection_removed_desc": "Je bent niet langer verbonden met deze gebruiker.",
+        "remove_connection_error": "Kon connectie niet verwijderen.",
+        "cancel_request_failed_title": "Annuleren verzoek mislukt",
+        "cancel_request_failed_desc": "Kon connectieverzoek niet annuleren.",
+        "request_cancelled_title": "Verzoek geannuleerd",
+        "request_cancelled_desc": "Je connectieverzoek is geannuleerd.",
+        "cancel_request_error": "Kon het connectieverzoek niet annuleren.",
+        "page_name": "Profiel",
+        "btn": {
+            "back": "Terug"
+        },
+        "alt": {
+            "remove_connection": "Verwijder connectie",
+            "send_request": "Stuur connectieverzoek",
+            "cancel_request": "Annuleer connectieverzoek",
+            "edit_profile": "Bewerk profiel",
+            "manage_connections": "Beheer connecties",
+            "admin_manage": "Beheer gebruiker als admin",
+            "profile_picture": "Profielfoto"
+        },
+        "tag": {
+            "you": "Jij",
+            "you_tooltip": "Dit is jouw profiel.",
+            "admin": "Admin",
+            "admin_tooltip": "Account heeft speciale toegang.",
+            "internal": "Intern",
+            "internal_tooltip": "Account heeft toegang tot interne diensten.",
+            "connection": "Connectie",
+            "connection_tooltip": "Je hebt een connectie met dit account."
+        },
+        "created_on": "Profiel aangemaakt op",
+        "email": "E-mail",
+        "email_private": "E-mail is privé.",
+        "timezone": "Tijdzone",
+        "timezone_private": "Tijdzone is privé."
+    },
+    "signup": {
+        "network_error": "Netwerkfout.",
+        "failed_title": "Registratie mislukt",
+        "failed_desc": "Fout: {status} | {statusText}",
+        "success_title": "Registratie geslaagd (:",
+        "success_desc": "Verifieer nu je e-mail!",
+        "failed_unknown": "Fout: Onbekend",
+        "page_name": "Registreren",
+        "subtitle": "Om door te gaan.",
+        "input": {
+            "email": {
+                "label": "E-mail",
+                "placeholder": "jij@voorbeeld.nl",
+                "invalid": "Voer een geldig e-mailadres in"
+            },
+            "username": {
+                "label": "Gebruikersnaam",
+                "placeholder": "Kies een gebruikersnaam",
+                "invalid": "Gebruikersnaam moet minimaal 3 tekens bevatten"
+            },
+            "password": {
+                "label": "Wachtwoord",
+                "placeholder": "Voer een wachtwoord in",
+                "invalid": "Wachtwoord moet minimaal 6 tekens bevatten"
+            }
+        },
+        "btn": {
+            "signup": "Registreren"
+        },
+        "link": {
+            "login": "Heb je al een Davidnet account? Inloggen."
+        },
+        "legal": {
+            "text_before_links": "Door verder te gaan, begrijp je en ga je akkoord met onze",
+            "tos": "Servicevoorwaarden",
+            "privacy": "Privacybeleid",
+            "and": "en",
+            "other": "Andere zaken"
+        }
+    }
+}
