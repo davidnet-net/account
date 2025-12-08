@@ -112,13 +112,13 @@
 					body: formData
 				});
 
+				const json = await uploadRes.json(); // read once
+
 				if (!uploadRes.ok) {
-					const err = await uploadRes.json();
-					throw new Error(err.error || $_("account.settings.profile.error.save_failed"));
+					throw new Error(json.error || $_("account.settings.profile.error.save_failed"));
 				}
 
-				const { avatar_url } = await uploadRes.json();
-				data.profile.avatar_url = avatar_url;
+				data.profile.avatar_url = json.avatar_url;
 				temp_avatar_file = null;
 				temp_avatar_preview = null;
 			}
