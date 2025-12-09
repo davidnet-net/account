@@ -291,7 +291,7 @@
 		<Space height="var(--token-space-6)" />
 		<FlexWrapper justifycontent="flex-end" width="100%" direction="row">
 			<Button onClick={undo} disabled={!hasChanges} appearance="danger">{$_("account.settings.profile.btn.undo")}</Button>
-			<Button onClick={saveSettings} appearance="primary" loading={saving} disabled={!hasChanges}
+			<Button onClick={saveSettings} appearance="primary" loading={saving} disabled={!hasChanges || saving}
 				>{$_("account.settings.profile.btn.save")}</Button
 			>
 		</FlexWrapper>
