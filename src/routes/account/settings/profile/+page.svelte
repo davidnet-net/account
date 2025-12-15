@@ -110,7 +110,7 @@
 
 				// Send raw bytes to the server
 				const uploadRes = await authFetch(`${authapiurl}profile-picture`, correlationID, {
-					method: "PUT", // matches server endpoint
+					method: "POST", // matches server endpoint
 					headers: {
 						"Content-Type": temp_avatar_file.type, // e.g., image/gif
 						"Content-Length": String(bytes.length)
