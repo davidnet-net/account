@@ -104,15 +104,21 @@
 
 		try {
 			if (temp_avatar_file) {
-				const formData = new FormData();
-				formData.append("file", temp_avatar_file);
+				// Read the file as ArrayBuffer
+				const arrayBuffer = await temp_avatar_file.arrayBuffer();
+				const bytes = new Uint8Array(arrayBuffer);
 
+				// Send raw bytes to the server
 				const uploadRes = await authFetch(`${authapiurl}profile-picture`, correlationID, {
-					method: "POST",
-					body: formData
+					method: "PUT", // matches server endpoint
+					headers: {
+						"Content-Type": temp_avatar_file.type, // e.g., image/gif
+						"Content-Length": String(bytes.length)
+					},
+					body: bytes
 				});
 
-				const json = await uploadRes.json(); // read once
+				const json = await uploadRes.json();
 
 				if (!uploadRes.ok) {
 					throw new Error(json.error || $_("account.settings.profile.error.save_failed"));
@@ -123,6 +129,7 @@
 				temp_avatar_preview = null;
 			}
 
+			// Save other profile fields
 			const res = await authFetch(`${authapiurl}settings/profile/save`, correlationID, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
