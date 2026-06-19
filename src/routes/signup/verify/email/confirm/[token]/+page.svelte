@@ -12,8 +12,6 @@
 	let status = $state("loading");
 
 	onMount(async () => {
-		appState;
-
 		interface Result {
 			success: boolean;
 			code: string;

@@ -69,15 +69,17 @@
 		event.preventDefault();
 
 		// Email check
-		const validateEmailResult = validateEmail(email);
+		const validateEmailResult = validateEmail(newemail);
 		if (validateEmailResult) {
 			invalidEmail = validateEmailResult;
+			console.log("Invalid email:", invalidEmail);
 			loading = false;
 			return;
 		}
 
 		if (!signupToken) {
 			// TODO UNKNOWN ERROR TOAST
+			console.log("?");
 			loading = false;
 			return;
 		}
@@ -128,6 +130,7 @@
 
 			lastaction = Date.now();
 			// TODO SHOW SUCCESS TOAST
+			submitNewEmailModalOpened = false;
 		} catch {
 			// TODO ADD UNKNOWN ERROR TOAST
 		}

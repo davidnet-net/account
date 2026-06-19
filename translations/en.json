@@ -1,7 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"common_to_continue": "To continue.",
-	"common_errors_EMAIL_BLACKLIST": "Temporary emails are blacklisted.",
+	"common_errors_EMAIL_BLACKLIST": "Temporary emails are not allowed.",
 	"common_errors_EMAIL_DNS": "We couldn't verify your email provider.",
 	"common_errors_EMAIL_REGEX": "Please enter an valid email.",
 	"common_errors_EMAIL_REQUIRED": "Please enter an email.",

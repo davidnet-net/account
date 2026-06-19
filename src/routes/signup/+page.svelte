@@ -148,8 +148,7 @@
 
 			const params = new URLSearchParams({
 				continue: "/signup/privacy",
-				signupToken: fetchResult.signupToken,
-				email: fetchResult.email
+				signupToken: fetchResult.signupToken
 			});
 
 			goto(`/signup/verify/email?${params.toString()}`);
