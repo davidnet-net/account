@@ -28,7 +28,7 @@
 	"common_password": "password",
 	"common_Password": "Password",
 	"common_Sign_up": "Sign up",
-	"common_Login": "Login",
+	"common_Login": "Log in",
 	"common_Help": "Help",
 	"page_verify_email_Email_verification": "Email verification",
 	"page_verify_email_check_your_email": "Check your email",
@@ -41,5 +41,7 @@
 	"page_verify_email_verification_expires": "Verification links expire in 24 hours.\nPlease verify to keep your account active.",
 	"page_verify_email_email_verified": "Email verified",
 	"page_verify_email_enter_your_changed_email": "Enter your changed email:",
-	"page_verify_email_resend_modal": "Please allow up to one minute for the verification email to arrive. If it's not in your inbox,\n\t\tcheck your spam folder or click Resend email to try again."
+	"page_verify_email_resend_modal": "Please allow up to one minute for the verification email to arrive. If it's not in your inbox,\n\t\tcheck your spam folder or click Resend email to try again.",
+	"page_verify_email_confirm_email_verification": "Email verification",
+	"page_verify_email_confirm_email_verified": "Email verified"
 }

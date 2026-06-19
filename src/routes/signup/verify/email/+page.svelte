@@ -45,7 +45,7 @@
 			"icloud.com": { url: "https://www.icloud.com/mail", name: "iCloud Mail" }
 		};
 
-		return providers[domain] || null;
+		return providers[domain];
 	}
 	const providerInfo = $derived(getEmailProviderInfo(email));
 
@@ -65,7 +65,7 @@
 	let submitNewEmailModalOpened = $state(false);
 	let newemail = $state("");
 	let invalidEmail: string | undefined = $state(undefined);
-	async function submitNewEmail(event: any) {
+	async function submitNewEmail(event: SubmitEvent) {
 		event.preventDefault();
 
 		// Email check
@@ -143,11 +143,11 @@
 		}
 
 		try {
-			interface fetchResult {
+			interface FetchResult {
 				success: boolean;
 				code: string;
 			}
-			const fetchResult: fetchResult = await postFetch(
+			const fetchResult: FetchResult = await postFetch(
 				PUBLIC_BACKEND_URL + "/auth/signup/resend-email",
 				{},
 				{
@@ -177,9 +177,69 @@
 		loading = false;
 	}
 
-	let verified = $state(true);
+	let verified = $state(false);
+	let isPolling = $state(true);
+	let pollingAttempt = 0;
+	let pollingTimeout: ReturnType<typeof setTimeout>;
+
+	async function checkVerificationStatus() {
+		if (!isPolling || !signupToken) return;
+
+		try {
+			const response = await fetch(PUBLIC_BACKEND_URL + "/auth/signup/email-verified", {
+				method: "GET",
+				headers: {
+					"X-SignupToken": signupToken,
+					"Content-Type": "application/json"
+				}
+			});
+
+			const data = await response.json();
+
+			if (response.ok && data.success && data.code === "EMAIL_VERIFIED") {
+				verified = true;
+				isPolling = false;
+
+				setTimeout(() => {
+					window.location.href = continueUrl || "/";
+				}, 3000);
+				return;
+			}
+
+			if (data.code === "SIGNUPTOKEN_INVALID" || data.code === "USER_NOT_FOUND") {
+				isPolling = false;
+				// TODO: Expired or unknown error
+				return;
+			}
+		} catch (error) {
+			console.error("Failed to check verification status:", error);
+			// We ignore network errors here so it just tries again on the next tick
+		}
+
+		if (isPolling) {
+			pollingAttempt++;
+
+			// Smart Backoff Logic:
+			// - First 30 seconds (15 attempts): Poll every 2 seconds
+			// - Next 2 minutes (12 attempts): Poll every 10 seconds
+			// - After that: Poll every 30 seconds
+			let delay = 2000;
+			if (pollingAttempt > 15) delay = 10000;
+			if (pollingAttempt > 27) delay = 30000;
+
+			pollingTimeout = setTimeout(checkVerificationStatus, delay);
+		}
+	}
+
 	onMount(() => {
-		// TODO - Add the polling logic.
+		if (signupToken) {
+			checkVerificationStatus();
+		}
+
+		return () => {
+			isPolling = false;
+			clearTimeout(pollingTimeout);
+		};
 	});
 </script>
 
@@ -290,16 +350,7 @@
 			</p>
 			<Spinner />
 			<div
-				style="
- position: fixed;
- top: -50px;
- left: 0;
- height: 100vh;
- width: 100vw;
- display: flex;
- justify-content: center;
- overflow: hidden;
- pointer-events: none;">
+				style="position: fixed; top: -50px; left: 0; height: 100vh; width: 100vw; display: flex; justify-content: center; overflow: hidden; pointer-events: none;">
 				<Confetti
 					x={[-5, 5]}
 					y={[0, 0.1]}

@@ -5,7 +5,7 @@
     "": {
       "name": "account",
       "dependencies": {
-        "@davidnet-net/svelte-ui": "^2.0.27",
+        "@davidnet-net/svelte-ui": "^2.0.28",
         "@vanilla-extract/css": "^1.18.0",
         "@vanilla-extract/recipes": "^0.5.7",
         "@vanilla-extract/vite-plugin": "^5.1.4",
@@ -75,7 +75,7 @@
 
     "@babel/types": ["@babel/types@7.29.0", "", { "dependencies": { "@babel/helper-string-parser": "^7.27.1", "@babel/helper-validator-identifier": "^7.28.5" } }, "sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A=="],
 
-    "@davidnet-net/svelte-ui": ["@davidnet-net/svelte-ui@2.0.27", "https://npm.pkg.github.com/download/@davidnet-net/svelte-ui/2.0.27/3ee27a504e6855957c28d43b7917beb836b6ff7d", { "dependencies": { "@vanilla-extract/css": "^1.18.0", "@vanilla-extract/recipes": "^0.5.7", "@vanilla-extract/vite-plugin": "^5.1.4", "web-vitals": "^5.2.0" }, "peerDependencies": { "@sveltejs/kit": "^2.49.1", "svelte": "^5.0.0" } }, "sha512-KRk77yEyB1OZktnL6VIlCqaTWiJ1FBTsH6+SQsFdm54+OPhe2hiu/vcTCyFAxa8EOsMe08jf+hOzCNN1D7iwig=="],
+    "@davidnet-net/svelte-ui": ["@davidnet-net/svelte-ui@2.0.28", "https://npm.pkg.github.com/download/@davidnet-net/svelte-ui/2.0.28/ce1109d791bacb123a6eaf94a64430f4613f53d7", { "dependencies": { "@vanilla-extract/css": "^1.18.0", "@vanilla-extract/recipes": "^0.5.7", "@vanilla-extract/vite-plugin": "^5.1.4", "web-vitals": "^5.2.0" }, "peerDependencies": { "@sveltejs/kit": "^2.49.1", "svelte": "^5.0.0" } }, "sha512-kz1GHa/LY4/3YNYIOr6tLflryHM7zpWnY+OKU9aR3i9pvucpCJ4ZsdLjDYGGyRQ20UBOqqFupU4pqC/39K0W0A=="],
 
     "@emnapi/core": ["@emnapi/core@1.9.2", "", { "dependencies": { "@emnapi/wasi-threads": "1.2.1", "tslib": "^2.4.0" } }, "sha512-UC+ZhH3XtczQYfOlu3lNEkdW/p4dsJ1r/bP7H8+rhao3TTTMO1ATq/4DdIi23XuGoFY+Cz0JmCbdVl0hz9jZcA=="],
 

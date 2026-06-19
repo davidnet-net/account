@@ -97,13 +97,13 @@
 		}
 
 		try {
-			interface fetchResult {
+			interface FetchResult {
 				success: boolean;
 				code: string;
 				signupToken: undefined | string;
 				email: undefined | string;
 			}
-			const fetchResult: fetchResult = await postFetch(PUBLIC_BACKEND_URL + "/auth/signup", {
+			const fetchResult: FetchResult = await postFetch(PUBLIC_BACKEND_URL + "/auth/signup", {
 				email,
 				username,
 				password,
@@ -152,7 +152,7 @@
 				email: fetchResult.email
 			});
 
-			goto(`/verify/email?${params.toString()}`);
+			goto(`/signup/verify/email?${params.toString()}`);
 		} catch {
 			// TODO ADD UNKNOWN ERROR TOAST
 			loading = false;
