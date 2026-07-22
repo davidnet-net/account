@@ -17,7 +17,7 @@
 	const signupToken = $derived(page.url.searchParams.get("signupToken"));
 
 	// --- State Variabelen voor de Backend (met standaard fallbacks) ---
-	let language = $state("en-US");
+	let language = $state("en-us");
 	let theme = $state("dark");
 	let timezone = $state("UTC");
 	let firstDayOfWeek = $state("monday");
@@ -32,7 +32,7 @@
 
 	// --- Vaste Opties ---
 	const languages = [
-		{ value: "en-US", label: "English - US" },
+		{ value: "en-us", label: "English - US" },
 		{ value: "nl", label: "Nederlands" }
 	];
 
@@ -72,16 +72,16 @@
 		}
 
 		// 2. Taal en Regio (Kijk naar taal óf tijdzone)
-		const browserLang = navigator.language || "en-US";
+		const browserLang = navigator.language || "en-us";
 
 		// Als de browser taal Nederlands is, óf ze bevinden zich fysiek in Europa/Nederland:
 		if (browserLang.startsWith("nl") || currentTz === "Europe/Amsterdam") {
 			// Als hun browser Engels is, houd de UI dan in het Engels. Anders NL.
-			language = browserLang.startsWith("nl") ? "nl" : "en-US";
+			language = browserLang.startsWith("nl") ? "nl" : "en-us";
 			firstDayOfWeek = "monday"; // In NL/Europa begint de week op maandag
 			dateFormat = "DD-MM-YYYY"; // Standaard Europese datum
 		} else {
-			language = "en-US";
+			language = "en-us";
 			firstDayOfWeek = "sunday"; // US standaard
 			dateFormat = "MM-DD-YYYY"; // US standaard
 		}

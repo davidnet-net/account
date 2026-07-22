@@ -148,7 +148,17 @@
 		console.log(continueParam);
 		const continueURL = getSafeRedirectUrl(continueParam);
 		console.log(continueURL);
-		goto(continueURL);
+		try {
+			const parsedUrl = new URL(continueURL, window.location.href);
+
+			if (parsedUrl.origin !== window.location.origin) {
+				window.location.href = continueURL;
+			} else {
+				goto(continueURL);
+			}
+		} catch (e) {
+			goto(continueURL);
+		}
 	}
 </script>
 
