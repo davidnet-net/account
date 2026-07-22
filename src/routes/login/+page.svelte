@@ -1,17 +1,30 @@
 <script lang="ts">
-	import { Button, Field, Flex, Form, Link, sleep, TextField } from "@davidnet-net/svelte-ui";
+	import {
+		Button,
+		Field,
+		Flex,
+		Form,
+		Link,
+		postFetch,
+		authBeat,
+		TextField
+	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
 
 	import DNLogo from "$lib/assets/DNLogo.png";
 	import * as m from "$lib/paraglide/messages.js";
 
 	import * as styles from "./page.css";
+	import { PUBLIC_BACKEND_URL } from "$env/static/public";
+	import { goto } from "$app/navigation";
+	import { page } from "$app/state";
 
 	let identifier = $state("");
 	let password = $state("");
 	let invalidIdentifier: undefined | string = $state(undefined);
 	let invalidPassword: undefined | string = $state(undefined);
 	let loading = $state(false);
+	const continueParam = decodeURIComponent(page.url.searchParams.get("continue") || "");
 
 	function validateIdentifier(input: string): string | undefined {
 		if (!input) {
@@ -45,6 +58,32 @@
 		return undefined;
 	}
 
+	function getSafeRedirectUrl(targetUrl: string) {
+		if (!targetUrl) return "/";
+
+		try {
+			const parsed = new URL(targetUrl, window.location.origin);
+			const hostname = parsed.hostname;
+
+			if (hostname === "localhost" || hostname === "127.0.0.1") {
+				return import.meta.env.DEV ? parsed.href : "/";
+			}
+
+			const allowedDomains = ["davidnet.net", "davidnet.internal"];
+			const isAllowedDomain = allowedDomains.some(
+				(domain) => hostname === domain || hostname.endsWith(`.${domain}`)
+			);
+
+			if (isAllowedDomain) {
+				return parsed.href;
+			}
+		} catch {
+			return "/";
+		}
+
+		return "/";
+	}
+
 	async function login() {
 		loading = true;
 		identifier = identifier.trim();
@@ -64,8 +103,52 @@
 			return;
 		}
 
-		await sleep(3000);
-		loading = false;
+		const result = await postFetch(PUBLIC_BACKEND_URL + "/auth/login", {
+			identifier,
+			password
+		});
+
+		if (result.code === "INVALID_CREDENTIALS") {
+			invalidPassword = "Username, email or password may be wrong.";
+			invalidIdentifier = "Username, email or password may be wrong.";
+			loading = false;
+			return;
+		}
+
+		if (result.code === "ONBOARDING_INCOMPLETE") {
+			const signupToken = result.details.signupToken;
+			if (!result.details.emailVerified) {
+				const params = new URLSearchParams({
+					signupToken: signupToken,
+					email: result.details.email
+				});
+
+				goto(`/signup/verify/email?${params.toString()}`);
+				return;
+			}
+
+			if (!result.details.preferencesStepCompleted) {
+				const params = new URLSearchParams({
+					signupToken: signupToken
+				});
+
+				goto(`/signup/preferences?${params.toString()}`);
+				return;
+			}
+		}
+
+		if (!result.success) {
+			// TODO UNKNOWN ERROR TOAST
+			loading = false;
+			return;
+		}
+
+		await authBeat();
+
+		console.log(continueParam);
+		const continueURL = getSafeRedirectUrl(continueParam);
+		console.log(continueURL);
+		goto(continueURL);
 	}
 </script>
 

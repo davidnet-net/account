@@ -22,8 +22,8 @@
 	import { m } from "$lib/paraglide/messages";
 
 	import * as styles from "./page.css";
+	import { goto } from "$app/navigation";
 
-	const continueUrl = $derived(page.url.searchParams.get("continue"));
 	const signupToken = $derived(page.url.searchParams.get("signupToken"));
 	let email = $derived(page.url.searchParams.get("email") ?? "");
 	let loading = $state(false);
@@ -204,7 +204,11 @@
 				isPolling = false;
 
 				setTimeout(() => {
-					window.location.href = continueUrl || "/";
+					const params = new URLSearchParams({
+						signupToken: signupToken
+					});
+
+					goto(`/signup/preferences?${params.toString()}`);
 				}, 3000);
 				return;
 			}
