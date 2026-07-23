@@ -11,12 +11,12 @@
 		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
-	import { onMount } from "svelte";
 	import HorizontalCard from "$lib/components/HorizontalCard/HorizontalCard.svelte";
 	import { page } from "$app/state";
 
 	$effect(() => {
 		(async () => {
+			await whenAuthReady();
 			if (!authState.isLoggedIn && !authState.loading) {
 				goto(`/login?continue=${encodeURIComponent(page.url.href)}`);
 			}

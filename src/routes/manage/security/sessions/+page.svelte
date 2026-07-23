@@ -12,7 +12,8 @@
 		Anchor,
 		identityState,
 		deleteFetch,
-		Modal
+		Modal,
+		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
 
 	import * as styles from "./page.css";
@@ -50,10 +51,10 @@
 
 	$effect(() => {
 		(async () => {
+			await whenAuthReady();
 			if (!authState.isLoggedIn && !authState.loading) {
 				goto(`/login?continue=${encodeURIComponent(page.url.href)}`);
 			}
-
 			await loadSessions();
 		})();
 	});
@@ -174,6 +175,10 @@
 										{session.ip}
 									</div>
 									<div>
+										<span class={styles.mobileSessionLabel}>Country:</span>
+										{session.countryCode}
+									</div>
+									<div>
 										<span class={styles.mobileSessionLabel}>Issued at:</span>
 										{formatUnixMsToPreferred(new Date(session.issuedAt).getTime(), true)}
 									</div>
@@ -201,6 +206,7 @@
 									<th>Device</th>
 									<th>Program</th>
 									<th>IP-Address</th>
+									<th>Country</th>
 									<th>Issued at</th>
 									<th>Expires</th>
 									<th>Action</th>
@@ -220,6 +226,7 @@
 										</td>
 										<td style={`padding: ${token.global.spacing.small}`}>{uaInfo.browser}</td>
 										<td style={`padding: ${token.global.spacing.small}`}>{session.ip}</td>
+										<td style={`padding: ${token.global.spacing.small}`}>{session.countryCode}</td>
 										<td style={`padding: ${token.global.spacing.small}`}>
 											{formatUnixMsToPreferred(new Date(session.issuedAt).getTime(), true)}
 										</td>
@@ -267,7 +274,6 @@
 				<LinkButton href="/manage/security">Security</LinkButton>
 				<Button
 					iconbefore="arrow_back"
-					appearance="primary"
 					onclick={() => {
 						navigateBack();
 					}}>

@@ -5,7 +5,7 @@
     "": {
       "name": "account",
       "dependencies": {
-        "@davidnet-net/svelte-ui": "^2.0.49",
+        "@davidnet-net/svelte-ui": "^2.0.50",
         "@vanilla-extract/css": "^1.18.0",
         "@vanilla-extract/recipes": "^0.5.7",
         "@vanilla-extract/vite-plugin": "^5.1.4",
@@ -13,6 +13,7 @@
         "ua-parser-js": "^2.0.10",
       },
       "devDependencies": {
+        "@castlenine/svelte-qrcode": "^2.3.0",
         "@eslint/compat": "^2.0.3",
         "@eslint/js": "^10.0.1",
         "@inlang/paraglide-js": "^2.15.1",
@@ -77,7 +78,9 @@
 
     "@babel/types": ["@babel/types@7.29.0", "", { "dependencies": { "@babel/helper-string-parser": "^7.27.1", "@babel/helper-validator-identifier": "^7.28.5" } }, "sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A=="],
 
-    "@davidnet-net/svelte-ui": ["@davidnet-net/svelte-ui@2.0.49", "https://npm.pkg.github.com/download/@davidnet-net/svelte-ui/2.0.49/64f1117ef0d3c4aff8878d8283e431e536cca60d", { "dependencies": { "@vanilla-extract/css": "^1.18.0", "@vanilla-extract/recipes": "^0.5.7", "@vanilla-extract/vite-plugin": "^5.1.4", "prismjs": "^1.30.0", "web-vitals": "^5.2.0" }, "peerDependencies": { "@sveltejs/kit": "^2.49.1", "svelte": "^5.0.0" } }, "sha512-J238Vd3cCWxrwrrEly23HD4J3wDRRvhn10M7g1roS+M2Ta1m+i1uJt6fg/H90tnPAG8hNxmpNpzRQNx2Gm8ieg=="],
+    "@castlenine/svelte-qrcode": ["@castlenine/svelte-qrcode@2.3.0", "", { "peerDependencies": { "svelte": ">=3.54.0" } }, "sha512-1YO6tL63gjbCuBkhd/PyMMFbjFD6gO6TJjvq5Ucfs5+0s13oDfiUyxO15kjR11enG7O/A2R0WBuc4bfdMqjTJQ=="],
+
+    "@davidnet-net/svelte-ui": ["@davidnet-net/svelte-ui@2.0.50", "https://npm.pkg.github.com/download/@davidnet-net/svelte-ui/2.0.50/49967e6afa29b265c28698fa4d8f0bec996e0eef", { "dependencies": { "@vanilla-extract/css": "^1.18.0", "@vanilla-extract/recipes": "^0.5.7", "@vanilla-extract/vite-plugin": "^5.1.4", "prismjs": "^1.30.0", "web-vitals": "^5.2.0" }, "peerDependencies": { "@sveltejs/kit": "^2.49.1", "svelte": "^5.0.0" } }, "sha512-niN/xaUQOSbwaKOlHMpfBUJE3Z6tq9E2NI2bBe6qg88QwtOHHlaN6Djtv6MkNY/AvQza/Xd+1Xb64V6QpaUELw=="],
 
     "@emnapi/core": ["@emnapi/core@1.9.2", "", { "dependencies": { "@emnapi/wasi-threads": "1.2.1", "tslib": "^2.4.0" } }, "sha512-UC+ZhH3XtczQYfOlu3lNEkdW/p4dsJ1r/bP7H8+rhao3TTTMO1ATq/4DdIi23XuGoFY+Cz0JmCbdVl0hz9jZcA=="],
 

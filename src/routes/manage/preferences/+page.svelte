@@ -19,7 +19,8 @@
 		navigateBack,
 		setTimezone,
 		type themeNames,
-		LinkButton
+		LinkButton,
+		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
 
 	import * as styles from "./page.css";
@@ -77,6 +78,7 @@
 
 	$effect(() => {
 		(async () => {
+			await whenAuthReady();
 			if (!authState.isLoggedIn && !authState.loading) {
 				goto(`/login?continue=${encodeURIComponent(page.url.href)}`);
 			}
@@ -248,7 +250,6 @@
 			<LinkButton href="/">My account</LinkButton>
 			<Button
 				iconbefore="arrow_back"
-				appearance="primary"
 				onclick={() => {
 					navigateBack();
 				}}>

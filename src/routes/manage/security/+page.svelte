@@ -9,7 +9,8 @@
 		Form,
 		Field,
 		TextField,
-		postFetch
+		postFetch,
+		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
 
 	import * as styles from "./page.css";
@@ -65,6 +66,7 @@
 
 	$effect(() => {
 		(async () => {
+			await whenAuthReady();
 			if (!authState.isLoggedIn && !authState.loading) {
 				goto(`/login?continue=${encodeURIComponent(page.url.href)}`);
 			}
@@ -107,7 +109,7 @@
 			<p class={styles.subtitle}>
 				Improve the security of your account by adding a second login step.
 			</p>
-			<LinkButton href="#">Manage two step verification</LinkButton>
+			<LinkButton href="/manage/security/2fa">Manage two step verification</LinkButton>
 		</Flex>
 		<Flex direction="column" gap="none" marginTop="large" width="100%">
 			<h2 class={styles.label}>Current sessions:</h2>
@@ -122,7 +124,6 @@
 				<LinkButton href="/">My account</LinkButton>
 				<Button
 					iconbefore="arrow_back"
-					appearance="primary"
 					onclick={() => {
 						navigateBack();
 					}}>

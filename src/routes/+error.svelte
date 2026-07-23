@@ -33,7 +33,7 @@
 			<Button appearance="primary" iconbefore="arrow_back" onclick={() => history.back()}>
 				Back
 			</Button>
-			<LinkButton href="/">Home</LinkButton>
+			<LinkButton href="/">My account</LinkButton>
 		</div>
 	{:else}
 		<div class={styles.backgroundContainer}>
