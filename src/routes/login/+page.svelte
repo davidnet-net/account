@@ -143,7 +143,11 @@
 			return;
 		}
 
-		await authBeat();
+		try {
+			await authBeat();
+		} catch {
+			console.warn("Explosion");
+		}
 
 		console.log(continueParam);
 		const continueURL = getSafeRedirectUrl(continueParam);

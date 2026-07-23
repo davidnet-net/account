@@ -7,20 +7,20 @@
 		Avatar,
 		Flex,
 		identityState,
-		TextField,
+		Skeleton,
 		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
 	import { onMount } from "svelte";
 	import HorizontalCard from "$lib/components/HorizontalCard/HorizontalCard.svelte";
+	import { page } from "$app/state";
 
-	onMount(() => {
-		async () => {
-			await whenAuthReady();
-			if (!authState.isLoggedIn) {
-				goto("/login");
+	$effect(() => {
+		(async () => {
+			if (!authState.isLoggedIn && !authState.loading) {
+				goto(`/login?continue=${encodeURIComponent(page.url.href)}`);
 			}
-		};
+		})();
 	});
 </script>
 
@@ -50,7 +50,7 @@
 					<HorizontalCard
 						title="Profile"
 						icon="person"
-						href="#"
+						href="/profile/{identityState.user?.userID}"
 						description="View or edit your profile." />
 					<HorizontalCard
 						title="Help center"
@@ -62,12 +62,12 @@
 					<HorizontalCard
 						title="Security"
 						icon="shield_locked"
-						href="https://home.davidnet.net"
+						href="/manage/security"
 						description="Account access and more." />
 					<HorizontalCard
 						title="Preferences"
 						icon="settings"
-						href="#"
+						href="/manage/preferences"
 						description="Themes and languages." />
 					<HorizontalCard
 						title="Privacy and data"
@@ -89,7 +89,11 @@
 						icon="home"
 						href="https://home.davidnet.net"
 						description="Go to Davidnet home. One overview for everything." />
-					<Card title="Profile" icon="person" href="#" description="View or edit your profile." />
+					<Card
+						title="Profile"
+						icon="person"
+						href="/profile/{identityState.user?.userID}"
+						description="View or edit your profile." />
 					<Card
 						title="Help center"
 						icon="contact_support"
@@ -105,9 +109,13 @@
 					<Card
 						title="Security"
 						icon="shield_locked"
-						href="https://home.davidnet.net"
+						href="/manage/security"
 						description="Account access and more." />
-					<Card title="Preferences" icon="settings" href="#" description="Themes and languages." />
+					<Card
+						title="Preferences"
+						icon="settings"
+						href="/manage/preferences"
+						description="Themes and languages." />
 					<Card
 						title="Privacy and data"
 						icon="privacy_tip"
@@ -117,4 +125,61 @@
 			</Flex>
 		{/if}
 	</Flex>
-{:else}{/if}
+{:else}
+	<Flex
+		alignItems="center"
+		justifyContent="start"
+		direction="column"
+		gap="medium"
+		marginTop="giant">
+		<Skeleton
+			height={token.global.font.size.xgiant}
+			width={token.global.font.size.xgiant}
+			radius="full" />
+		<Skeleton width="8rem" height={token.global.font.size.xlarge} />
+		<Skeleton width="8rem" height={token.global.font.size.xlarge} />
+		{#if appState.isMobile}
+			<Flex
+				direction="column"
+				justifyContent="start"
+				alignItems="center"
+				marginTop="large"
+				height="fit-content"
+				gap="large">
+				<Flex direction="column" alignItems="center" gap="small">
+					<Skeleton width="18rem" height="4rem" radius="huge" />
+					<Skeleton width="18rem" height="4rem" radius="huge" />
+					<Skeleton width="18rem" height="4rem" radius="huge" />
+				</Flex>
+				<Flex direction="column" alignItems="center" gap="small">
+					<Skeleton width="18rem" height="4rem" radius="huge" />
+					<Skeleton width="18rem" height="4rem" radius="huge" />
+					<Skeleton width="18rem" height="4rem" radius="huge" />
+				</Flex>
+			</Flex>
+		{:else}
+			<Flex
+				direction="column"
+				alignItems="center"
+				height="fit-content"
+				gap="none"
+				marginTop="giant">
+				<Flex direction="row" justifyContent="center" alignItems="start" gap="small">
+					<Skeleton width="14rem" height="20rem" radius="huge" />
+					<Skeleton width="14rem" height="20rem" radius="huge" />
+					<Skeleton width="14rem" height="20rem" radius="huge" />
+				</Flex>
+				<Flex
+					direction="row"
+					justifyContent="center"
+					alignItems="start"
+					marginTop="large"
+					gap="small">
+					<Skeleton width="14rem" height="20rem" radius="huge" />
+					<Skeleton width="14rem" height="20rem" radius="huge" />
+					<Skeleton width="14rem" height="20rem" radius="huge" />
+				</Flex>
+			</Flex>
+		{/if}
+	</Flex>
+{/if}
