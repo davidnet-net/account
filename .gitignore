@@ -25,3 +25,5 @@ vite.config.ts.timestamp-*
 # Other
 ./volumes
 src/lib/manifests
+.envrc
+.direnv
