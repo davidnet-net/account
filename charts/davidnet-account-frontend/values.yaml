@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: https://github.com/davidnet-net/account
+  repository: ghcr.io/davidnet-net/account
   pullPolicy: Always
   tag: "latest"
 
