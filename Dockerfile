@@ -2,17 +2,21 @@
 FROM oven/bun:1 AS builder
 WORKDIR /app
 
-# Accept the GitHub token build argument
+# Accept build arguments
 ARG GITHUB_TOKEN
+ARG PUBLIC_BACKEND_URL
 
-# Configure npm/Bun to authenticate with GitHub Packages for your organization
+# Make the public variable available to Vite/SvelteKit during build
+ENV PUBLIC_BACKEND_URL=${PUBLIC_BACKEND_URL}
+
+# Configure npm/Bun to authenticate with GitHub Packages
 RUN echo "@davidnet-net:registry=https://npm.pkg.github.com" >> ~/.npmrc && \
     echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
 
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
-# Remove the .npmrc file so the token is not cached in this image layer
+# Remove token from image layer
 RUN rm -f ~/.npmrc
 
 COPY . .
@@ -22,7 +26,6 @@ RUN bun run build
 FROM oven/bun:1-slim
 WORKDIR /app
 
-# Copy built assets and necessary production files
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/node_modules ./node_modules
