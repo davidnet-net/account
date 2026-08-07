@@ -30,8 +30,8 @@
           shellHook = ''
             bun install
             bun run init
-            echo "Bun versie: $(bun --version)"
-            echo "Node versie: $(node --version)"
+            echo "Bun version: $(bun --version)"
+            echo "Node version: $(node --version)"
           '';
         };
       }
