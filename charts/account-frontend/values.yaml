@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: your-registry/account-frontend
-  pullPolicy: IfNotPresent
+  repository: https://github.com/davidnet-net/account
+  pullPolicy: Always
   tag: "latest"
 
 service:
@@ -11,5 +11,5 @@ service:
 
 ingress:
   enabled: true
-  host: account.yourdomain.com
+  host: account.davidnet.net
   ingressClass: traefik
