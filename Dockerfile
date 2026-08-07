@@ -5,9 +5,11 @@ WORKDIR /app
 # Accept build arguments
 ARG GITHUB_TOKEN
 ARG PUBLIC_BACKEND_URL
+ARG PUBLIC_ACCOUNT_FRONTEND_URL
 
 # Make the public variable available to Vite/SvelteKit during build
 ENV PUBLIC_BACKEND_URL=${PUBLIC_BACKEND_URL}
+ENV PUBLIC_ACCOUNT_FRONTEND_URL=${PUBLIC_ACCOUNT_FRONTEND_URL}
 
 # Configure npm/Bun to authenticate with GitHub Packages
 RUN echo "@davidnet-net:registry=https://npm.pkg.github.com" >> ~/.npmrc && \
