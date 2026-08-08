@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {
 		Anchor,
+		appState,
 		authState,
 		Button,
 		Flex,
@@ -59,6 +60,7 @@
 	}
 
 	onMount(() => {
+		appState.hideNavigation = false; // Dont remove!
 		document.addEventListener("visibilitychange", async () => {
 			if (document.visibilityState === "visible") {
 				await loadData();
