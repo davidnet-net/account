@@ -6,9 +6,9 @@
 	import { page } from "$app/state";
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 	import DNLogo from "$lib/assets/DNLogo.png";
+	import { m } from "$lib/paraglide/messages";
 
 	import * as styles from "./page.css";
-	import { m } from "$lib/paraglide/messages";
 	let status = $state("loading");
 
 	onMount(async () => {

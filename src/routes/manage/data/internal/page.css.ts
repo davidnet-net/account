@@ -63,3 +63,14 @@ export const cardActions = style({
 		}
 	}
 });
+
+export const accessCard = style({
+	width: "80%",
+	height: "fit-content",
+	backgroundColor: token.theme.color.surface.raised.normal,
+	borderRadius: token.global.radius.large,
+	padding: token.global.spacing.medium,
+	borderColor: token.theme.color.border.default,
+	borderStyle: "solid",
+	borderWidth: token.global.borderWidth.standard
+});

@@ -18,7 +18,7 @@
 	}: Props = $props();
 
 	// Store array of 6 digit strings
-	let digits = $state<string[]>(Array(6).fill(""));
+	let digits = $state(Array(6).fill(""));
 	let inputRefs: HTMLInputElement[] = $state([]);
 
 	// Keep internal digits synced with external `value` prop

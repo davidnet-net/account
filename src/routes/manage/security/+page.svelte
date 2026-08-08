@@ -1,22 +1,23 @@
 <script lang="ts">
-	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 	import {
-		Button,
-		Flex,
-		navigateBack,
-		LinkButton,
 		authState,
-		Form,
+		Button,
 		Field,
-		TextField,
+		Flex,
+		Form,
+		LinkButton,
+		navigateBack,
 		postFetch,
+		TextField,
 		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
 
-	import * as styles from "./page.css";
-	import { page } from "$app/state";
 	import { goto } from "$app/navigation";
+	import { page } from "$app/state";
+	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 	import { m } from "$lib/paraglide/messages";
+
+	import * as styles from "./page.css";
 
 	let invalidNewPassword: undefined | string = $state(undefined);
 	let invalidOldPassword: undefined | string = $state(undefined);

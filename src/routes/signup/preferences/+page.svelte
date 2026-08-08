@@ -8,11 +8,13 @@
 		postFetch
 	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
-	import { page } from "$app/state";
-	import DNLogo from "$lib/assets/DNLogo.png";
-	import * as styles from "./page.css";
-	import { PUBLIC_BACKEND_URL } from "$env/static/public";
+
 	import { goto } from "$app/navigation";
+	import { page } from "$app/state";
+	import { PUBLIC_BACKEND_URL } from "$env/static/public";
+	import DNLogo from "$lib/assets/DNLogo.png";
+
+	import * as styles from "./page.css";
 
 	const signupToken = $derived(page.url.searchParams.get("signupToken"));
 

@@ -1,31 +1,33 @@
 <script lang="ts">
-	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 	import {
-		Button,
-		Flex,
-		navigateBack,
-		LinkButton,
-		authState,
-		Form,
-		Field,
-		TextField,
-		postFetch,
 		Anchor,
+		authState,
+		Button,
+		Field,
+		Flex,
+		Form,
 		getFetch,
-		Skeleton,
-		IconButton,
-		sleep,
 		Icon,
+		IconButton,
+		LinkButton,
+		navigateBack,
+		postFetch,
+		Skeleton,
+		sleep,
+		TextField,
 		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
 
-	import * as styles from "./page.css";
-	import { page } from "$app/state";
 	import { goto } from "$app/navigation";
+	import { page } from "$app/state";
+	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 	import { m } from "$lib/paraglide/messages";
+
+	import * as styles from "./page.css";
 
 	let loading = $state(false);
 	import QRCode from "@castlenine/svelte-qrcode";
+
 	import TOTPInput from "$lib/components/TOTPInput/TOTPInput.svelte";
 	let alreadySetup = $state(false);
 	let otpUri = $state("");

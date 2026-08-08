@@ -1,5 +1,5 @@
-import { style } from "@vanilla-extract/css";
 import { token } from "@davidnet-net/svelte-ui/tokens";
+import { style } from "@vanilla-extract/css";
 
 export const page = style({
 	display: "flex",

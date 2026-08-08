@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 	import {
 		authState,
 		Button,
@@ -11,21 +10,23 @@
 		getFirstDayOfWeek,
 		getTimezone,
 		LANGUAGE_CACHE_KEY,
+		LinkButton,
+		navigateBack,
 		patchFetch,
 		setDateFormat,
 		setFirstDayOfWeek,
 		setLanguage,
 		setTheme,
-		navigateBack,
 		setTimezone,
 		type themeNames,
-		LinkButton,
 		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
 
-	import * as styles from "./page.css";
 	import { goto } from "$app/navigation";
 	import { page } from "$app/state";
+	import { PUBLIC_BACKEND_URL } from "$env/static/public";
+
+	import * as styles from "./page.css";
 
 	let language = $state("en-us");
 	let theme = $state("dark");

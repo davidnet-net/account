@@ -16,13 +16,13 @@
 	import { onMount } from "svelte";
 	import Confetti from "svelte-confetti";
 
+	import { goto } from "$app/navigation";
 	import { page } from "$app/state";
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 	import DNLogo from "$lib/assets/DNLogo.png";
 	import { m } from "$lib/paraglide/messages";
 
 	import * as styles from "./page.css";
-	import { goto } from "$app/navigation";
 
 	const signupToken = $derived(page.url.searchParams.get("signupToken"));
 	let email = $derived(page.url.searchParams.get("email") ?? "");

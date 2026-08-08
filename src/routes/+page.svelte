@@ -1,6 +1,4 @@
 <script lang="ts">
-	import Card from "$lib/components/Card/Card.svelte";
-	import { goto } from "$app/navigation";
 	import {
 		appState,
 		authState,
@@ -11,8 +9,11 @@
 		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
-	import HorizontalCard from "$lib/components/HorizontalCard/HorizontalCard.svelte";
+
+	import { goto } from "$app/navigation";
 	import { page } from "$app/state";
+	import Card from "$lib/components/Card/Card.svelte";
+	import HorizontalCard from "$lib/components/HorizontalCard/HorizontalCard.svelte";
 
 	$effect(() => {
 		(async () => {
@@ -72,7 +73,7 @@
 					<HorizontalCard
 						title="Privacy and data"
 						icon="privacy_tip"
-						href="#"
+						href="/manage/data/internal"
 						description="Manage your information." />
 				</Flex>
 			</Flex>
@@ -119,7 +120,7 @@
 					<Card
 						title="Privacy and data"
 						icon="privacy_tip"
-						href="#"
+						href="/manage/data/internal"
 						description="Manage your information." />
 				</Flex>
 			</Flex>

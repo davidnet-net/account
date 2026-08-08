@@ -1,26 +1,26 @@
 <script lang="ts">
-	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 	import {
-		Button,
-		Flex,
-		navigateBack,
-		LinkButton,
-		authState,
-		Form,
-		Field,
-		TextField,
-		postFetch,
 		Anchor,
+		authState,
+		Button,
+		Field,
+		Flex,
+		Form,
 		getFetch,
-		whenAuthReady,
+		LinkButton,
 		Modal,
-		putFetch
-	} from "@davidnet-net/svelte-ui";
+		navigateBack,
+		postFetch,
+		putFetch,
+		TextField,
+		whenAuthReady	} from "@davidnet-net/svelte-ui";
+
+	import { goto } from "$app/navigation";
+	import { page } from "$app/state";
+	import { PUBLIC_BACKEND_URL } from "$env/static/public";
+	import { m } from "$lib/paraglide/messages";
 
 	import * as styles from "./page.css";
-	import { page } from "$app/state";
-	import { goto } from "$app/navigation";
-	import { m } from "$lib/paraglide/messages";
 
 	let loading = $state(false);
 	let authenticatorEnabled = $state(false);

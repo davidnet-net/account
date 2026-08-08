@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { page } from "$app/state";
 	import { appState, Button, Icon, LinkButton } from "@davidnet-net/svelte-ui";
+	import { token } from "@davidnet-net/svelte-ui/tokens";
+
+	import { page } from "$app/state";
 
 	import { styles } from "./error.css";
-	import { token } from "@davidnet-net/svelte-ui/tokens";
 </script>
 
 <svelte:head>

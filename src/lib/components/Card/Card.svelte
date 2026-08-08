@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { Anchor, Icon, type iconType } from "@davidnet-net/svelte-ui";
+	import { focusring } from "@davidnet-net/svelte-ui/tokens";
 	import type { HTMLAnchorAttributes } from "svelte/elements";
 
 	import { styles } from "./Card.css";
-	import { Anchor, Icon, type iconType } from "@davidnet-net/svelte-ui";
-	import { focusring } from "@davidnet-net/svelte-ui/tokens";
 
 	interface Props extends HTMLAnchorAttributes {
 		title: string;
