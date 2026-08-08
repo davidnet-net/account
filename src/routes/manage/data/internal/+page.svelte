@@ -17,6 +17,7 @@
 
 	import * as styles from "./page.css";
 	import { page } from "$app/state";
+	import { onMount } from "svelte";
 	interface InternalAccessResult {
 		userId: string;
 		internalAccess: boolean;
@@ -35,22 +36,34 @@
 				goto(`/login?continue=${encodeURIComponent(page.url.href)}`);
 			}
 
-			const accessResult = await getFetch(
-				PUBLIC_BACKEND_URL + "/auth/internal",
-				undefined,
-				undefined,
-				true
-			);
-
-			if (accessResult.success) {
-				internalAccessResult = accessResult.access;
-				if (!internalAccessResult?.internalAccess) {
-					goto("/");
-				}
-			} else {
-				//TODO Show toast
-			}
+			loadData();
 		})();
+	});
+
+	async function loadData() {
+		const accessResult = await getFetch(
+			PUBLIC_BACKEND_URL + "/auth/internal",
+			undefined,
+			undefined,
+			true
+		);
+
+		if (accessResult.success) {
+			internalAccessResult = accessResult.access;
+			if (!internalAccessResult?.internalAccess) {
+				goto("/");
+			}
+		} else {
+			//TODO Show toast
+		}
+	}
+
+	onMount(() => {
+		document.addEventListener("visibilitychange", async () => {
+			if (document.visibilityState === "visible") {
+				await loadData();
+			}
+		});
 	});
 </script>
 

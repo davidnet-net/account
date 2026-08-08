@@ -3,6 +3,8 @@
 	import { token } from "@davidnet-net/svelte-ui/tokens";
 
 	import { styles } from "./page.css";
+
+	appState.hideNavigation = true;
 </script>
 
 <svelte:head>
