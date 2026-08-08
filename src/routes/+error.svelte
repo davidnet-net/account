@@ -8,7 +8,7 @@
 </script>
 
 <svelte:head>
-	<title>Davidnet Design System - {page.error?.message}</title>
+	<title>Davidnet Account - {page.error?.message}</title>
 </svelte:head>
 
 <div class={styles.pageContainer}>
