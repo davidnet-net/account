@@ -9,12 +9,14 @@
 		Lozenge,
 		navigateBack,
 		Skeleton,
-		whenAuthReady	} from "@davidnet-net/svelte-ui";
+		whenAuthReady
+	} from "@davidnet-net/svelte-ui";
 
 	import { goto } from "$app/navigation";
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 
 	import * as styles from "./page.css";
+	import { page } from "$app/state";
 	interface InternalAccessResult {
 		userId: string;
 		internalAccess: boolean;
@@ -30,7 +32,7 @@
 		(async () => {
 			await whenAuthReady();
 			if (!authState.isLoggedIn && !authState.loading) {
-				//goto(`/login?continue=${encodeURIComponent(page.url.href)}`);
+				goto(`/login?continue=${encodeURIComponent(page.url.href)}`);
 			}
 
 			const accessResult = await getFetch(
@@ -41,7 +43,7 @@
 			);
 
 			if (accessResult.success) {
-				internalAccessResult = accessResult;
+				internalAccessResult = accessResult.access;
 				if (!internalAccessResult?.internalAccess) {
 					goto("/");
 				}
