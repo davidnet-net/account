@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Flex, Icon, postFetch, Spinner } from "@davidnet-net/svelte-ui";
+	import { Button, Flex, Icon, Link, postFetch, Spinner } from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
 	import { onMount } from "svelte";
 
@@ -109,7 +109,9 @@
 				<p style="font-size: {token.global.font.size.medium};">
 					Link or Account expired or never existed.
 				</p>
-				<!-- TODO: Add learn more button to prevent user from feeling stuck! -->
+				Unverified accounts get deleted after 24 hours. However you can <Link href="/signup">
+					signup
+				</Link> again!
 			</Flex>
 		{:else if status === "loading"}
 			<Flex

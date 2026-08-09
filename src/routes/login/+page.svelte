@@ -147,7 +147,6 @@
 		}
 
 		if (!result.success) {
-			// TODO UNKNOWN ERROR TOAST
 			loading = false;
 			return;
 		}

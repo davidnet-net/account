@@ -10,7 +10,8 @@
 		patchFetch,
 		postFetch,
 		Spinner,
-		TextField
+		TextField,
+		toast
 	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
 	import { onMount } from "svelte";
@@ -78,7 +79,8 @@
 		}
 
 		if (!signupToken) {
-			// TODO UNKNOWN ERROR TOAST
+			toast("We lost you!", "Please continue after you login.", "no_accounts", 4000, "subtle");
+			goto("/login");
 			console.log("?");
 			loading = false;
 			return;
@@ -103,7 +105,8 @@
 
 			if (!fetchResult.success) {
 				if (!fetchResult.code) {
-					// TODO: Show unknown error toast!
+					toast("We lost you!", "Please continue after you login.", "no_accounts", 4000, "subtle");
+					goto("/login");
 					loading = false;
 					return;
 				}
@@ -129,17 +132,15 @@
 			}
 
 			lastaction = Date.now();
-			// TODO SHOW SUCCESS TOAST
 			submitNewEmailModalOpened = false;
-		} catch {
-			// TODO ADD UNKNOWN ERROR TOAST
-		}
+		} catch {}
 	}
 
 	let resendEmailModalOpened = $state(false);
 	async function resendEmail() {
 		if (!signupToken) {
-			// TODO UNKNOWN ERROR TOAST
+			toast("We lost you!", "Please continue after you login.", "no_accounts", 4000, "subtle");
+			goto("/login");
 			loading = false;
 			resendEmailModalOpened = false;
 			return;
@@ -160,7 +161,6 @@
 
 			if (!fetchResult.success) {
 				if (!fetchResult.code) {
-					// TODO: Show unknown error toast!
 					loading = false;
 					resendEmailModalOpened = false;
 					return;
@@ -170,11 +170,8 @@
 				resendEmailModalOpened = false;
 				return;
 			}
-		} catch {
-			// TODO ADD UNKNOWN ERROR TOAST
-		}
+		} catch {}
 
-		// TODO SHOW SUCCESS TOAST
 		lastaction = Date.now();
 		resendEmailModalOpened = false;
 		loading = false;
@@ -215,7 +212,14 @@
 
 			if (data.code === "SIGNUPTOKEN_INVALID" || data.code === "USER_NOT_FOUND") {
 				isPolling = false;
-				// TODO: Expired or unknown error
+				toast(
+					"We lost you!",
+					"Please continue after you login or signup.",
+					"no_accounts",
+					4000,
+					"subtle"
+				);
+				goto("/login");
 				return;
 			}
 		} catch (error) {
@@ -307,7 +311,14 @@
 					const elapsedSeconds = Math.floor(elapsedMs / 1000);
 					const targetSeconds = 30;
 					if (elapsedSeconds < targetSeconds) {
-						// TODO SHOW WAIT TOAST
+						toast(
+							"Not so fast!",
+							`Wait ${targetSeconds - elapsedSeconds} seconds.`,
+							"acute",
+							4000,
+							"warning"
+						);
+						toast("");
 						const remainingSeconds = targetSeconds - elapsedSeconds;
 						console.log(remainingSeconds);
 						return;
@@ -323,7 +334,13 @@
 					const elapsedSeconds = Math.floor(elapsedMs / 1000);
 					const targetSeconds = 30;
 					if (elapsedSeconds < targetSeconds) {
-						// TODO SHOW WAIT TOAST
+						toast(
+							"Not so fast!",
+							`Wait ${targetSeconds - elapsedSeconds} seconds.`,
+							"acute",
+							4000,
+							"warning"
+						);
 						const remainingSeconds = targetSeconds - elapsedSeconds;
 						console.log(remainingSeconds);
 						return;

@@ -9,6 +9,7 @@
 		navigateBack,
 		postFetch,
 		TextField,
+		toast,
 		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
 
@@ -58,7 +59,13 @@
 			return;
 		}
 		if (result.code === "PASSWORD_CHANGED") {
-			// TODO ADD SUCCESS TOAST
+			toast(
+				"Password changed!",
+				"Your password has been successfully changed!",
+				"celebration",
+				4000,
+				"success"
+			);
 			invalidNewPassword = undefined;
 			invalidOldPassword = undefined;
 			loading = false;

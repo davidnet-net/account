@@ -54,8 +54,6 @@
 			if (!internalAccessResult?.internalAccess) {
 				goto("/");
 			}
-		} else {
-			//TODO Show toast
 		}
 	}
 

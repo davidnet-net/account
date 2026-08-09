@@ -48,130 +48,138 @@
 
 			if (result.success) {
 				profileResponse = result.profileResponse;
-			} else {
-				// TODO SHOW ERROR TOAST
 			}
 		})();
 	});
 </script>
 
-<Flex
-	alignItems="center"
-	justifyContent="start"
-	direction="column"
-	gap="medium"
-	height="fit-content"
-	marginTop="giant"
-	width="100%">
-	{#if !profileResponse}
-		<Skeleton width="100%" height="12rem">
-			<Flex width="100%" height="100%" justifyContent="center" alignItems="center">
-				<Skeleton
-					height={token.global.font.size.xgiant}
-					width={token.global.font.size.xgiant}
-					radius="full" />
-			</Flex>
-		</Skeleton>
+<div style="width: 100%; max-width: 48rem; margin: 0 auto; box-sizing: border-box; padding: 1rem;">
+	<Flex
+		alignItems="center"
+		justifyContent="start"
+		direction="column"
+		gap="medium"
+		height="fit-content"
+		marginTop="giant"
+		width="100%">
+		{#if !profileResponse}
+			<Skeleton width="100%" height="12rem">
+				<Flex width="100%" height="100%" justifyContent="center" alignItems="center">
+					<Skeleton
+						height={token.global.font.size.xgiant}
+						width={token.global.font.size.xgiant}
+						radius="full" />
+				</Flex>
+			</Skeleton>
 
-		<Skeleton width="12rem" height={token.global.font.size.xlarge} />
-		<Skeleton width="8rem" height={token.global.font.size.medium} />
-		<Skeleton width="60%" height="5rem" />
-	{:else}
-		<div class={styles.profileBanner} style="background-image: url({profileResponse.bannerUrl})">
-			<Flex width="100%" height="100%" justifyContent="center" alignItems="center">
-				<Avatar src={profileResponse.avatarUrl || ""} size="xgiant" />
-			</Flex>
-		</div>
-
-		<Flex
-			justifyContent="center"
-			alignItems="center"
-			direction="column"
-			gap="xsmall"
-			height="fit-content">
-			<span
-				style="font-size: {token.global.font.size.xlarge}; font-weight: {token.global.font.weight
-					.medium}">
-				{profileResponse.displayName}
-			</span>
-			<span style="opacity: 0.7;">@{profileResponse.username}</span>
-		</Flex>
-
-		<Flex direction="row" gap="small" flexWrap="wrap" justifyContent="center">
-			{#if profileResponse.countryCode}
-				<Lozenge>
-					<Flex direction="row" gap="xsmall" alignItems="center">
-						<Icon icon="globe" />
-						<span>{profileResponse.countryCode}</span>
-					</Flex>
-				</Lozenge>
-			{/if}
-
-			{#if profileResponse.location}
-				<Lozenge>
-					<Flex direction="row" gap="xsmall" alignItems="center">
-						<Icon icon="location_on" />
-						<span>{profileResponse.location}</span>
-					</Flex>
-				</Lozenge>
-			{/if}
-
-			{#if profileResponse.language}
-				<Lozenge>
-					<Flex direction="row" gap="xsmall" alignItems="center">
-						<Icon icon="translate" />
-						<span>{profileResponse.language}</span>
-					</Flex>
-				</Lozenge>
-			{/if}
-
-			{#if profileResponse.timezone}
-				<Lozenge>
-					<Flex direction="row" gap="xsmall" alignItems="center">
-						<Icon icon="schedule" />
-						<span>{profileResponse.timezone}</span>
-					</Flex>
-				</Lozenge>
-			{/if}
-
-			{#if profileResponse.email}
-				<Lozenge>
-					<Flex direction="row" gap="xsmall" alignItems="center">
-						<Icon icon="mail" />
-						<span>{profileResponse.email}</span>
-					</Flex>
-				</Lozenge>
-			{/if}
-
-			{#if params.userid === identityState.user?.userID}
-				<Lozenge>
-					<Flex direction="row" gap="xsmall" alignItems="center">
-						<Icon icon="ar_on_you" />
-						<span>Yourself</span>
-					</Flex>
-				</Lozenge>
-			{/if}
-		</Flex>
-
-		{#if profileResponse.description}
-			<div style="max-width: 36rem; text-align: center; ">
-				<p style="white-space: pre-wrap">{profileResponse.description}</p>
+			<Skeleton width="12rem" height={token.global.font.size.xlarge} />
+			<Skeleton width="8rem" height={token.global.font.size.medium} />
+			<Skeleton width="60%" height="5rem" />
+		{:else}
+			<div
+				class={styles.profileBanner}
+				style="background-image: url({profileResponse.bannerUrl}); width: 100%; max-width: 100%; background-size: cover; background-position: center;">
+				<Flex width="100%" height="100%" justifyContent="center" alignItems="center">
+					<Avatar src={profileResponse.avatarUrl || ""} size="xgiant" />
+				</Flex>
 			</div>
-		{/if}
 
-		<Flex gap="small" width="fit-content">
-			<Button
-				iconbefore="arrow_back"
-				onclick={() => {
-					navigateBack();
-				}}>
-				Back
-			</Button>
-			{#if params.userid === identityState.user?.userID}
-				<LinkButton href="/profile/edit">Edit profile</LinkButton>
-			{:else}
-				<LinkButton href="/profile/edit">Edit your own profile</LinkButton>
+			<Flex
+				justifyContent="center"
+				alignItems="center"
+				direction="column"
+				gap="xsmall"
+				height="fit-content">
+				<span
+					style="font-size: {token.global.font.size.xlarge}; font-weight: {token.global.font.weight
+						.medium}; word-break: break-word; max-width: 100%;">
+					{profileResponse.displayName}
+				</span>
+				<span style="opacity: 0.7; word-break: break-all; max-width: 100%;">
+					@{profileResponse.username}
+				</span>
+			</Flex>
+
+			<Flex direction="row" gap="small" flexWrap="wrap" justifyContent="center">
+				{#if profileResponse.countryCode}
+					<Lozenge>
+						<Flex direction="row" gap="xsmall" alignItems="center">
+							<Icon icon="globe" />
+							<span>{profileResponse.countryCode}</span>
+						</Flex>
+					</Lozenge>
+				{/if}
+
+				{#if profileResponse.location}
+					<Lozenge>
+						<Flex direction="row" gap="xsmall" alignItems="center">
+							<Icon icon="location_on" />
+							<span>{profileResponse.location}</span>
+						</Flex>
+					</Lozenge>
+				{/if}
+
+				{#if profileResponse.language}
+					<Lozenge>
+						<Flex direction="row" gap="xsmall" alignItems="center">
+							<Icon icon="translate" />
+							<span>{profileResponse.language}</span>
+						</Flex>
+					</Lozenge>
+				{/if}
+
+				{#if profileResponse.timezone}
+					<Lozenge>
+						<Flex direction="row" gap="xsmall" alignItems="center">
+							<Icon icon="schedule" />
+							<span>{profileResponse.timezone}</span>
+						</Flex>
+					</Lozenge>
+				{/if}
+
+				{#if profileResponse.email}
+					<Lozenge>
+						<Flex direction="row" gap="xsmall" alignItems="center">
+							<Icon icon="mail" />
+							<span style="word-break: break-all;">{profileResponse.email}</span>
+						</Flex>
+					</Lozenge>
+				{/if}
+
+				{#if params.userid === identityState.user?.userID}
+					<Lozenge>
+						<Flex direction="row" gap="xsmall" alignItems="center">
+							<Icon icon="ar_on_you" />
+							<span>Yourself</span>
+						</Flex>
+					</Lozenge>
+				{/if}
+			</Flex>
+
+			{#if profileResponse.description}
+				<div
+					style="width: 100%; max-width: 36rem; text-align: center; box-sizing: border-box; padding: 0 1rem;">
+					<p
+						style="white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; margin: 0;">
+						{profileResponse.description}
+					</p>
+				</div>
 			{/if}
-		</Flex>
-	{/if}
-</Flex>
+
+			<Flex gap="small" width="fit-content" flexWrap="wrap" justifyContent="center">
+				<Button
+					iconbefore="arrow_back"
+					onclick={() => {
+						navigateBack();
+					}}>
+					Back
+				</Button>
+				{#if params.userid === identityState.user?.userID}
+					<LinkButton href="/profile/edit">Edit profile</LinkButton>
+				{:else}
+					<LinkButton href="/profile/edit">Edit your own profile</LinkButton>
+				{/if}
+			</Flex>
+		{/if}
+	</Flex>
+</div>

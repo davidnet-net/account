@@ -9,6 +9,7 @@
 		Link,
 		postFetch,
 		TextField,
+		toast,
 		VisuallyHidden
 	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
@@ -112,7 +113,6 @@
 
 			if (!fetchResult.success) {
 				if (!fetchResult.code) {
-					// TODO: Show unknown error toast!
 					loading = false;
 					return;
 				}
@@ -142,7 +142,8 @@
 			}
 
 			if (!fetchResult.signupToken || !fetchResult.email) {
-				// TODO UNKNOWN ERROR TOAST
+				toast("We lost you!", "Please continue after you login.", "no_accounts", 4000, "subtle");
+				goto("/login");
 				return;
 			}
 
@@ -153,7 +154,6 @@
 
 			goto(`/signup/verify/email?${params.toString()}`);
 		} catch {
-			// TODO ADD UNKNOWN ERROR TOAST
 			loading = false;
 		}
 	}

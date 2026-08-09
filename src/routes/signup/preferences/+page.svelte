@@ -5,7 +5,8 @@
 		currentTheme,
 		Dropdown,
 		Flex,
-		postFetch
+		postFetch,
+		toast
 	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
 
@@ -95,7 +96,8 @@
 	async function submit() {
 		loading = true;
 		if (!signupToken) {
-			// TODO
+			toast("We lost you!", "Please continue after you login.", "no_accounts", 4000, "subtle");
+			goto("/login");
 			loading = false;
 			return;
 		}

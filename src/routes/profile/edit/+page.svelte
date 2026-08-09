@@ -14,7 +14,8 @@
 		TextField,
 		whenAuthReady,
 		identityState,
-		TextArea
+		TextArea,
+		toast
 	} from "@davidnet-net/svelte-ui";
 	import type { PageProps } from "./$types";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
@@ -122,11 +123,7 @@
 							locationVisibility,
 							emailVisibility
 						};
-					} else {
-						// TODO add dropdown error toast
 					}
-				} catch {
-					// TODO add dropdown error toast
 				} finally {
 					loading = false;
 				}
@@ -160,7 +157,7 @@
 			);
 
 			if (result.success) {
-				// TODO add dropdown success toast
+				toast("Profile saved!", "Changes have been succesfully saved.", "edit", 4000, "success");
 				initialSnapshot = {
 					displayName,
 					description,
@@ -171,11 +168,7 @@
 					locationVisibility,
 					emailVisibility
 				};
-			} else {
-				// TODO add dropdown error toast
 			}
-		} catch {
-			// TODO add dropdown error toast
 		} finally {
 			saving = false;
 		}

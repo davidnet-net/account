@@ -13,6 +13,7 @@
 		Lozenge,
 		Modal,
 		navigateBack,
+		toast,
 		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
@@ -46,8 +47,6 @@
 
 		if (result.sessions) {
 			sessions = result.sessions;
-		} else {
-			// TODO ADD TOAST
 		}
 	}
 
@@ -105,9 +104,7 @@
 		);
 
 		if (result.success) {
-			// TODO SUCCESS TOAST
-		} else {
-			// TODO FAILED TOAST
+			toast("Session revoked!", "That session has been revoked.", "logout", 4000, "success");
 		}
 
 		await loadSessions();
@@ -126,9 +123,13 @@
 		);
 
 		if (result.success) {
-			// TODO SUCCESS TOAST
-		} else {
-			// TODO FAILED TOAST
+			toast(
+				"Logged out all!",
+				"You have revoked all sessions except this one.",
+				"logout",
+				4000,
+				"success"
+			);
 		}
 
 		await loadSessions();
