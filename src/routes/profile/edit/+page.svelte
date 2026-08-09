@@ -1,0 +1,387 @@
+<script lang="ts">
+	import {
+		authState,
+		Button,
+		Dropdown,
+		Field,
+		Flex,
+		Icon,
+		LinkButton,
+		navigateBack,
+		patchFetch,
+		getFetch,
+		Skeleton,
+		TextField,
+		whenAuthReady,
+		identityState,
+		TextArea
+	} from "@davidnet-net/svelte-ui";
+	import type { PageProps } from "./$types";
+	import { token } from "@davidnet-net/svelte-ui/tokens";
+	import { PUBLIC_BACKEND_URL } from "$env/static/public";
+	import { goto } from "$app/navigation";
+	import { page } from "$app/state";
+	import countryList from "country-list";
+
+	import * as styles from "./page.css";
+
+	// Form state variables
+	let displayName = $state("");
+	let description = $state("");
+	let countryCode = $state("");
+	let location = $state("");
+
+	// Privacy settings state
+	let languageVisibility = $state("private");
+	let timezoneVisibility = $state("private");
+	let locationVisibility = $state("private");
+	let emailVisibility = $state("private");
+
+	// Baseline snapshot to check for unsaved changes
+	let initialSnapshot = $state({
+		displayName: "",
+		description: "",
+		countryCode: "",
+		location: "",
+		languageVisibility: "private",
+		timezoneVisibility: "private",
+		locationVisibility: "private",
+		emailVisibility: "private"
+	});
+
+	// Dropdown open states
+	let countryDropdownOpen = $state(false);
+	let langVisDropdownOpen = $state(false);
+	let tzVisDropdownOpen = $state(false);
+	let locVisDropdownOpen = $state(false);
+	let emailVisDropdownOpen = $state(false);
+
+	let loading = $state(true);
+	let saving = $state(false);
+
+	// Map the package's data into the format your Dropdown expects, prepending "None"
+	const rawData = countryList.getData();
+	const countryCodes = [
+		{ value: "", label: "None" },
+		...rawData
+			.map((c) => ({ value: c.code, label: `${c.name} (${c.code})` }))
+			.sort((a, b) => a.label.localeCompare(b.label))
+	];
+
+	const visibilityOptions = [
+		{ value: "private", label: "Private" },
+		{ value: "organizations", label: "Organizations" },
+		{ value: "connections", label: "Connections" },
+		{ value: "organizations_and_connections", label: "Organizations & Connections" },
+		{ value: "public", label: "Public" }
+	];
+
+	// Computed check to see if any form fields have been modified
+	let hasChanges = $derived(
+		displayName !== initialSnapshot.displayName ||
+			description !== initialSnapshot.description ||
+			countryCode !== initialSnapshot.countryCode ||
+			location !== initialSnapshot.location ||
+			languageVisibility !== initialSnapshot.languageVisibility ||
+			timezoneVisibility !== initialSnapshot.timezoneVisibility ||
+			locationVisibility !== initialSnapshot.locationVisibility ||
+			emailVisibility !== initialSnapshot.emailVisibility
+	);
+
+	$effect(() => {
+		(async () => {
+			await whenAuthReady();
+			if (!authState.isLoggedIn && !authState.loading) {
+				goto(`/login?continue=${encodeURIComponent(page.url.href)}`);
+				return;
+			}
+
+			if (authState.isLoggedIn && identityState.user?.userID) {
+				try {
+					const result = await getFetch(
+						`${PUBLIC_BACKEND_URL}/auth/profile`,
+						{ user: identityState.user.userID },
+						undefined,
+						true
+					);
+
+					if (result.success && result.profileResponse) {
+						displayName = result.profileResponse.displayName || "";
+						description = result.profileResponse.description || "";
+						countryCode = result.profileResponse.countryCode || "";
+						location = result.profileResponse.location || "";
+
+						// Save current values to baseline snapshot
+						initialSnapshot = {
+							displayName,
+							description,
+							countryCode,
+							location,
+							languageVisibility,
+							timezoneVisibility,
+							locationVisibility,
+							emailVisibility
+						};
+					} else {
+						// TODO add dropdown error toast
+					}
+				} catch {
+					// TODO add dropdown error toast
+				} finally {
+					loading = false;
+				}
+			}
+		})();
+	});
+
+	async function handleSave(event: Event) {
+		event.preventDefault();
+		if (!hasChanges) return;
+
+		saving = true;
+
+		try {
+			const payload = {
+				displayName,
+				description,
+				countryCode,
+				location,
+				languageVisibility,
+				timezoneVisibility,
+				locationVisibility,
+				emailVisibility
+			};
+
+			const result = await patchFetch(
+				`${PUBLIC_BACKEND_URL}/auth/profile`,
+				payload,
+				undefined,
+				true
+			);
+
+			if (result.success) {
+				// TODO add dropdown success toast
+				initialSnapshot = {
+					displayName,
+					description,
+					countryCode,
+					location,
+					languageVisibility,
+					timezoneVisibility,
+					locationVisibility,
+					emailVisibility
+				};
+			} else {
+				// TODO add dropdown error toast
+			}
+		} catch {
+			// TODO add dropdown error toast
+		} finally {
+			saving = false;
+		}
+	}
+</script>
+
+<div class={styles.page}>
+	<div class={styles.card}>
+		<h1 class={styles.title}>Edit Profile</h1>
+		<p class={styles.subtitle}>Update your public profile details and privacy settings.</p>
+
+		{#if loading}
+			<Flex direction="column" gap="medium" marginTop="medium" width="100%">
+				<Skeleton width="100%" height="4rem" />
+				<Skeleton width="100%" height="6rem" />
+				<Skeleton width="100%" height="4rem" />
+			</Flex>
+		{:else}
+			<form id="edit-profile-form" onsubmit={handleSave}>
+				<Flex direction="column" gap="medium" marginTop="medium" width="100%">
+					<div
+						style="border: 1px dashed var(--border-color, #ccc); padding: 1rem; border-radius: 8px;">
+						<h2 class={styles.label} style="margin-bottom: 0.5rem;">Profile & Banner Images</h2>
+						<Flex direction="row" gap="small">
+							<Button appearance="subtle" iconbefore="image" disabled>Change Avatar</Button>
+							<Button appearance="subtle" iconbefore="wallpaper" disabled>Change Banner</Button>
+						</Flex>
+					</div>
+
+					<Field label="Display Name:" name="displayName">
+						<TextField
+							placeholder="Enter your display name"
+							bind:value={displayName}
+							disabled={saving} />
+					</Field>
+
+					<Field label="Description:" name="description">
+						<TextArea
+							maxlength={800}
+							placeholder="Tell us about yourself"
+							bind:value={description}
+							disabled={saving} />
+					</Field>
+
+					<div class={styles.formGroup}>
+						<h3 class={styles.label}>Country Code:</h3>
+						<Dropdown isOpen={countryDropdownOpen}>
+							{#snippet trigger()}
+								<Button
+									stretchwidth
+									alignContent="left"
+									iconbefore="globe"
+									onclick={() => (countryDropdownOpen = !countryDropdownOpen)}>
+									{countryCodes.find((c) => c.value === countryCode)?.label || "None"}
+								</Button>
+							{/snippet}
+							{#each countryCodes as country (country.value)}
+								<Button
+									stretchwidth
+									appearance="subtle"
+									alignContent="left"
+									onclick={() => {
+										countryCode = country.value;
+										countryDropdownOpen = false;
+									}}>
+									{country.label}
+								</Button>
+							{/each}
+						</Dropdown>
+					</div>
+
+					<Field label="Location:" name="location">
+						<TextField placeholder="The moon" bind:value={location} disabled={saving} />
+					</Field>
+
+					<h2 class={styles.label} style="margin-top: 1rem;">Privacy Preferences</h2>
+
+					<div class={styles.formGroup}>
+						<h3 class={styles.label}>Language Visibility:</h3>
+						<Dropdown isOpen={langVisDropdownOpen}>
+							{#snippet trigger()}
+								<Button
+									stretchwidth
+									alignContent="left"
+									iconbefore="visibility"
+									onclick={() => (langVisDropdownOpen = !langVisDropdownOpen)}>
+									{visibilityOptions.find((v) => v.value === languageVisibility)?.label}
+								</Button>
+							{/snippet}
+							{#each visibilityOptions as opt (opt.value)}
+								<Button
+									stretchwidth
+									appearance="subtle"
+									alignContent="left"
+									onclick={() => {
+										languageVisibility = opt.value;
+										langVisDropdownOpen = false;
+									}}>
+									{opt.label}
+								</Button>
+							{/each}
+						</Dropdown>
+					</div>
+
+					<div class={styles.formGroup}>
+						<h3 class={styles.label}>Timezone Visibility:</h3>
+						<Dropdown isOpen={tzVisDropdownOpen}>
+							{#snippet trigger()}
+								<Button
+									stretchwidth
+									alignContent="left"
+									iconbefore="visibility"
+									onclick={() => (tzVisDropdownOpen = !tzVisDropdownOpen)}>
+									{visibilityOptions.find((v) => v.value === timezoneVisibility)?.label}
+								</Button>
+							{/snippet}
+							{#each visibilityOptions as opt (opt.value)}
+								<Button
+									stretchwidth
+									appearance="subtle"
+									alignContent="left"
+									onclick={() => {
+										timezoneVisibility = opt.value;
+										tzVisDropdownOpen = false;
+									}}>
+									{opt.label}
+								</Button>
+							{/each}
+						</Dropdown>
+					</div>
+
+					<div class={styles.formGroup}>
+						<h3 class={styles.label}>Location Visibility:</h3>
+						<Dropdown isOpen={locVisDropdownOpen}>
+							{#snippet trigger()}
+								<Button
+									stretchwidth
+									alignContent="left"
+									iconbefore="visibility"
+									onclick={() => (locVisDropdownOpen = !locVisDropdownOpen)}>
+									{visibilityOptions.find((v) => v.value === locationVisibility)?.label}
+								</Button>
+							{/snippet}
+							{#each visibilityOptions as opt (opt.value)}
+								<Button
+									stretchwidth
+									appearance="subtle"
+									alignContent="left"
+									onclick={() => {
+										locationVisibility = opt.value;
+										locVisDropdownOpen = false;
+									}}>
+									{opt.label}
+								</Button>
+							{/each}
+						</Dropdown>
+					</div>
+
+					<div class={styles.formGroup}>
+						<h3 class={styles.label}>Email Visibility:</h3>
+						<Dropdown isOpen={emailVisDropdownOpen}>
+							{#snippet trigger()}
+								<Button
+									stretchwidth
+									alignContent="left"
+									iconbefore="visibility"
+									onclick={() => (emailVisDropdownOpen = !emailVisDropdownOpen)}>
+									{visibilityOptions.find((v) => v.value === emailVisibility)?.label}
+								</Button>
+							{/snippet}
+							{#each visibilityOptions as opt (opt.value)}
+								<Button
+									stretchwidth
+									appearance="subtle"
+									alignContent="left"
+									onclick={() => {
+										emailVisibility = opt.value;
+										emailVisDropdownOpen = false;
+									}}>
+									{opt.label}
+								</Button>
+							{/each}
+						</Dropdown>
+					</div>
+
+					<Button
+						form="edit-profile-form"
+						type="submit"
+						appearance="primary"
+						loading={saving}
+						disabled={!hasChanges}>
+						Save Changes
+					</Button>
+				</Flex>
+			</form>
+		{/if}
+
+		<div class={styles.cardActions} style="margin-top: 1.5rem;">
+			<LinkButton href="/profile/{identityState.user?.userID}">View Profile</LinkButton>
+			<Button
+				iconbefore="arrow_back"
+				onclick={() => {
+					navigateBack();
+				}}>
+				Back
+			</Button>
+		</div>
+	</div>
+</div>

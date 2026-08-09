@@ -10,6 +10,7 @@
 		getFetch,
 		identityState,
 		LinkButton,
+		Lozenge,
 		Modal,
 		navigateBack,
 		whenAuthReady
@@ -236,7 +237,7 @@
 										</td>
 										<td style={`padding: ${token.global.spacing.small}`}>
 											{#if session.jwtId === identityState.token?.jwtID}
-												Current
+												<Lozenge appearance="primary">Current</Lozenge>
 											{:else}
 												<Button
 													{loading}
