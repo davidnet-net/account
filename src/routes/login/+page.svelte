@@ -137,6 +137,15 @@
 			}
 		}
 
+		if (result.code === "MFA_REQUIRED") {
+			const params = new URLSearchParams({
+				mfaToken: result.mfaToken
+			});
+
+			goto(`/login/2fa?${params.toString()}`);
+			return;
+		}
+
 		if (!result.success) {
 			// TODO UNKNOWN ERROR TOAST
 			loading = false;

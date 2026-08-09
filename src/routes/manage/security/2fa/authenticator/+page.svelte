@@ -137,7 +137,8 @@
 			<div>
 				<span class={styles.subtitle}>
 					Lets set up your authenticator first scan the QR-Code with your app of choice. After enter
-					the TOTP code it generates to verify it went successfully.
+					the TOTP code it generates to verify it went successfully. Dont forget to also generate
+					recovery codes.
 				</span>
 				<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 					{#if !otpUri}
