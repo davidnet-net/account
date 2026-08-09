@@ -84,9 +84,9 @@
 				{#each auditLogs as auditLog (auditLog.id)}
 					<div class={styles.auditCard}>
 						<p>
-							{#each auditLog.message.split(".") as sentence, index (index)}
+							{#each auditLog.message.split(". ") as sentence, index (index)}
 								{sentence}
-								{#if index < auditLog.message.split(".").length - 1}
+								{#if index < auditLog.message.split(". ").length - 2}
 									<br />
 								{/if}
 							{/each}
