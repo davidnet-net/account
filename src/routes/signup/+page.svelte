@@ -237,7 +237,7 @@
 			</Button>
 		</Form>
 		<Flex marginTop="large" width="100%" alignItems="center" direction="column" gap="small">
-			<Link disabled={loading} href="#">{m.common_Help()}</Link>
+			<Link disabled={loading} href="https://davidnet.net/help">{m.common_Help()}</Link>
 			<Link disabled={loading} href="/login">{m.common_Login()}</Link>
 		</Flex>
 	</div>

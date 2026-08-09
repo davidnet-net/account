@@ -213,7 +213,7 @@
 			<Button form="login-form" type="submit" appearance="primary" {loading}>Log in</Button>
 		</Form>
 		<Flex marginTop="large" width="100%" alignItems="center" direction="column" gap="small">
-			<Link disabled={loading} href="#">Help</Link>
+			<Link disabled={loading} href="https://davidnet.net/help">Help</Link>
 			<Link disabled={loading} href="/signup">Sign up</Link>
 			<Link disabled={loading} href="/recovery">Account recovery</Link>
 		</Flex>

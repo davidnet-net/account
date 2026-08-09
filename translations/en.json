@@ -13,6 +13,7 @@
 	"common_errors_PASSWORD_LENGTH": "Password must be at least 8 characters.",
 	"common_errors_PASSWORD_PWNED": "This password has appeared in a known data breach and is not safe to use.",
 	"common_errors_SAME_PASSWORD": "This is the same password.",
+	"common_errors_FORCE_NEW_PASSWORD": "You may not choose your current password.",
 	"page_signup_errors_LEGAL_NOT_ACCEPTED": "You must accept and understand the Terms of Service and Privacy Policy to continue.",
 	"page_signup_enter_your_email": "Enter your email",
 	"page_signup_enter_your_username": "Enter your username",
