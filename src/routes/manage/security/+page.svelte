@@ -127,6 +127,11 @@
 			</p>
 			<LinkButton href="/manage/security/sessions">View current sessions</LinkButton>
 		</Flex>
+		<Flex direction="column" gap="none" marginTop="large" width="100%">
+			<h2 class={styles.label}>Audit logs:</h2>
+			<p class={styles.subtitle}>View recent activity.</p>
+			<LinkButton href="/manage/security/audit">View account audit logs</LinkButton>
+		</Flex>
 		<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 			<div class={styles.cardActions}>
 				<LinkButton href="/">My account</LinkButton>
