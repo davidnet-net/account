@@ -17,7 +17,8 @@
 		whenAuthReady,
 		identityState,
 		TextArea,
-		toast
+		toast,
+		syncProfileData
 	} from "@davidnet-net/svelte-ui";
 	import type { PageProps } from "./$types";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
@@ -188,6 +189,7 @@
 						"success"
 					);
 				}
+				await syncProfileData();
 			}
 		} catch (err) {
 			console.error(err);
@@ -234,6 +236,7 @@
 					locationVisibility,
 					emailVisibility
 				};
+				await syncProfileData();
 			}
 		} finally {
 			saving = false;
