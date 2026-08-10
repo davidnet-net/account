@@ -188,12 +188,9 @@
 						"success"
 					);
 				}
-			} else {
-				toast("Upload failed", "Could not upload image.", "error", 4000, "danger");
 			}
 		} catch (err) {
 			console.error(err);
-			toast("Error", "An unexpected error occurred during upload.", "error", 4000, "danger");
 		} finally {
 			if (type === "avatar") uploadingAvatar = false;
 			else uploadingBanner = false;
