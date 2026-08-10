@@ -145,7 +145,7 @@
 	function triggerImageUpload(type: "avatar" | "banner") {
 		const input = document.createElement("input");
 		input.type = "file";
-		input.accept = "image/jpeg,image/png,image/webp";
+		input.accept = "image/jpeg,image/png,image/webp,image/avif";
 		input.onchange = async (e: Event) => {
 			const target = e.target as HTMLInputElement;
 			if (target.files && target.files[0]) {
@@ -166,7 +166,6 @@
 
 			const endpoint = `${PUBLIC_BACKEND_URL}/auth/profile/${type}`;
 
-			// putFetch now accepts FormData natively!
 			const result = await putFetch(endpoint, formData, undefined, true);
 
 			if (result.success) {
@@ -265,12 +264,12 @@
 						<div
 							class={styles.bannerPreview}
 							style={bannerUrl ? `background-image: url(${bannerUrl});` : ""}>
-							<div class={styles.overlayCenter}>
+							<div class={styles.bannerOverlay}>
 								<IconButton
 									icon="wallpaper"
 									tip="Change Banner"
 									loading={uploadingBanner}
-									appearance="primary"
+									appearance="default"
 									onclick={() => triggerImageUpload("banner")} />
 							</div>
 

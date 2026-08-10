@@ -100,6 +100,16 @@ export const overlayCenter = style({
 	}
 });
 
+export const bannerOverlay = style({
+	position: "absolute",
+	bottom: "8px",
+	right: "8px",
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "center",
+	zIndex: 2
+});
+
 export const cardActions = style({
 	display: "flex",
 	justifyContent: "flex-end",
