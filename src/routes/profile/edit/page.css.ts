@@ -47,6 +47,59 @@ export const label = style({
 	color: token.theme.color.text.default
 });
 
+export const imageSectionContainer = style({
+	display: "flex",
+	flexDirection: "column",
+	gap: token.global.spacing.xsmall,
+	width: "100%"
+});
+
+export const bannerPreview = style({
+	position: "relative",
+	width: "100%",
+	height: "140px",
+	borderRadius: token.global.radius.large,
+	backgroundColor: token.theme.color.background.subtle.normal,
+	backgroundSize: "cover",
+	backgroundPosition: "center",
+	border: `${token.global.borderWidth.standard} solid ${token.theme.color.border.default}`,
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "center"
+});
+
+export const avatarPreview = style({
+	position: "relative",
+	width: "80px",
+	height: "80px",
+	borderRadius: "50%",
+	backgroundColor: token.theme.color.surface.default.normal,
+	backgroundSize: "cover",
+	backgroundPosition: "center",
+	border: `2px solid ${token.theme.color.border.default}`,
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "center",
+	boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)"
+});
+
+export const overlayCenter = style({
+	position: "absolute",
+	inset: 0,
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "center",
+	backgroundColor: "rgba(0, 0, 0, 0.35)",
+	borderRadius: "inherit",
+	opacity: 0,
+	transition: `opacity ${token.global.transition.duration.standard} ${token.global.transition.timing.ease}`,
+	selectors: {
+		"&:hover": {
+			opacity: 1
+		}
+	}
+});
+
 export const cardActions = style({
 	display: "flex",
 	justifyContent: "flex-end",

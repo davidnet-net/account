@@ -2,6 +2,7 @@
 	import {
 		authState,
 		Button,
+		IconButton,
 		Dropdown,
 		Field,
 		Flex,
@@ -9,6 +10,7 @@
 		LinkButton,
 		navigateBack,
 		patchFetch,
+		putFetch,
 		getFetch,
 		Skeleton,
 		TextField,
@@ -31,6 +33,12 @@
 	let description = $state("");
 	let countryCode = $state("");
 	let location = $state("");
+	let avatarUrl = $state<string | null>(null);
+	let bannerUrl = $state<string | null>(null);
+
+	// Upload states
+	let uploadingAvatar = $state(false);
+	let uploadingBanner = $state(false);
 
 	// Privacy settings state
 	let languageVisibility = $state("private");
@@ -111,6 +119,8 @@
 						description = result.profileResponse.description || "";
 						countryCode = result.profileResponse.countryCode || "";
 						location = result.profileResponse.location || "";
+						avatarUrl = result.profileResponse.avatarUrl || null;
+						bannerUrl = result.profileResponse.bannerUrl || null;
 
 						// Save current values to baseline snapshot
 						initialSnapshot = {
@@ -130,6 +140,66 @@
 			}
 		})();
 	});
+
+	// File input handlers for Avatar & Banner
+	function triggerImageUpload(type: "avatar" | "banner") {
+		const input = document.createElement("input");
+		input.type = "file";
+		input.accept = "image/jpeg,image/png,image/webp";
+		input.onchange = async (e: Event) => {
+			const target = e.target as HTMLInputElement;
+			if (target.files && target.files[0]) {
+				const file = target.files[0];
+				await uploadImageFile(file, type);
+			}
+		};
+		input.click();
+	}
+
+	async function uploadImageFile(file: File, type: "avatar" | "banner") {
+		if (type === "avatar") uploadingAvatar = true;
+		else uploadingBanner = true;
+
+		try {
+			const formData = new FormData();
+			formData.append("image", file);
+
+			const endpoint = `${PUBLIC_BACKEND_URL}/auth/profile/${type}`;
+
+			// putFetch now accepts FormData natively!
+			const result = await putFetch(endpoint, formData, undefined, true);
+
+			if (result.success) {
+				if (type === "avatar") {
+					avatarUrl = result.url;
+					toast(
+						"Avatar updated",
+						"Your profile picture has been updated.",
+						"image",
+						4000,
+						"success"
+					);
+				} else {
+					bannerUrl = result.url;
+					toast(
+						"Banner updated",
+						"Your profile banner has been updated.",
+						"wallpaper",
+						4000,
+						"success"
+					);
+				}
+			} else {
+				toast("Upload failed", "Could not upload image.", "error", 4000, "danger");
+			}
+		} catch (err) {
+			console.error(err);
+			toast("Error", "An unexpected error occurred during upload.", "error", 4000, "danger");
+		} finally {
+			if (type === "avatar") uploadingAvatar = false;
+			else uploadingBanner = false;
+		}
+	}
 
 	async function handleSave(event: Event) {
 		event.preventDefault();
@@ -157,7 +227,7 @@
 			);
 
 			if (result.success) {
-				toast("Profile saved!", "Changes have been succesfully saved.", "edit", 4000, "success");
+				toast("Profile saved!", "Changes have been successfully saved.", "edit", 4000, "success");
 				initialSnapshot = {
 					displayName,
 					description,
@@ -189,13 +259,34 @@
 		{:else}
 			<form id="edit-profile-form" onsubmit={handleSave}>
 				<Flex direction="column" gap="medium" marginTop="medium" width="100%">
-					<div
-						style="border: 1px dashed var(--border-color, #ccc); padding: 1rem; border-radius: 8px;">
+					<div class={styles.imageSectionContainer}>
 						<h2 class={styles.label} style="margin-bottom: 0.5rem;">Profile & Banner Images</h2>
-						<Flex direction="row" gap="small">
-							<Button appearance="subtle" iconbefore="image" disabled>Change Avatar</Button>
-							<Button appearance="subtle" iconbefore="wallpaper" disabled>Change Banner</Button>
-						</Flex>
+
+						<div
+							class={styles.bannerPreview}
+							style={bannerUrl ? `background-image: url(${bannerUrl});` : ""}>
+							<div class={styles.overlayCenter}>
+								<IconButton
+									icon="wallpaper"
+									tip="Change Banner"
+									loading={uploadingBanner}
+									appearance="primary"
+									onclick={() => triggerImageUpload("banner")} />
+							</div>
+
+							<div
+								class={styles.avatarPreview}
+								style={avatarUrl ? `background-image: url(${avatarUrl});` : ""}>
+								<div class={styles.overlayCenter}>
+									<IconButton
+										icon="image"
+										tip="Change Avatar"
+										loading={uploadingAvatar}
+										appearance="primary"
+										onclick={() => triggerImageUpload("avatar")} />
+								</div>
+							</div>
+						</div>
 					</div>
 
 					<Field label="Display Name:" name="displayName">
