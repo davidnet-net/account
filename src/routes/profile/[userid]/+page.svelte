@@ -78,7 +78,8 @@
 		{:else}
 			<div
 				class={styles.profileBanner}
-				style="background-image: url({profileResponse.bannerUrl}); width: 100%; max-width: 100%; background-size: cover; background-position: center;">
+				style="background-image: url({profileResponse.bannerUrl}); width: 100%; max-width: 100%; background-size: cover; background-position: center; border-radius: {token
+					.global.radius.large};">
 				<Flex width="100%" height="100%" justifyContent="center" alignItems="center">
 					<Avatar src={profileResponse.avatarUrl || ""} size="xgiant" />
 				</Flex>
