@@ -266,7 +266,7 @@
 							style={bannerUrl ? `background-image: url(${bannerUrl});` : ""}>
 							<div class={styles.bannerOverlay}>
 								<IconButton
-									icon="wallpaper"
+									icon="edit"
 									tip="Change banner"
 									loading={uploadingBanner}
 									appearance="default"
@@ -278,7 +278,7 @@
 								style={avatarUrl ? `background-image: url(${avatarUrl});` : ""}>
 								<div class={styles.overlayCenter}>
 									<IconButton
-										icon="image"
+										icon="edit"
 										tip="Change avatar"
 										loading={uploadingAvatar}
 										appearance="default"
