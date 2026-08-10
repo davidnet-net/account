@@ -267,7 +267,7 @@
 							<div class={styles.bannerOverlay}>
 								<IconButton
 									icon="wallpaper"
-									tip="Change Banner"
+									tip="Change banner"
 									loading={uploadingBanner}
 									appearance="default"
 									onclick={() => triggerImageUpload("banner")} />
@@ -279,9 +279,9 @@
 								<div class={styles.overlayCenter}>
 									<IconButton
 										icon="image"
-										tip="Change Avatar"
+										tip="Change avatar"
 										loading={uploadingAvatar}
-										appearance="primary"
+										appearance="default"
 										onclick={() => triggerImageUpload("avatar")} />
 								</div>
 							</div>

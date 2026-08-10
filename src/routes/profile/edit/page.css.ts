@@ -90,14 +90,7 @@ export const overlayCenter = style({
 	alignItems: "center",
 	justifyContent: "center",
 	backgroundColor: "rgba(0, 0, 0, 0.35)",
-	borderRadius: "inherit",
-	opacity: 0,
-	transition: `opacity ${token.global.transition.duration.standard} ${token.global.transition.timing.ease}`,
-	selectors: {
-		"&:hover": {
-			opacity: 1
-		}
-	}
+	borderRadius: "inherit"
 });
 
 export const bannerOverlay = style({
