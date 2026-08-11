@@ -4,6 +4,7 @@
 		Avatar,
 		Flex,
 		getFetch,
+		postFetch,
 		Lozenge,
 		Icon,
 		Skeleton,
@@ -30,25 +31,131 @@
 		language: string | undefined;
 		timezone: string | undefined;
 		email: string | undefined;
+		connectionsCount: number;
 	}
 
 	import * as styles from "./page.css";
 
 	let profileResponse: undefined | ProfileResponse = $state(undefined);
+	let friendStatus: "accepted" | "rejected" | "pending" | "none" = $state("none");
+	let isIncomingRequest = $state(false);
+	let isBlocked = $state(false);
+
+	async function loadData() {
+		const profileResult = await getFetch(
+			PUBLIC_BACKEND_URL + "/auth/profile",
+			{ user: params.userid },
+			undefined,
+			authState.isLoggedIn
+		);
+
+		if (profileResult.success) {
+			profileResponse = profileResult.profileResponse;
+		}
+
+		if (!authState.isLoggedIn) {
+			return;
+		}
+
+		// Fetch connection status via GET
+		const connectionResult = await getFetch(
+			PUBLIC_BACKEND_URL + "/social/connections/status",
+			{ requestedUserID: params.userid },
+			undefined,
+			true
+		);
+
+		if (connectionResult.success) {
+			friendStatus = connectionResult.status;
+		}
+
+		// Fetch full connections list via GET
+		const connectionsListResult = await getFetch(
+			PUBLIC_BACKEND_URL + "/social/connections",
+			undefined,
+			undefined,
+			true
+		);
+
+		if (connectionsListResult.success) {
+			isIncomingRequest = connectionsListResult.incoming?.some(
+				(req: any) => req.userId === params.userid
+			);
+			isBlocked = connectionsListResult.blocked?.some(
+				(block: any) => block.userId === params.userid
+			);
+		}
+	}
+
+	async function sendConnectionRequest() {
+		const res = await postFetch(
+			PUBLIC_BACKEND_URL + "/social/connections/send-connection-request",
+			{ requestedUserID: params.userid },
+			undefined,
+			true
+		);
+		if (res.success) {
+			friendStatus = "pending";
+			isIncomingRequest = false;
+		}
+	}
+
+	async function acceptConnectionRequest() {
+		const res = await postFetch(
+			PUBLIC_BACKEND_URL + "/social/connections/accept-connection-request",
+			{ requestedUserID: params.userid },
+			undefined,
+			true
+		);
+		if (res.success) {
+			friendStatus = "accepted";
+			isIncomingRequest = false;
+		}
+	}
+
+	async function rejectConnectionRequest() {
+		const res = await postFetch(
+			PUBLIC_BACKEND_URL + "/social/connections/reject-connection-request",
+			{ requestedUserID: params.userid },
+			undefined,
+			true
+		);
+		if (res.success) {
+			friendStatus = "rejected";
+			isIncomingRequest = false;
+		}
+	}
+
+	async function blockUser() {
+		const res = await postFetch(
+			PUBLIC_BACKEND_URL + "/social/connections/block",
+			{ requestedUserID: params.userid },
+			undefined,
+			true
+		);
+		if (res.success) {
+			isBlocked = true;
+			friendStatus = "none";
+			isIncomingRequest = false;
+		}
+	}
+
+	async function unblockUser() {
+		const res = await postFetch(
+			PUBLIC_BACKEND_URL + "/social/connections/unblock",
+			{ requestedUserID: params.userid },
+			undefined,
+			true
+		);
+		if (res.success) {
+			isBlocked = false;
+		}
+	}
+
 	$effect(() => {
 		(async () => {
 			await whenAuthReady();
-
-			const result = await getFetch(
-				PUBLIC_BACKEND_URL + "/auth/profile",
-				{ user: params.userid },
-				undefined,
-				authState.isLoggedIn
-			);
-
-			if (result.success) {
-				profileResponse = result.profileResponse;
-			}
+			await loadData();
 		})();
 	});
 </script>
@@ -111,6 +218,15 @@
 					</Lozenge>
 				{/if}
 
+				{#if profileResponse.connectionsCount}
+					<Lozenge>
+						<Flex direction="row" gap="xsmall" alignItems="center">
+							<Icon icon="contacts_product" />
+							<span>{profileResponse.connectionsCount}</span>
+						</Flex>
+					</Lozenge>
+				{/if}
+
 				{#if profileResponse.location}
 					<Lozenge>
 						<Flex direction="row" gap="xsmall" alignItems="center">
@@ -147,6 +263,35 @@
 					</Lozenge>
 				{/if}
 
+				{#if isBlocked}
+					<Lozenge appearance="danger">
+						<Flex direction="row" gap="xsmall" alignItems="center">
+							<Icon icon="block" />
+							<span>Blocked</span>
+						</Flex>
+					</Lozenge>
+				{:else}
+					{#if friendStatus === "accepted"}
+						<Lozenge>
+							<Flex direction="row" gap="xsmall" alignItems="center">
+								<Icon icon="emoji_people" />
+								<span style="word-break: break-all;">Connection</span>
+							</Flex>
+						</Lozenge>
+					{/if}
+
+					{#if friendStatus === "pending"}
+						<Lozenge appearance="discover">
+							<Flex direction="row" gap="xsmall" alignItems="center">
+								<Icon icon="emoji_people" />
+								<span style="word-break: break-all;">
+									{isIncomingRequest ? "Incoming request" : "Connection pending"}
+								</span>
+							</Flex>
+						</Lozenge>
+					{/if}
+				{/if}
+
 				{#if params.userid === identityState.user?.userID}
 					<Lozenge>
 						<Flex direction="row" gap="xsmall" alignItems="center">
@@ -175,10 +320,21 @@
 					}}>
 					Back
 				</Button>
+
 				{#if params.userid === identityState.user?.userID}
 					<LinkButton href="/profile/edit">Edit profile</LinkButton>
-				{:else}
-					<LinkButton href="/profile/edit">Edit your own profile</LinkButton>
+				{:else if authState.isLoggedIn}
+					{#if isBlocked}
+						<Button onclick={unblockUser}>Unblock</Button>
+					{:else}
+						{#if friendStatus === "none" || friendStatus === "rejected"}
+							<Button onclick={sendConnectionRequest}>Send connection request</Button>
+						{:else if friendStatus === "pending" && isIncomingRequest}
+							<Button onclick={acceptConnectionRequest}>Accept request</Button>
+							<Button onclick={rejectConnectionRequest}>Reject request</Button>
+						{/if}
+						<Button onclick={blockUser}>Block</Button>
+					{/if}
 				{/if}
 			</Flex>
 		{/if}
