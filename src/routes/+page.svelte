@@ -73,7 +73,7 @@
 					<HorizontalCard
 						title="Privacy and data"
 						icon="privacy_tip"
-						href="/manage/data/internal"
+						href="/manage/data"
 						description="Manage your information." />
 				</Flex>
 			</Flex>
@@ -120,7 +120,7 @@
 					<Card
 						title="Privacy and data"
 						icon="privacy_tip"
-						href="/manage/data/internal"
+						href="/manage/data"
 						description="Manage your information." />
 				</Flex>
 			</Flex>

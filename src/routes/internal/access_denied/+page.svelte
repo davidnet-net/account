@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { appState, Button, Icon, LinkButton } from "@davidnet-net/svelte-ui";
+	import { appState, authState, Button, Icon, LinkButton } from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
 
 	import { styles } from "./page.css";
@@ -33,9 +33,7 @@
 		<Button appearance="primary" iconbefore="arrow_back" onclick={() => history.back()}>
 			Back
 		</Button>
-		<LinkButton href="https://account.davidnet.net/manage/data/internal">
-			Your access information
-		</LinkButton>
+		<LinkButton href="https://account.davidnet.net/internal/access">Reviewysour access</LinkButton>
 		<LinkButton href="/">My account</LinkButton>
 	</div>
 </div>
