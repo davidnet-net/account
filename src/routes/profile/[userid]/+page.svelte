@@ -12,7 +12,8 @@
 		identityState,
 		LinkButton,
 		navigateBack,
-		Button
+		Button,
+		toast
 	} from "@davidnet-net/svelte-ui";
 	import type { PageProps } from "./$types";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
@@ -97,6 +98,27 @@
 		if (res.success) {
 			friendStatus = "pending";
 			isIncomingRequest = false;
+			toast("Request sent", "Connection request has been sent.", "send", 3000, "subtle");
+		} else {
+			if (res.code === "REJECTION_COOLDOWN_ACTIVE") {
+				toast(
+					"Cannot Send Request",
+					res.error || "You must wait 24 hours after a rejection before sending a new request.",
+					"acute",
+					4000,
+					"warning"
+				);
+			} else if (res.code === "SELF_CONNECTION_ERROR") {
+				toast(
+					"Invalid Action",
+					"You cannot send a connection request to yourself.",
+					"acute",
+					4000,
+					"warning"
+				);
+			} else {
+				toast("Error", res.error || "Failed to send connection request.", "error", 4000, "danger");
+			}
 		}
 	}
 
@@ -110,6 +132,15 @@
 		if (res.success) {
 			friendStatus = "accepted";
 			isIncomingRequest = false;
+			toast(
+				profileResponse?.displayName + " has been accepted",
+				"You have accepted the connection request.",
+				"check",
+				3000,
+				"subtle"
+			);
+		} else {
+			toast("Error", res.error || "Failed to accept request.", "error", 4000, "danger");
 		}
 	}
 
@@ -121,8 +152,17 @@
 			true
 		);
 		if (res.success) {
+			toast(
+				profileResponse?.displayName + " has been rejected",
+				"You have rejected the connection request.",
+				"close",
+				3000,
+				"subtle"
+			);
 			friendStatus = "rejected";
 			isIncomingRequest = false;
+		} else {
+			toast("Error", res.error || "Failed to reject request.", "error", 4000, "danger");
 		}
 	}
 
@@ -137,6 +177,19 @@
 			isBlocked = true;
 			friendStatus = "none";
 			isIncomingRequest = false;
+			toast(
+				profileResponse?.displayName + " has been blocked",
+				"You will not receive connection requests from this user.",
+				"block",
+				3000,
+				"success"
+			);
+		} else {
+			if (res.code === "SELF_BLOCK_ERROR") {
+				toast("Invalid Action", "You cannot block yourself.", "acute", 4000, "warning");
+			} else {
+				toast("Error", res.error || "Failed to block user.", "error", 4000, "danger");
+			}
 		}
 	}
 
@@ -149,6 +202,15 @@
 		);
 		if (res.success) {
 			isBlocked = false;
+			toast(
+				"User unblocked",
+				"You can now receive interactions from this user.",
+				"check_circle",
+				3000,
+				"success"
+			);
+		} else {
+			toast("Error", res.error || "Failed to unblock user.", "error", 4000, "danger");
 		}
 	}
 
