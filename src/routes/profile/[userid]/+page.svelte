@@ -41,8 +41,10 @@
 	let friendStatus: "accepted" | "rejected" | "pending" | "none" = $state("none");
 	let isIncomingRequest = $state(false);
 	let isBlocked = $state(false);
+	let isLoadingState = $state(true);
 
 	async function loadData() {
+		isLoadingState = true;
 		const profileResult = await getFetch(
 			PUBLIC_BACKEND_URL + "/auth/profile",
 			{ user: params.userid },
@@ -55,10 +57,29 @@
 		}
 
 		if (!authState.isLoggedIn) {
+			isLoadingState = false;
 			return;
 		}
 
-		// Fetch connection status via GET
+		// 1. Fetch full connections/blocks list first to correctly evaluate block and request states
+		const connectionsListResult = await getFetch(
+			PUBLIC_BACKEND_URL + "/social/connections",
+			undefined,
+			undefined,
+			true
+		);
+
+		if (connectionsListResult.success) {
+			isBlocked = connectionsListResult.blocked?.some(
+				(block: any) => block.userId === params.userid
+			);
+
+			isIncomingRequest = connectionsListResult.incoming?.some(
+				(req: any) => req.userId === params.userid
+			);
+		}
+
+		// 2. Fetch specific connection status via GET
 		const connectionResult = await getFetch(
 			PUBLIC_BACKEND_URL + "/social/connections/status",
 			{ requestedUserID: params.userid },
@@ -70,22 +91,7 @@
 			friendStatus = connectionResult.status;
 		}
 
-		// Fetch full connections list via GET
-		const connectionsListResult = await getFetch(
-			PUBLIC_BACKEND_URL + "/social/connections",
-			undefined,
-			undefined,
-			true
-		);
-
-		if (connectionsListResult.success) {
-			isIncomingRequest = connectionsListResult.incoming?.some(
-				(req: any) => req.userId === params.userid
-			);
-			isBlocked = connectionsListResult.blocked?.some(
-				(block: any) => block.userId === params.userid
-			);
-		}
+		isLoadingState = false;
 	}
 
 	async function sendConnectionRequest() {
@@ -100,7 +106,17 @@
 			isIncomingRequest = false;
 			toast("Request sent", "Connection request has been sent.", "send", 3000, "subtle");
 		} else {
-			if (res.code === "REJECTION_COOLDOWN_ACTIVE") {
+			if (res.code === "CONNECTION_ALREADY_PENDING" || res.code === "CONNECTION_ALREADY_ACCEPTED") {
+				friendStatus = res.code === "CONNECTION_ALREADY_ACCEPTED" ? "accepted" : "pending";
+				toast(
+					"Notice",
+					res.error || "A connection status already exists.",
+					"info",
+					4000,
+					"warning"
+				);
+			} else if (res.code === "REJECTION_COOLDOWN_ACTIVE") {
+				friendStatus = "rejected";
 				toast(
 					"Cannot Send Request",
 					res.error || "You must wait 24 hours after a rejection before sending a new request.",
@@ -209,6 +225,8 @@
 				3000,
 				"success"
 			);
+			// Reload status to reflect any lingering connection state accurately
+			await loadData();
 		} else {
 			toast("Error", res.error || "Failed to unblock user.", "error", 4000, "danger");
 		}
@@ -231,7 +249,7 @@
 		height="fit-content"
 		marginTop="giant"
 		width="100%">
-		{#if !profileResponse}
+		{#if !profileResponse || isLoadingState}
 			<Skeleton width="100%" height="12rem">
 				<Flex width="100%" height="100%" justifyContent="center" alignItems="center">
 					<Skeleton
