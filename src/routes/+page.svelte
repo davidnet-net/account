@@ -98,7 +98,7 @@
 					<Card
 						title="Help center"
 						icon="contact_support"
-						href="#"
+						href="https://davidnet.net/help"
 						description="Help pages, view your tickets and contact us." />
 				</Flex>
 				<Flex
