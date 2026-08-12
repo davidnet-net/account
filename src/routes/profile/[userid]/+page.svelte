@@ -436,6 +436,7 @@
 
 				{#if params.userid === identityState.user?.userID}
 					<LinkButton href="/profile/edit">Edit profile</LinkButton>
+					<LinkButton href="/profile/connections">Manage connections</LinkButton>
 				{:else if authState.isLoggedIn}
 					{#if isBlocked}
 						<Button onclick={unblockUser}>Unblock</Button>
