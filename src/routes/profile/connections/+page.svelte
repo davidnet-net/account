@@ -6,7 +6,6 @@
 		Button,
 		Flex,
 		getFetch,
-		Icon,
 		LinkButton,
 		navigateBack,
 		postFetch,
@@ -180,7 +179,8 @@
 											justifyContent="between"
 											alignItems="center"
 											width="100%"
-											padding="small">
+											padding="small"
+											gap="medium">
 											<Flex direction="row" gap="small" alignItems="center">
 												<Avatar src={item.user.avatarUrl || ""} size="small" />
 												<Flex direction="column" gap="xsmall">
@@ -194,7 +194,7 @@
 													</span>
 												</Flex>
 											</Flex>
-											<Flex direction="row" gap="small">
+											<Flex direction="row" gap="small" alignItems="center">
 												<LinkButton href="/profile/{item.user.userId}">View Profile</LinkButton>
 												<Button
 													appearance="subtle"
@@ -219,7 +219,8 @@
 											justifyContent="between"
 											alignItems="center"
 											width="100%"
-											padding="small">
+											padding="small"
+											gap="medium">
 											<Flex direction="row" gap="small" alignItems="center">
 												<Avatar src={item.user.avatarUrl || ""} size="small" />
 												<Flex direction="column" gap="xsmall">
@@ -233,7 +234,7 @@
 													</span>
 												</Flex>
 											</Flex>
-											<Flex direction="row" gap="small">
+											<Flex direction="row" gap="small" alignItems="center">
 												<LinkButton href="/profile/{item.user.userId}">View Profile</LinkButton>
 												<Button
 													appearance="primary"
@@ -261,7 +262,8 @@
 											justifyContent="between"
 											alignItems="center"
 											width="100%"
-											padding="small">
+											padding="small"
+											gap="medium">
 											<Flex direction="row" gap="small" alignItems="center">
 												<Avatar src={item.user.avatarUrl || ""} size="small" />
 												<Flex direction="column" gap="xsmall">
@@ -275,7 +277,7 @@
 													</span>
 												</Flex>
 											</Flex>
-											<Flex direction="row" gap="small">
+											<Flex direction="row" gap="small" alignItems="center">
 												<LinkButton href="/profile/{item.user.userId}">View Profile</LinkButton>
 											</Flex>
 										</Flex>
@@ -295,7 +297,8 @@
 											justifyContent="between"
 											alignItems="center"
 											width="100%"
-											padding="small">
+											padding="small"
+											gap="medium">
 											<Flex direction="row" gap="small" alignItems="center">
 												<Avatar src={item.user.avatarUrl || ""} size="small" />
 												<Flex direction="column" gap="xsmall">
@@ -309,7 +312,7 @@
 													</span>
 												</Flex>
 											</Flex>
-											<Flex direction="row" gap="small">
+											<Flex direction="row" gap="small" alignItems="center">
 												<Button appearance="primary" onclick={() => unblockUser(item.user.userId)}>
 													Unblock
 												</Button>
