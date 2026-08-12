@@ -144,7 +144,7 @@
 				class={styles.title}
 				style="font-size: {token.global.font.size.xlarge}; font-weight: {token.global.font.weight
 					.bold}; margin-bottom: {token.global.spacing.medium};">
-				Connections Management
+				Connections
 			</h1>
 
 			{#if isLoading}
