@@ -108,9 +108,8 @@
 			true
 		);
 		if (res.success) {
-			friendStatus = "pending";
-			isIncomingRequest = false;
 			toast("Request sent", "Connection request has been sent.", "send", 3000, "subtle");
+			await loadData();
 		} else {
 			if (res.code === "CONNECTION_ALREADY_PENDING" || res.code === "CONNECTION_ALREADY_ACCEPTED") {
 				await loadData();
@@ -122,7 +121,6 @@
 					"warning"
 				);
 			} else if (res.code === "REJECTION_COOLDOWN_ACTIVE") {
-				friendStatus = "rejected";
 				toast(
 					"Cannot Send Request",
 					res.error || "You must wait 24 hours after a rejection before sending a new request.",
@@ -152,8 +150,6 @@
 			true
 		);
 		if (res.success) {
-			friendStatus = "accepted";
-			isIncomingRequest = false;
 			toast(
 				profileResponse?.displayName + " has been accepted",
 				"You have accepted the connection request.",
@@ -161,6 +157,7 @@
 				3000,
 				"subtle"
 			);
+			await loadData();
 		} else {
 			toast("Error", res.error || "Failed to accept request.", "error", 4000, "danger");
 		}
@@ -181,10 +178,30 @@
 				3000,
 				"subtle"
 			);
-			friendStatus = "rejected";
-			isIncomingRequest = false;
+			await loadData();
 		} else {
 			toast("Error", res.error || "Failed to reject request.", "error", 4000, "danger");
+		}
+	}
+
+	async function removeConnection() {
+		const res = await postFetch(
+			`${PUBLIC_BACKEND_URL}/social/connections/remove-connection`,
+			{ requestedUserID: params.userid },
+			undefined,
+			true
+		);
+		if (res.success) {
+			toast(
+				"Connection removed",
+				"You are no longer connected with this user.",
+				"person_remove",
+				3000,
+				"subtle"
+			);
+			await loadData();
+		} else {
+			toast("Error", res.error || "Failed to remove connection.", "error", 4000, "danger");
 		}
 	}
 
@@ -196,9 +213,6 @@
 			true
 		);
 		if (res.success) {
-			isBlocked = true;
-			friendStatus = "none";
-			isIncomingRequest = false;
 			toast(
 				profileResponse?.displayName + " has been blocked",
 				"You will not receive connection requests from this user.",
@@ -206,6 +220,7 @@
 				3000,
 				"success"
 			);
+			await loadData();
 		} else {
 			if (res.code === "SELF_BLOCK_ERROR") {
 				toast("Invalid Action", "You cannot block yourself.", "acute", 4000, "warning");
@@ -223,7 +238,6 @@
 			true
 		);
 		if (res.success) {
-			isBlocked = false;
 			toast(
 				"User unblocked",
 				"You can now receive interactions from this user.",
@@ -426,7 +440,9 @@
 					{#if isBlocked}
 						<Button onclick={unblockUser}>Unblock</Button>
 					{:else}
-						{#if friendStatus === "none" || friendStatus === "rejected"}
+						{#if friendStatus === "accepted"}
+							<Button onclick={removeConnection}>Remove connection</Button>
+						{:else if friendStatus === "none" || friendStatus === "rejected"}
 							<Button onclick={sendConnectionRequest}>Send connection request</Button>
 						{:else if friendStatus === "pending"}
 							{#if isIncomingRequest}
@@ -434,7 +450,10 @@
 								<Button onclick={rejectConnectionRequest}>Reject connection request</Button>
 							{/if}
 						{/if}
-						<Button onclick={blockUser}>Block</Button>
+
+						{#if friendStatus !== "accepted"}
+							<Button onclick={blockUser}>Block</Button>
+						{/if}
 					{/if}
 				{/if}
 			</Flex>
