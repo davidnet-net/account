@@ -46,9 +46,8 @@
 
 	async function loadData() {
 		if (!authState.isLoggedIn) {
-			// Still load profile for logged out view
 			const profileResult = await getFetch(
-				PUBLIC_BACKEND_URL + "/auth/profile",
+				`${PUBLIC_BACKEND_URL}/auth/profile`,
 				{ user: params.userid },
 				undefined,
 				false
@@ -61,7 +60,7 @@
 		}
 
 		const profileResult = await getFetch(
-			PUBLIC_BACKEND_URL + "/auth/profile",
+			`${PUBLIC_BACKEND_URL}/auth/profile`,
 			{ user: params.userid },
 			undefined,
 			true
@@ -71,9 +70,9 @@
 			profileResponse = profileResult.profileResponse;
 		}
 
-		// 1. Fetch full connections/blocks list first to correctly evaluate block and request states
+		// 1. Fetch full connections/blocks list to evaluate block state accurately
 		const connectionsListResult = await getFetch(
-			PUBLIC_BACKEND_URL + "/social/connections",
+			`${PUBLIC_BACKEND_URL}/social/connections`,
 			undefined,
 			undefined,
 			true
@@ -81,24 +80,21 @@
 
 		if (connectionsListResult.success) {
 			isBlocked = connectionsListResult.blocked?.some(
-				(block: any) => block.userId === params.userid
-			);
-
-			isIncomingRequest = connectionsListResult.incoming?.some(
-				(req: any) => req.userId === params.userid
+				(block: any) => block.userId === params.userid || block.blockedId === params.userid
 			);
 		}
 
-		// 2. Fetch specific connection status via GET
+		// 2. Fetch connection status and direct incoming check from the server endpoint
 		const connectionResult = await getFetch(
-			PUBLIC_BACKEND_URL + "/social/connections/status",
-			{ requestedUserID: params.userid },
+			`${PUBLIC_BACKEND_URL}/social/connections/status`,
+			{ user: params.userid },
 			undefined,
 			true
 		);
 
 		if (connectionResult.success) {
 			friendStatus = connectionResult.status;
+			isIncomingRequest = connectionResult.isIncoming ?? false;
 		}
 
 		isLoadingState = false;
@@ -106,7 +102,7 @@
 
 	async function sendConnectionRequest() {
 		const res = await postFetch(
-			PUBLIC_BACKEND_URL + "/social/connections/send-connection-request",
+			`${PUBLIC_BACKEND_URL}/social/connections/send-connection-request`,
 			{ requestedUserID: params.userid },
 			undefined,
 			true
@@ -116,7 +112,6 @@
 			isIncomingRequest = false;
 			toast("Request sent", "Connection request has been sent.", "send", 3000, "subtle");
 		} else {
-			// If they crossed requests, reload data to switch UI to accept/reject state instantly
 			if (res.code === "CONNECTION_ALREADY_PENDING" || res.code === "CONNECTION_ALREADY_ACCEPTED") {
 				await loadData();
 				toast(
@@ -151,7 +146,7 @@
 
 	async function acceptConnectionRequest() {
 		const res = await postFetch(
-			PUBLIC_BACKEND_URL + "/social/connections/accept-connection-request",
+			`${PUBLIC_BACKEND_URL}/social/connections/accept-connection-request`,
 			{ requestedUserID: params.userid },
 			undefined,
 			true
@@ -173,7 +168,7 @@
 
 	async function rejectConnectionRequest() {
 		const res = await postFetch(
-			PUBLIC_BACKEND_URL + "/social/connections/reject-connection-request",
+			`${PUBLIC_BACKEND_URL}/social/connections/reject-connection-request`,
 			{ requestedUserID: params.userid },
 			undefined,
 			true
@@ -195,7 +190,7 @@
 
 	async function blockUser() {
 		const res = await postFetch(
-			PUBLIC_BACKEND_URL + "/social/connections/block",
+			`${PUBLIC_BACKEND_URL}/social/connections/block`,
 			{ requestedUserID: params.userid },
 			undefined,
 			true
@@ -222,7 +217,7 @@
 
 	async function unblockUser() {
 		const res = await postFetch(
-			PUBLIC_BACKEND_URL + "/social/connections/unblock",
+			`${PUBLIC_BACKEND_URL}/social/connections/unblock`,
 			{ requestedUserID: params.userid },
 			undefined,
 			true
