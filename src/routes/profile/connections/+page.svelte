@@ -182,7 +182,7 @@
 											padding="small"
 											gap="medium">
 											<Flex direction="row" gap="small" alignItems="center">
-												<Avatar src={item.user.avatarUrl || ""} size="small" />
+												<Avatar src={item.user.avatarUrl || ""} size="medium" />
 												<Flex direction="column" gap="xsmall">
 													<span style="font-weight: {token.global.font.weight.medium};">
 														{item.user.displayName}
@@ -222,7 +222,7 @@
 											padding="small"
 											gap="medium">
 											<Flex direction="row" gap="small" alignItems="center">
-												<Avatar src={item.user.avatarUrl || ""} size="small" />
+												<Avatar src={item.user.avatarUrl || ""} size="medium" />
 												<Flex direction="column" gap="xsmall">
 													<span style="font-weight: {token.global.font.weight.medium};">
 														{item.user.displayName}
@@ -265,7 +265,7 @@
 											padding="small"
 											gap="medium">
 											<Flex direction="row" gap="small" alignItems="center">
-												<Avatar src={item.user.avatarUrl || ""} size="small" />
+												<Avatar src={item.user.avatarUrl || ""} size="medium" />
 												<Flex direction="column" gap="xsmall">
 													<span style="font-weight: {token.global.font.weight.medium};">
 														{item.user.displayName}
@@ -300,7 +300,7 @@
 											padding="small"
 											gap="medium">
 											<Flex direction="row" gap="small" alignItems="center">
-												<Avatar src={item.user.avatarUrl || ""} size="small" />
+												<Avatar src={item.user.avatarUrl || ""} size="medium" />
 												<Flex direction="column" gap="xsmall">
 													<span style="font-weight: {token.global.font.weight.medium};">
 														{item.user.displayName}
