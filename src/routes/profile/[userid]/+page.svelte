@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from "svelte";
 	import {
 		authState,
 		Avatar,
@@ -44,21 +45,30 @@
 	let isLoadingState = $state(true);
 
 	async function loadData() {
-		isLoadingState = true;
+		if (!authState.isLoggedIn) {
+			// Still load profile for logged out view
+			const profileResult = await getFetch(
+				PUBLIC_BACKEND_URL + "/auth/profile",
+				{ user: params.userid },
+				undefined,
+				false
+			);
+			if (profileResult.success) {
+				profileResponse = profileResult.profileResponse;
+			}
+			isLoadingState = false;
+			return;
+		}
+
 		const profileResult = await getFetch(
 			PUBLIC_BACKEND_URL + "/auth/profile",
 			{ user: params.userid },
 			undefined,
-			authState.isLoggedIn
+			true
 		);
 
 		if (profileResult.success) {
 			profileResponse = profileResult.profileResponse;
-		}
-
-		if (!authState.isLoggedIn) {
-			isLoadingState = false;
-			return;
 		}
 
 		// 1. Fetch full connections/blocks list first to correctly evaluate block and request states
@@ -106,11 +116,12 @@
 			isIncomingRequest = false;
 			toast("Request sent", "Connection request has been sent.", "send", 3000, "subtle");
 		} else {
+			// If they crossed requests, reload data to switch UI to accept/reject state instantly
 			if (res.code === "CONNECTION_ALREADY_PENDING" || res.code === "CONNECTION_ALREADY_ACCEPTED") {
-				friendStatus = res.code === "CONNECTION_ALREADY_ACCEPTED" ? "accepted" : "pending";
+				await loadData();
 				toast(
-					"Notice",
-					res.error || "A connection status already exists.",
+					"Connection updated",
+					res.error || "A connection status already exists between you two.",
 					"info",
 					4000,
 					"warning"
@@ -225,12 +236,25 @@
 				3000,
 				"success"
 			);
-			// Reload status to reflect any lingering connection state accurately
 			await loadData();
 		} else {
 			toast("Error", res.error || "Failed to unblock user.", "error", 4000, "danger");
 		}
 	}
+
+	onMount(() => {
+		const handleVisibilityChange = async () => {
+			if (document.visibilityState === "visible" && authState.isLoggedIn) {
+				await loadData();
+			}
+		};
+
+		document.addEventListener("visibilitychange", handleVisibilityChange);
+
+		return () => {
+			document.removeEventListener("visibilitychange", handleVisibilityChange);
+		};
+	});
 
 	$effect(() => {
 		(async () => {
@@ -409,9 +433,11 @@
 					{:else}
 						{#if friendStatus === "none" || friendStatus === "rejected"}
 							<Button onclick={sendConnectionRequest}>Send connection request</Button>
-						{:else if friendStatus === "pending" && isIncomingRequest}
-							<Button onclick={acceptConnectionRequest}>Accept connection request</Button>
-							<Button onclick={rejectConnectionRequest}>Reject connection request</Button>
+						{:else if friendStatus === "pending"}
+							{#if isIncomingRequest}
+								<Button onclick={acceptConnectionRequest}>Accept connection request</Button>
+								<Button onclick={rejectConnectionRequest}>Reject connection request</Button>
+							{/if}
 						{/if}
 						<Button onclick={blockUser}>Block</Button>
 					{/if}
