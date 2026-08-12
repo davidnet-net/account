@@ -85,16 +85,8 @@
 
 		<Flex gap="medium" marginTop="medium" width="100%" direction="column">
 			{#if appState.isMobile}
-				<HorizontalCard
-					title="Policies"
-					href="https://davidnet.net/legal"
-					icon="privacy_tip"
-					description="View the terms and service and other policies." />
-				<HorizontalCard
-					title="Data deletion"
-					icon="delete_forever"
-					href="/manage/data/delete"
-					description="Delete your account and other data." />
+				<HorizontalCard title="Policies" href="https://davidnet.net/legal" icon="privacy_tip" />
+				<HorizontalCard title="Data deletion" icon="delete_forever" href="/manage/data/delete" />
 				<HorizontalCard title="Download your data" icon="download" href="/manage/data/download" />
 				{#if internalAccessResult?.internalAccess}
 					<HorizontalCard
