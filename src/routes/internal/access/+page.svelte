@@ -156,7 +156,7 @@
 		{/if}
 
 		<div class={styles.cardActions}>
-			<LinkButton href="/manage/Data">Data</LinkButton>
+			<LinkButton href="/manage/data">Data</LinkButton>
 			<Button
 				iconbefore="arrow_back"
 				onclick={() => {
