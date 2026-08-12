@@ -365,7 +365,7 @@
 							<Flex direction="row" gap="xsmall" alignItems="center">
 								<Icon icon="emoji_people" />
 								<span style="word-break: break-all;">
-									{isIncomingRequest ? "Incoming request" : "Connection pending"}
+									{isIncomingRequest ? "Incoming connection request" : "Connection pending"}
 								</span>
 							</Flex>
 						</Lozenge>
@@ -410,8 +410,8 @@
 						{#if friendStatus === "none" || friendStatus === "rejected"}
 							<Button onclick={sendConnectionRequest}>Send connection request</Button>
 						{:else if friendStatus === "pending" && isIncomingRequest}
-							<Button onclick={acceptConnectionRequest}>Accept request</Button>
-							<Button onclick={rejectConnectionRequest}>Reject request</Button>
+							<Button onclick={acceptConnectionRequest}>Accept connection request</Button>
+							<Button onclick={rejectConnectionRequest}>Reject connection request</Button>
 						{/if}
 						<Button onclick={blockUser}>Block</Button>
 					{/if}
