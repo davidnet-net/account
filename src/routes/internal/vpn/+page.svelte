@@ -1,0 +1,122 @@
+<script lang="ts">
+	import {
+		Anchor,
+		appState,
+		authState,
+		Button,
+		CodeSnippet,
+		Flex,
+		getFetch,
+		Link,
+		LinkButton,
+		Lozenge,
+		navigateBack,
+		Skeleton,
+		whenAuthReady
+	} from "@davidnet-net/svelte-ui";
+
+	import { goto } from "$app/navigation";
+	import { PUBLIC_BACKEND_URL } from "$env/static/public";
+
+	import * as styles from "./page.css";
+	import { page } from "$app/state";
+	import { onMount } from "svelte";
+	interface InternalAccessResult {
+		userId: string;
+		internalAccess: boolean;
+		vpnAccess: boolean;
+		dbsAccess: boolean;
+		supportAccess: boolean;
+		monitoringAccess: boolean;
+		developerAccess: boolean;
+	}
+	let internalAccessResult: undefined | InternalAccessResult = $state(undefined);
+
+	$effect(() => {
+		(async () => {
+			await whenAuthReady();
+			if (!authState.isLoggedIn && !authState.loading) {
+				goto(`/login?continue=${encodeURIComponent(page.url.href)}`);
+			}
+
+			loadData();
+		})();
+	});
+
+	async function loadData() {
+		const accessResult = await getFetch(
+			PUBLIC_BACKEND_URL + "/auth/internal",
+			undefined,
+			undefined,
+			true
+		);
+
+		if (accessResult.success) {
+			internalAccessResult = accessResult.access;
+			if (!internalAccessResult?.internalAccess) {
+				//goto("/");
+			}
+		}
+	}
+
+	onMount(() => {
+		appState.hideNavigation = false; // Dont remove!
+		document.addEventListener("visibilitychange", async () => {
+			if (document.visibilityState === "visible") {
+				await loadData();
+			}
+		});
+	});
+</script>
+
+<div class={styles.page}>
+	<div class={styles.card}>
+		<h1 class={styles.title}>VPN access</h1>
+		<Flex direction="column" gap="medium" marginTop="medium" width="100%">
+			<div class={styles.accessCard}>
+				<h2>VPN access</h2>
+				Connect to the internal network from external locations.
+				<br />
+				<br />
+				{#if internalAccessResult?.vpnAccess}
+					<Lozenge appearance="success">Granted access</Lozenge>
+				{:else}
+					<Lozenge appearance="danger">No access</Lozenge>
+				{/if}
+
+				<br />
+				<br />
+
+				<Flex direction="column" height="fit-content" gap="medium">
+					<p>
+						We use a selfhosted instance of tailscale server called headscale. However you will
+						still need to install the tailscale client.
+					</p>
+					<LinkButton href="https://tailscale.com/download" opennewtab external>
+						Download tailscale client
+					</LinkButton>
+
+					<p>After installation run this in a terminal:</p>
+					<CodeSnippet
+						language="terminal"
+						code="tailscale up --login-server=https://headscale.davidnet.net --accept-routes --accept-dns --force-reauth" />
+
+					<p>
+						You are ready! Try visiting <Anchor href="https://test-connection.davidnet.internal">
+							test-connection.davidnet.internal
+						</Anchor>
+					</p>
+				</Flex>
+			</div>
+		</Flex>
+		<div class={styles.cardActions}>
+			<Button
+				iconbefore="arrow_back"
+				onclick={() => {
+					navigateBack();
+				}}>
+				Back
+			</Button>
+		</div>
+	</div>
+</div>

@@ -104,6 +104,9 @@
 					<br />
 					{#if internalAccessResult.vpnAccess}
 						<Lozenge appearance="success">Granted access</Lozenge>
+						<br />
+						<br />
+						<LinkButton href="/internal/vpn">Learn more</LinkButton>
 					{:else}
 						<Lozenge appearance="danger">No access</Lozenge>
 					{/if}
