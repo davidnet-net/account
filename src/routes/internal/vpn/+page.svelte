@@ -12,6 +12,7 @@
 		Lozenge,
 		navigateBack,
 		Skeleton,
+		toast,
 		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
 
@@ -67,6 +68,35 @@
 			}
 		});
 	});
+
+	async function downloadCA() {
+		try {
+			// 1. Fetch the certificate from the static root
+			const response = await fetch("/davidnet.pem");
+			if (!response.ok) throw new Error("Failed to fetch certificate");
+
+			// 2. Convert response to a Blob
+			const blob = await response.blob();
+
+			// 3. Create a temporary object URL
+			const url = window.URL.createObjectURL(blob);
+
+			// 4. Create an anchor element to trigger the download prompt
+			const link = document.createElement("a");
+			link.href = url;
+			link.download = "davidnet.pem"; // File name given to the user
+			document.body.appendChild(link);
+
+			link.click();
+
+			// 5. Clean up DOM and memory
+			link.remove();
+			window.URL.revokeObjectURL(url);
+		} catch (error) {
+			toast("Download failed");
+			console.error("Download failed:", error);
+		}
+	}
 </script>
 
 <div class={styles.page}>
@@ -100,6 +130,9 @@
 					<CodeSnippet
 						language="terminal"
 						code="tailscale up --login-server=https://headscale.davidnet.net --accept-routes --accept-dns --force-reauth" />
+
+					<p>Trust this CA for HTTPS & SSL security:</p>
+					<Button onclick={downloadCA}>Download</Button>
 
 					<p>
 						You are ready! Try visiting <Anchor href="https://test-connection.davidnet.internal">
