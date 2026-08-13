@@ -177,7 +177,7 @@
 		</div>
 		<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 			<div class={styles.cardActions}>
-				<LinkButton href="/manage/security">Security Dashboard</LinkButton>
+				<LinkButton href="/manage/security">Security</LinkButton>
 				<Button
 					iconbefore="arrow_back"
 					onclick={() => {
