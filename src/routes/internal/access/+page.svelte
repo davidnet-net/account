@@ -12,13 +12,13 @@
 		Skeleton,
 		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
+	import { onMount } from "svelte";
 
 	import { goto } from "$app/navigation";
+	import { page } from "$app/state";
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 
 	import * as styles from "./page.css";
-	import { page } from "$app/state";
-	import { onMount } from "svelte";
 	interface InternalAccessResult {
 		userId: string;
 		internalAccess: boolean;

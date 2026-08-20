@@ -3,10 +3,10 @@
 	import { token } from "@davidnet-net/svelte-ui/tokens";
 
 	import DNLogo from "$lib/assets/DNLogo.png";
+	import HorizontalCard from "$lib/components/HorizontalCard/HorizontalCard.svelte";
 	import * as m from "$lib/paraglide/messages.js";
 
 	import * as styles from "./page.css";
-	import HorizontalCard from "$lib/components/HorizontalCard/HorizontalCard.svelte";
 </script>
 
 <div class={styles.background}>

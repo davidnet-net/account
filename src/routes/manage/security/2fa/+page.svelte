@@ -17,6 +17,7 @@
 		TextField,
 		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
+	import { token } from "@davidnet-net/svelte-ui/tokens";
 
 	import { goto } from "$app/navigation";
 	import { page } from "$app/state";
@@ -24,7 +25,6 @@
 	import { m } from "$lib/paraglide/messages";
 
 	import * as styles from "./page.css";
-	import { token } from "@davidnet-net/svelte-ui/tokens";
 
 	let loading = $state(false);
 	let authenticatorEnabled = $state(false);

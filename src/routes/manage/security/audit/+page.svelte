@@ -15,6 +15,7 @@
 		toast,
 		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
+	import { onMount } from "svelte";
 
 	import { goto } from "$app/navigation";
 	import { page } from "$app/state";
@@ -22,7 +23,6 @@
 	import { m } from "$lib/paraglide/messages";
 
 	import * as styles from "./page.css";
-	import { onMount } from "svelte";
 
 	let loading = $state(true);
 	interface AuditLogItem {

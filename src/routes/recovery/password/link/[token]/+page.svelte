@@ -11,13 +11,13 @@
 	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
 
+	import { goto } from "$app/navigation";
+	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 	import DNLogo from "$lib/assets/DNLogo.png";
 	import * as m from "$lib/paraglide/messages.js";
 
-	import * as styles from "./page.css";
-	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 	import type { PageProps } from "../$types";
-	import { goto } from "$app/navigation";
+	import * as styles from "./page.css";
 
 	let invalidPassword: string | undefined = $state(undefined);
 	let password = $state("");

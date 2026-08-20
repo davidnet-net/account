@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from "svelte";
 	import {
 		authState,
 		Avatar,
@@ -10,15 +9,17 @@
 		navigateBack,
 		postFetch,
 		Skeleton,
-		TabPanel,
 		Tab,
+		TabPanel,
 		Tabs,
 		toast,
 		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
-	import { page } from "$app/state";
-	import { goto } from "$app/navigation";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
+	import { onMount } from "svelte";
+
+	import { goto } from "$app/navigation";
+	import { page } from "$app/state";
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 
 	import * as styles from "./page.css";

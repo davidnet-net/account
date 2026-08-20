@@ -1,16 +1,16 @@
 <script lang="ts">
 	import {
+		authBeat,
 		Button,
 		Field,
 		Flex,
 		Form,
 		Link,
 		LinkButton,
-		TextField,
-		authBeat,
-		postFetch
-	} from "@davidnet-net/svelte-ui";
+		postFetch,
+		TextField	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
+
 	import { goto } from "$app/navigation";
 	import { page } from "$app/state";
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";

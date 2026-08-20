@@ -2,31 +2,31 @@
 	import {
 		authState,
 		Button,
-		IconButton,
 		Dropdown,
 		Field,
 		Flex,
+		getFetch,
 		Icon,
+		IconButton,
+		identityState,
 		LinkButton,
 		navigateBack,
 		patchFetch,
 		putFetch,
-		getFetch,
 		Skeleton,
-		TextField,
-		whenAuthReady,
-		identityState,
+		syncProfileData,
 		TextArea,
+		TextField,
 		toast,
-		syncProfileData
-	} from "@davidnet-net/svelte-ui";
-	import type { PageProps } from "./$types";
+		whenAuthReady	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
-	import { PUBLIC_BACKEND_URL } from "$env/static/public";
-	import { goto } from "$app/navigation";
-	import { page } from "$app/state";
 	import countryList from "country-list";
 
+	import { goto } from "$app/navigation";
+	import { page } from "$app/state";
+	import { PUBLIC_BACKEND_URL } from "$env/static/public";
+
+	import type { PageProps } from "./$types";
 	import * as styles from "./page.css";
 
 	// Form state variables

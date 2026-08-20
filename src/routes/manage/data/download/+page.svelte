@@ -24,15 +24,15 @@
 		type themeNames,
 		whenAuthReady
 	} from "@davidnet-net/svelte-ui";
+	import { onMount } from "svelte";
 
 	import { goto } from "$app/navigation";
 	import { page } from "$app/state";
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
+	import Card from "$lib/components/Card/Card.svelte";
+	import HorizontalCard from "$lib/components/HorizontalCard/HorizontalCard.svelte";
 
 	import * as styles from "./page.css";
-	import HorizontalCard from "$lib/components/HorizontalCard/HorizontalCard.svelte";
-	import Card from "$lib/components/Card/Card.svelte";
-	import { onMount } from "svelte";
 
 	$effect(() => {
 		(async () => {

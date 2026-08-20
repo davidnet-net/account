@@ -1,24 +1,25 @@
 <script lang="ts">
-	import { onMount } from "svelte";
 	import {
 		authState,
 		Avatar,
+		Button,
 		Flex,
 		getFetch,
-		postFetch,
-		Lozenge,
 		Icon,
-		Skeleton,
-		whenAuthReady,
 		identityState,
 		LinkButton,
+		Lozenge,
 		navigateBack,
-		Button,
-		toast
-	} from "@davidnet-net/svelte-ui";
-	import type { PageProps } from "./$types";
+		postFetch,
+		Skeleton,
+		toast,
+		whenAuthReady	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
+	import { onMount } from "svelte";
+
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
+
+	import type { PageProps } from "./$types";
 	let { params }: PageProps = $props();
 
 	interface ProfileResponse {
