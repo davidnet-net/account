@@ -18,7 +18,8 @@
 		TextArea,
 		TextField,
 		toast,
-		whenAuthReady	} from "@davidnet-net/svelte-ui";
+		whenAuthReady
+	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
 	import countryList from "country-list";
 
@@ -98,6 +99,11 @@
 			emailVisibility !== initialSnapshot.emailVisibility
 	);
 
+	// Ensure all text inputs are within their maxlength boundaries
+	let isValid = $derived(
+		displayName.length <= 35 && description.length <= 800 && location.length <= 50
+	);
+
 	$effect(() => {
 		(async () => {
 			await whenAuthReady();
@@ -123,7 +129,13 @@
 						avatarUrl = result.profileResponse.avatarUrl || null;
 						bannerUrl = result.profileResponse.bannerUrl || null;
 
-						// Save current values to baseline snapshot
+						if (identityState.privacy) {
+							languageVisibility = identityState.privacy.languageVisibility || "private";
+							timezoneVisibility = identityState.privacy.timezoneVisibility || "private";
+							locationVisibility = identityState.privacy.locationVisibility || "private";
+							emailVisibility = identityState.privacy.emailVisibility || "private";
+						}
+
 						initialSnapshot = {
 							displayName,
 							description,
@@ -201,7 +213,7 @@
 
 	async function handleSave(event: Event) {
 		event.preventDefault();
-		if (!hasChanges) return;
+		if (!hasChanges || !isValid) return;
 
 		saving = true;
 
@@ -290,6 +302,7 @@
 
 					<Field label="Display Name:" name="displayName">
 						<TextField
+							maxlength={35}
 							placeholder="Enter your display name"
 							bind:value={displayName}
 							disabled={saving} />
@@ -331,7 +344,11 @@
 					</div>
 
 					<Field label="Location:" name="location">
-						<TextField placeholder="The moon" bind:value={location} disabled={saving} />
+						<TextField
+							maxlength={50}
+							placeholder="The moon"
+							bind:value={location}
+							disabled={saving} />
 					</Field>
 
 					<h2 class={styles.label} style="margin-top: 1rem;">Privacy Preferences</h2>
@@ -449,7 +466,7 @@
 						type="submit"
 						appearance="primary"
 						loading={saving}
-						disabled={!hasChanges}>
+						disabled={!hasChanges || !isValid}>
 						Save Changes
 					</Button>
 				</Flex>
