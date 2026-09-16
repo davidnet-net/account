@@ -11,9 +11,11 @@
 		Lozenge,
 		navigateBack,
 		postFetch,
+		ReportModal,
 		Skeleton,
 		toast,
-		whenAuthReady	} from "@davidnet-net/svelte-ui";
+		whenAuthReady
+	} from "@davidnet-net/svelte-ui";
 	import { token } from "@davidnet-net/svelte-ui/tokens";
 	import { onMount } from "svelte";
 
@@ -272,6 +274,8 @@
 			await loadData();
 		})();
 	});
+
+	let showReportModal = $state(false);
 </script>
 
 <div style="width: 100%; max-width: 48rem; margin: 0 auto; box-sizing: border-box; padding: 1rem;">
@@ -457,8 +461,19 @@
 							<Button onclick={blockUser}>Block</Button>
 						{/if}
 					{/if}
+					<Button
+						iconbefore="flag"
+						onclick={() => {
+							showReportModal = !showReportModal;
+						}}>
+						Report profile
+					</Button>
 				{/if}
 			</Flex>
 		{/if}
 	</Flex>
 </div>
+
+{#if showReportModal}
+	<ReportModal bind:isOpen={showReportModal} reportType="profile" reportedId={params.userid} />
+{/if}
