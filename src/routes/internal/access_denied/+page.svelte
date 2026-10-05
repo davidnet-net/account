@@ -33,7 +33,7 @@
 		<Button appearance="primary" iconbefore="arrow_back" onclick={() => history.back()}>
 			Back
 		</Button>
-		<LinkButton href="https://account.davidnet.net/internal/access">Reviewysour access</LinkButton>
+		<LinkButton href="https://account.davidnet.net/internal/access">Review your access</LinkButton>
 		<LinkButton href="/">My account</LinkButton>
 	</div>
 </div>
