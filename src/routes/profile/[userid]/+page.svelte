@@ -37,6 +37,7 @@
 		timezone: string | undefined;
 		email: string | undefined;
 		connectionsCount: number;
+		isInternal: boolean;
 	}
 
 	import * as styles from "./page.css";
@@ -327,6 +328,15 @@
 			</Flex>
 
 			<Flex direction="row" gap="small" flexWrap="wrap" justifyContent="center">
+				{#if profileResponse.isInternal}
+					<Lozenge appearance="primary">
+						<Flex direction="row" gap="xsmall" alignItems="center">
+							<Icon icon="verified" />
+							<span>Internal</span>
+						</Flex>
+					</Lozenge>
+				{/if}
+
 				{#if profileResponse.countryCode}
 					<Lozenge>
 						<Flex direction="row" gap="xsmall" alignItems="center">
