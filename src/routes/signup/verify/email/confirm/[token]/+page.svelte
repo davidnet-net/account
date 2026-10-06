@@ -109,7 +109,7 @@
 				<p style="font-size: {token.global.font.size.medium};">
 					Link or Account expired or never existed.
 				</p>
-				Unverified accounts get deleted after 24 hours. However you can <Link href="/signup">
+				Unverified accounts get deleted after 48 hours. However you can <Link href="/signup">
 					signup
 				</Link> again!
 			</Flex>

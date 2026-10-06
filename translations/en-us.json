@@ -40,7 +40,7 @@
 	"page_verify_email_change_email": "Change email",
 	"page_verify_email_open_provider": "Open {name}",
 	"common_Cancel": "Cancel",
-	"page_verify_email_verification_expires": "Verification links expire in 24 hours.\nPlease verify to keep your account active.",
+	"page_verify_email_verification_expires": "Verification links expire in 48 hours.\nPlease verify to keep your account active.",
 	"page_verify_email_email_verified": "Email verified",
 	"page_verify_email_enter_your_changed_email": "Enter your changed email:",
 	"page_verify_email_resend_modal": "Please allow up to one minute for the verification email to arrive. If it's not in your inbox,\n\t\tcheck your spam folder or click Resend email to try again.",
