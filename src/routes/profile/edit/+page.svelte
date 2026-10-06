@@ -29,6 +29,7 @@
 
 	import type { PageProps } from "./$types";
 	import * as styles from "./page.css";
+	import * as m from "$lib/paraglide/messages.js";
 
 	// Form state variables
 	let displayName = $state("");
@@ -73,18 +74,18 @@
 	// Map the package's data into the format your Dropdown expects, prepending "None"
 	const rawData = countryList.getData();
 	const countryCodes = [
-		{ value: "", label: "None" },
+		{ value: "", label: m.page_edit_profile_none_option() },
 		...rawData
 			.map((c) => ({ value: c.code, label: `${c.name} (${c.code})` }))
 			.sort((a, b) => a.label.localeCompare(b.label))
 	];
 
 	const visibilityOptions = [
-		{ value: "private", label: "Private" },
-		{ value: "organizations", label: "Organizations" },
-		{ value: "connections", label: "Connections" },
-		{ value: "organizations_and_connections", label: "Organizations & Connections" },
-		{ value: "public", label: "Public" }
+		{ value: "private", label: m.page_edit_profile_vis_private() },
+		{ value: "organizations", label: m.page_edit_profile_vis_organizations() },
+		{ value: "connections", label: m.page_edit_profile_vis_connections() },
+		{ value: "organizations_and_connections", label: m.page_edit_profile_vis_orgs_and_connections() },
+		{ value: "public", label: m.page_edit_profile_vis_public() }
 	];
 
 	// Computed check to see if any form fields have been modified
@@ -185,8 +186,8 @@
 				if (type === "avatar") {
 					avatarUrl = result.url;
 					toast(
-						"Avatar updated",
-						"Your profile picture has been updated.",
+						m.page_edit_profile_toast_avatar_title(),
+						m.page_edit_profile_toast_avatar_content(),
 						"image",
 						4000,
 						"success"
@@ -194,8 +195,8 @@
 				} else {
 					bannerUrl = result.url;
 					toast(
-						"Banner updated",
-						"Your profile banner has been updated.",
+						m.page_edit_profile_toast_banner_title(),
+						m.page_edit_profile_toast_banner_content(),
 						"wallpaper",
 						4000,
 						"success"
@@ -237,7 +238,13 @@
 			);
 
 			if (result.success) {
-				toast("Profile saved!", "Changes have been successfully saved.", "edit", 4000, "success");
+				toast(
+					m.page_edit_profile_toast_saved_title(),
+					m.page_edit_profile_toast_saved_content(),
+					"edit",
+					4000,
+					"success"
+				);
 				initialSnapshot = {
 					displayName,
 					description,
@@ -258,8 +265,8 @@
 
 <div class={styles.page}>
 	<div class={styles.card}>
-		<h1 class={styles.title}>Edit Profile</h1>
-		<p class={styles.subtitle}>Update your public profile details and privacy settings.</p>
+		<h1 class={styles.title}>{m.page_edit_profile_title()}</h1>
+		<p class={styles.subtitle}>{m.page_edit_profile_subtitle()}</p>
 
 		{#if loading}
 			<Flex direction="column" gap="medium" marginTop="medium" width="100%">
@@ -271,7 +278,7 @@
 			<form id="edit-profile-form" onsubmit={handleSave}>
 				<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 					<div class={styles.imageSectionContainer}>
-						<h2 class={styles.label} style="margin-bottom: 0.5rem;">Profile & Banner Images</h2>
+						<h2 class={styles.label} style="margin-bottom: 0.5rem;">{m.page_edit_profile_images_heading()}</h2>
 
 						<div
 							class={styles.bannerPreview}
@@ -279,7 +286,7 @@
 							<div class={styles.bannerOverlay}>
 								<IconButton
 									icon="edit"
-									tip="Change banner"
+									tip={m.page_edit_profile_change_banner_tip()}
 									loading={uploadingBanner}
 									appearance="default"
 									onclick={() => triggerImageUpload("banner")} />
@@ -291,7 +298,7 @@
 								<div class={styles.overlayCenter}>
 									<IconButton
 										icon="edit"
-										tip="Change avatar"
+										tip={m.page_edit_profile_change_avatar_tip()}
 										loading={uploadingAvatar}
 										appearance="default"
 										onclick={() => triggerImageUpload("avatar")} />
@@ -300,24 +307,24 @@
 						</div>
 					</div>
 
-					<Field label="Display Name:" name="displayName">
+					<Field label={m.page_edit_profile_display_name_label()} name="displayName">
 						<TextField
 							maxlength={35}
-							placeholder="Enter your display name"
+							placeholder={m.page_edit_profile_display_name_placeholder()}
 							bind:value={displayName}
 							disabled={saving} />
 					</Field>
 
-					<Field label="Description:" name="description">
+					<Field label={m.page_edit_profile_description_label()} name="description">
 						<TextArea
 							maxlength={800}
-							placeholder="Tell us about yourself"
+							placeholder={m.page_edit_profile_description_placeholder()}
 							bind:value={description}
 							disabled={saving} />
 					</Field>
 
 					<div class={styles.formGroup}>
-						<h3 class={styles.label}>Country Code:</h3>
+						<h3 class={styles.label}>{m.page_edit_profile_country_label()}</h3>
 						<Dropdown isOpen={countryDropdownOpen}>
 							{#snippet trigger()}
 								<Button
@@ -325,7 +332,7 @@
 									alignContent="left"
 									iconbefore="globe"
 									onclick={() => (countryDropdownOpen = !countryDropdownOpen)}>
-									{countryCodes.find((c) => c.value === countryCode)?.label || "None"}
+									{countryCodes.find((c) => c.value === countryCode)?.label || m.page_edit_profile_none_option()}
 								</Button>
 							{/snippet}
 							{#each countryCodes as country (country.value)}
@@ -343,18 +350,18 @@
 						</Dropdown>
 					</div>
 
-					<Field label="Location:" name="location">
+					<Field label={m.page_edit_profile_location_label()} name="location">
 						<TextField
 							maxlength={50}
-							placeholder="The moon"
+							placeholder={m.page_edit_profile_location_placeholder()}
 							bind:value={location}
 							disabled={saving} />
 					</Field>
 
-					<h2 class={styles.label} style="margin-top: 1rem;">Privacy Preferences</h2>
+					<h2 class={styles.label} style="margin-top: 1rem;">{m.page_edit_profile_privacy_heading()}</h2>
 
 					<div class={styles.formGroup}>
-						<h3 class={styles.label}>Language Visibility:</h3>
+						<h3 class={styles.label}>{m.page_edit_profile_lang_vis_label()}</h3>
 						<Dropdown isOpen={langVisDropdownOpen}>
 							{#snippet trigger()}
 								<Button
@@ -381,7 +388,7 @@
 					</div>
 
 					<div class={styles.formGroup}>
-						<h3 class={styles.label}>Timezone Visibility:</h3>
+						<h3 class={styles.label}>{m.page_edit_profile_tz_vis_label()}</h3>
 						<Dropdown isOpen={tzVisDropdownOpen}>
 							{#snippet trigger()}
 								<Button
@@ -408,7 +415,7 @@
 					</div>
 
 					<div class={styles.formGroup}>
-						<h3 class={styles.label}>Location Visibility:</h3>
+						<h3 class={styles.label}>{m.page_edit_profile_loc_vis_label()}</h3>
 						<Dropdown isOpen={locVisDropdownOpen}>
 							{#snippet trigger()}
 								<Button
@@ -435,7 +442,7 @@
 					</div>
 
 					<div class={styles.formGroup}>
-						<h3 class={styles.label}>Email Visibility:</h3>
+						<h3 class={styles.label}>{m.page_edit_profile_email_vis_label()}</h3>
 						<Dropdown isOpen={emailVisDropdownOpen}>
 							{#snippet trigger()}
 								<Button
@@ -467,20 +474,21 @@
 						appearance="primary"
 						loading={saving}
 						disabled={!hasChanges || !isValid}>
-						Save Changes
+						{m.page_edit_profile_save_button()}
 					</Button>
 				</Flex>
 			</form>
 		{/if}
 
 		<div class={styles.cardActions} style="margin-top: 1.5rem;">
-			<LinkButton href="/profile/{identityState.user?.userID}">View Profile</LinkButton>
+			<LinkButton href="/profile/{identityState.user?.userID}"
+				>{m.page_edit_profile_view_profile_link()}</LinkButton>
 			<Button
 				iconbefore="arrow_back"
 				onclick={() => {
 					navigateBack();
 				}}>
-				Back
+				{m.common_back()}
 			</Button>
 		</div>
 	</div>

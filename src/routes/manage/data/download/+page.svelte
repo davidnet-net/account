@@ -33,6 +33,7 @@
 	import HorizontalCard from "$lib/components/HorizontalCard/HorizontalCard.svelte";
 
 	import * as styles from "./page.css";
+	import * as m from "$lib/paraglide/messages.js";
 
 	$effect(() => {
 		(async () => {
@@ -46,25 +47,25 @@
 
 <div class={styles.page}>
 	<div class={styles.card}>
-		<h1 class={styles.title}>Data download</h1>
-		<p class={styles.subtitle}>You can download your account information.</p>
+		<h1 class={styles.title}>{m.page_data_download_title()}</h1>
+		<p class={styles.subtitle}>{m.page_data_download_subtitle1()}</p>
 		<p class={styles.subtitle}>
-			This downloads profile data. For other data go to export at that data.
+			{m.page_data_download_subtitle2()}
 		</p>
 
 		<Flex gap="medium" direction="column" alignItems="center" marginTop="medium" width="100%">
 			<Icon icon="download" size="giant" />
-			<p>A issue occured on our side. Please contact us.</p>
+			<p>{m.page_generic_error_contact_us()}</p>
 		</Flex>
 
 		<div class={styles.cardActions}>
-			<LinkButton href="/">My account</LinkButton>
+			<LinkButton href="/">{m.common_my_account()}</LinkButton>
 			<Button
 				iconbefore="arrow_back"
 				onclick={() => {
 					navigateBack();
 				}}>
-				Back
+				{m.common_back()}
 			</Button>
 		</div>
 	</div>

@@ -54,14 +54,14 @@
 			return;
 		}
 		if (result.code === "INVALID_CREDENTIALS") {
-			invalidOldPassword = "Invalid password.";
+			invalidOldPassword = m.page_security_err_invalid_password();
 			loading = false;
 			return;
 		}
 		if (result.code === "PASSWORD_CHANGED") {
 			toast(
-				"Password changed!",
-				"Your password has been successfully changed!",
+				m.page_recovery_link_changed_title(),
+				m.page_security_toast_changed_content(),
 				"celebration",
 				4000,
 				"success"
@@ -84,63 +84,62 @@
 
 <div class={styles.page}>
 	<div class={styles.card}>
-		<h1 class={styles.title}>Security</h1>
+		<h1 class={styles.title}>{m.page_security_heading()}</h1>
 		<Flex direction="column" gap="none" marginTop="medium" width="100%">
-			<h2 class={styles.label}>Changing your password:</h2>
+			<h2 class={styles.label}>{m.page_security_password_heading()}</h2>
 			<p class={styles.subtitle}>
-				If you change your password you may get logged out of other sessions.
+				{m.page_security_password_note()}
 			</p>
 			<Form id="change-password-form" onsubmit={changePassword}>
 				<Field
-					label="Current password:"
+					label={m.page_security_current_password_label()}
 					name="current_password"
 					required
 					invalid={invalidOldPassword}>
 					<TextField
 						type="password"
-						placeholder="Enter your old password here."
+						placeholder={m.page_security_current_password_placeholder()}
 						bind:value={oldPassword} />
 				</Field>
-				<Field label="New password:" name="new_password" required invalid={invalidNewPassword}>
+				<Field label={m.page_recovery_link_new_password_label()} name="new_password" required invalid={invalidNewPassword}>
 					<TextField
 						type="password"
-						placeholder="Enter your new password here."
+						placeholder={m.page_security_new_password_placeholder()}
 						bind:value={newPassword} />
 				</Field>
 				<div>
-					<Button appearance="primary" type="submit" {loading}>Change password</Button>
+					<Button appearance="primary" type="submit" {loading}>{m.page_recovery_link_submit()}</Button>
 				</div>
 			</Form>
 		</Flex>
 		<Flex direction="column" gap="none" marginTop="large" width="100%">
-			<h2 class={styles.label}>Two step verification:</h2>
+			<h2 class={styles.label}>{m.page_security_2fa_heading()}</h2>
 			<p class={styles.subtitle}>
-				Improve the security of your account by adding a second login step.
+				{m.page_security_2fa_note()}
 			</p>
-			<LinkButton href="/manage/security/2fa">Manage two step verification</LinkButton>
+			<LinkButton href="/manage/security/2fa">{m.page_security_2fa_manage_link()}</LinkButton>
 		</Flex>
 		<Flex direction="column" gap="none" marginTop="large" width="100%">
-			<h2 class={styles.label}>Current sessions:</h2>
+			<h2 class={styles.label}>{m.page_security_sessions_heading()}</h2>
 			<p class={styles.subtitle}>
-				If you lost one of your devices or you notice suspicious activity, then log out of all your
-				devices and take steps to protect your account.
+				{m.page_sessions_warning()}
 			</p>
-			<LinkButton href="/manage/security/sessions">View current sessions</LinkButton>
+			<LinkButton href="/manage/security/sessions">{m.page_security_sessions_view_link()}</LinkButton>
 		</Flex>
 		<Flex direction="column" gap="none" marginTop="large" width="100%">
-			<h2 class={styles.label}>Audit logs:</h2>
-			<p class={styles.subtitle}>View recent activity.</p>
-			<LinkButton href="/manage/security/audit">View account audit logs</LinkButton>
+			<h2 class={styles.label}>{m.page_security_audit_heading()}</h2>
+			<p class={styles.subtitle}>{m.page_security_audit_note()}</p>
+			<LinkButton href="/manage/security/audit">{m.page_security_audit_view_link()}</LinkButton>
 		</Flex>
 		<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 			<div class={styles.cardActions}>
-				<LinkButton href="/">My account</LinkButton>
+				<LinkButton href="/">{m.common_my_account()}</LinkButton>
 				<Button
 					iconbefore="arrow_back"
 					onclick={() => {
 						navigateBack();
 					}}>
-					Back
+					{m.common_back()}
 				</Button>
 			</div>
 		</Flex>

@@ -26,7 +26,7 @@
 
 	$effect(() => {
 		if (!params.token) {
-			toast("Invalid link", "Please request a new password reset", "cancel", 4000, "subtle");
+			toast(m.page_recovery_link_invalid_title(), m.page_recovery_link_invalid_content(), "cancel", 4000, "subtle");
 			goto("/recovery/password");
 		}
 	});
@@ -40,7 +40,7 @@
 		}
 
 		if (!params.token) {
-			toast("Invalid link", "Please request a new password reset", "cancel", 4000, "subtle");
+			toast(m.page_recovery_link_invalid_title(), m.page_recovery_link_invalid_content(), "cancel", 4000, "subtle");
 			goto("/recovery/password");
 			return;
 		}
@@ -57,7 +57,7 @@
 		}
 
 		if (result.code === "INVALID_OR_EXPIRED_TOKEN") {
-			toast("Invalid link", "Please request a new password reset", "cancel", 4000, "subtle");
+			toast(m.page_recovery_link_invalid_title(), m.page_recovery_link_invalid_content(), "cancel", 4000, "subtle");
 			goto("/recovery/password");
 			return;
 		}
@@ -70,8 +70,8 @@
 
 		if (result.success) {
 			toast(
-				"Password changed!",
-				"Your password has been reset succesfully",
+				m.page_recovery_link_changed_title(),
+				m.page_recovery_link_changed_content(),
 				"celebration",
 				4000,
 				"success"
@@ -99,8 +99,8 @@
 			text="center"
 			marginBottom="large"
 			direction="column">
-			<h1>Password recovery</h1>
-			<p style:color={token.theme.color.text.secondary}>Setup a new password.</p>
+			<h1>{m.page_recovery_password_heading()}</h1>
+			<p style:color={token.theme.color.text.secondary}>{m.page_recovery_link_subheading()}</p>
 			<Flex
 				marginTop="medium"
 				direction="column"
@@ -110,23 +110,23 @@
 				alignItems="center"
 				justifyContent="start">
 				<Form id="password-reset-form" onsubmit={sendLink}>
-					<Field required label="New password:" name="password" invalid={invalidPassword}>
+					<Field required label={m.page_recovery_link_new_password_label()} name="password" invalid={invalidPassword}>
 						<TextField
-							placeholder="Enter your new password"
+							placeholder={m.page_recovery_link_new_password_placeholder()}
 							bind:value={password}
 							type="password"
 							oninput={() => (invalidPassword = undefined)}
 							disabled={loading} />
 					</Field>
 					<Button form="password-reset-form" type="submit" appearance="primary" {loading}>
-						Change password
+						{m.page_recovery_link_submit()}
 					</Button>
 				</Form>
 			</Flex>
 		</Flex>
 		<Flex marginTop="large" width="100%" alignItems="center" direction="column" gap="small">
-			<Link href="https://davidnet.net/help">Help</Link>
-			<Link href="/login ">Login</Link>
+			<Link href="https://davidnet.net/help">{m.common_Help()}</Link>
+			<Link href="/login ">{m.page_recovery_login_link()}</Link>
 		</Flex>
 	</div>
 </div>

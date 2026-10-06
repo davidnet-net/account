@@ -32,6 +32,7 @@
 	import HorizontalCard from "$lib/components/HorizontalCard/HorizontalCard.svelte";
 
 	import * as styles from "./page.css";
+	import * as m from "$lib/paraglide/messages.js";
 
 	interface InternalAccessResult {
 		userId: string;
@@ -80,55 +81,64 @@
 
 <div class={styles.page}>
 	<div class={styles.card}>
-		<h1 class={styles.title}>Data & Privacy</h1>
+		<h1 class={styles.title}>{m.page_data_title()}</h1>
 		<p class={styles.subtitle}></p>
 
 		<Flex gap="medium" marginTop="medium" width="100%" direction="column">
 			{#if appState.isMobile}
-				<HorizontalCard title="Policies" href="https://davidnet.net/legal" icon="privacy_tip" />
-				<HorizontalCard title="Data deletion" icon="delete_forever" href="/manage/data/delete" />
-				<HorizontalCard title="Download your data" icon="download" href="/manage/data/download" />
+				<HorizontalCard
+					title={m.page_data_card_policies_title()}
+					href="https://davidnet.net/legal"
+					icon="privacy_tip" />
+				<HorizontalCard
+					title={m.page_data_card_delete_title()}
+					icon="delete_forever"
+					href="/manage/data/delete" />
+				<HorizontalCard
+					title={m.page_data_card_download_title()}
+					icon="download"
+					href="/manage/data/download" />
 				{#if internalAccessResult?.internalAccess}
 					<HorizontalCard
-						title="Internal access"
+						title={m.page_internal_access_card_internal_title()}
 						icon="smart_card_reader"
 						href="/internal/access"
-						description="Review your internal access." />
+						description={m.page_data_card_internal_desc()} />
 				{/if}
 			{:else}
 				<Flex gap="medium" marginTop="medium" width="100%">
 					<Card
-						title="Policies"
+						title={m.page_data_card_policies_title()}
 						icon="privacy_tip"
 						href="https://davidnet.net/legal"
-						description="View the terms and service and other policies." />
+						description={m.page_data_card_policies_desc()} />
 					<Card
-						title="Data deletion"
+						title={m.page_data_card_delete_title()}
 						icon="delete_forever"
 						href="/manage/data/delete"
-						description="Delete your account and other data." />
+						description={m.page_data_card_delete_desc()} />
 				</Flex>
 				<Flex gap="medium" marginTop="medium" width="100%">
-					<Card title="Download your data" icon="download" href="/manage/data/download" />
+					<Card title={m.page_data_card_download_title()} icon="download" href="/manage/data/download" />
 					{#if internalAccessResult?.internalAccess}
 						<Card
-							title="Internal access"
+							title={m.page_internal_access_card_internal_title()}
 							icon="smart_card_reader"
 							href="/internal/access"
-							description="Review your internal access." />
+							description={m.page_data_card_internal_desc()} />
 					{/if}
 				</Flex>
 			{/if}
 		</Flex>
 
 		<div class={styles.cardActions}>
-			<LinkButton href="/">My account</LinkButton>
+			<LinkButton href="/">{m.common_my_account()}</LinkButton>
 			<Button
 				iconbefore="arrow_back"
 				onclick={() => {
 					navigateBack();
 				}}>
-				Back
+				{m.common_back()}
 			</Button>
 		</div>
 	</div>

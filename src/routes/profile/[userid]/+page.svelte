@@ -22,6 +22,7 @@
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 
 	import type { PageProps } from "./$types";
+	import * as m from "$lib/paraglide/messages.js";
 	let { params }: PageProps = $props();
 
 	interface ProfileResponse {
@@ -112,36 +113,48 @@
 			true
 		);
 		if (res.success) {
-			toast("Request sent", "Connection request has been sent.", "send", 3000, "subtle");
+			toast(
+				m.page_profile_toast_request_sent_title(),
+				m.page_profile_toast_request_sent_content(),
+				"send",
+				3000,
+				"subtle"
+			);
 			await loadData();
 		} else {
 			if (res.code === "CONNECTION_ALREADY_PENDING" || res.code === "CONNECTION_ALREADY_ACCEPTED") {
 				await loadData();
 				toast(
-					"Connection updated",
-					res.error || "A connection status already exists between you two.",
+					m.page_profile_toast_connection_updated_title(),
+					res.error || m.page_profile_toast_connection_exists(),
 					"info",
 					4000,
 					"warning"
 				);
 			} else if (res.code === "REJECTION_COOLDOWN_ACTIVE") {
 				toast(
-					"Cannot Send Request",
-					res.error || "You must wait 24 hours after a rejection before sending a new request.",
+					m.page_profile_toast_cannot_send_title(),
+					res.error || m.page_profile_toast_cooldown(),
 					"acute",
 					4000,
 					"warning"
 				);
 			} else if (res.code === "SELF_CONNECTION_ERROR") {
 				toast(
-					"Invalid Action",
-					"You cannot send a connection request to yourself.",
+					m.page_profile_toast_invalid_action_title(),
+					m.page_profile_toast_self_connection(),
 					"acute",
 					4000,
 					"warning"
 				);
 			} else {
-				toast("Error", res.error || "Failed to send connection request.", "error", 4000, "danger");
+				toast(
+					m.common_Error(),
+					res.error || m.page_profile_toast_send_request_failed(),
+					"error",
+					4000,
+					"danger"
+				);
 			}
 		}
 	}
@@ -155,15 +168,15 @@
 		);
 		if (res.success) {
 			toast(
-				profileResponse?.displayName + " has been accepted",
-				"You have accepted the connection request.",
+				profileResponse?.displayName + m.page_profile_toast_accepted_suffix(),
+				m.page_profile_toast_accepted_content(),
 				"check",
 				3000,
 				"subtle"
 			);
 			await loadData();
 		} else {
-			toast("Error", res.error || "Failed to accept request.", "error", 4000, "danger");
+			toast(m.common_Error(), res.error || m.page_profile_toast_accept_failed(), "error", 4000, "danger");
 		}
 	}
 
@@ -176,15 +189,15 @@
 		);
 		if (res.success) {
 			toast(
-				profileResponse?.displayName + " has been rejected",
-				"You have rejected the connection request.",
+				profileResponse?.displayName + m.page_profile_toast_rejected_suffix(),
+				m.page_profile_toast_rejected_content(),
 				"close",
 				3000,
 				"subtle"
 			);
 			await loadData();
 		} else {
-			toast("Error", res.error || "Failed to reject request.", "error", 4000, "danger");
+			toast(m.common_Error(), res.error || m.page_profile_toast_reject_failed(), "error", 4000, "danger");
 		}
 	}
 
@@ -197,15 +210,15 @@
 		);
 		if (res.success) {
 			toast(
-				"Connection removed",
-				"You are no longer connected with this user.",
+				m.page_profile_toast_removed_title(),
+				m.page_profile_toast_removed_content(),
 				"person_remove",
 				3000,
 				"subtle"
 			);
 			await loadData();
 		} else {
-			toast("Error", res.error || "Failed to remove connection.", "error", 4000, "danger");
+			toast(m.common_Error(), res.error || m.page_profile_toast_remove_failed(), "error", 4000, "danger");
 		}
 	}
 
@@ -218,8 +231,8 @@
 		);
 		if (res.success) {
 			toast(
-				profileResponse?.displayName + " has been blocked",
-				"You will not receive connection requests from this user.",
+				profileResponse?.displayName + m.page_profile_toast_blocked_suffix(),
+				m.page_profile_toast_blocked_content(),
 				"block",
 				3000,
 				"success"
@@ -227,9 +240,15 @@
 			await loadData();
 		} else {
 			if (res.code === "SELF_BLOCK_ERROR") {
-				toast("Invalid Action", "You cannot block yourself.", "acute", 4000, "warning");
+				toast(
+					m.page_profile_toast_invalid_action_title(),
+					m.page_profile_toast_self_block(),
+					"acute",
+					4000,
+					"warning"
+				);
 			} else {
-				toast("Error", res.error || "Failed to block user.", "error", 4000, "danger");
+				toast(m.common_Error(), res.error || m.page_profile_toast_block_failed(), "error", 4000, "danger");
 			}
 		}
 	}
@@ -243,15 +262,15 @@
 		);
 		if (res.success) {
 			toast(
-				"User unblocked",
-				"You can now receive interactions from this user.",
+				m.page_profile_toast_unblocked_title(),
+				m.page_profile_toast_unblocked_content(),
 				"check_circle",
 				3000,
 				"success"
 			);
 			await loadData();
 		} else {
-			toast("Error", res.error || "Failed to unblock user.", "error", 4000, "danger");
+			toast(m.common_Error(), res.error || m.page_profile_toast_unblock_failed(), "error", 4000, "danger");
 		}
 	}
 
@@ -332,7 +351,7 @@
 					<Lozenge appearance="primary">
 						<Flex direction="row" gap="xsmall" alignItems="center">
 							<Icon icon="verified" />
-							<span>Internal</span>
+							<span>{m.page_profile_internal_badge()}</span>
 						</Flex>
 					</Lozenge>
 				{/if}
@@ -395,7 +414,7 @@
 					<Lozenge appearance="danger">
 						<Flex direction="row" gap="xsmall" alignItems="center">
 							<Icon icon="block" />
-							<span>Blocked</span>
+							<span>{m.page_profile_blocked_badge()}</span>
 						</Flex>
 					</Lozenge>
 				{:else}
@@ -403,7 +422,7 @@
 						<Lozenge>
 							<Flex direction="row" gap="xsmall" alignItems="center">
 								<Icon icon="emoji_people" />
-								<span style="word-break: break-all;">Connection</span>
+								<span style="word-break: break-all;">{m.page_profile_connection_badge()}</span>
 							</Flex>
 						</Lozenge>
 					{/if}
@@ -413,7 +432,9 @@
 							<Flex direction="row" gap="xsmall" alignItems="center">
 								<Icon icon="emoji_people" />
 								<span style="word-break: break-all;">
-									{isIncomingRequest ? "Incoming connection request" : "Connection pending"}
+									{isIncomingRequest
+										? m.page_profile_incoming_request_badge()
+										: m.page_profile_pending_badge()}
 								</span>
 							</Flex>
 						</Lozenge>
@@ -424,7 +445,7 @@
 					<Lozenge>
 						<Flex direction="row" gap="xsmall" alignItems="center">
 							<Icon icon="ar_on_you" />
-							<span>Yourself</span>
+							<span>{m.page_profile_yourself_badge()}</span>
 						</Flex>
 					</Lozenge>
 				{/if}
@@ -446,29 +467,31 @@
 					onclick={() => {
 						navigateBack();
 					}}>
-					Back
+					{m.common_back()}
 				</Button>
 
 				{#if params.userid === identityState.user?.userID}
-					<LinkButton href="/profile/edit">Edit profile</LinkButton>
-					<LinkButton href="/profile/connections">Manage connections</LinkButton>
+					<LinkButton href="/profile/edit">{m.page_profile_edit_link()}</LinkButton>
+					<LinkButton href="/profile/connections">{m.page_profile_manage_connections_link()}</LinkButton>
 				{:else if authState.isLoggedIn}
 					{#if isBlocked}
-						<Button onclick={unblockUser}>Unblock</Button>
+						<Button onclick={unblockUser}>{m.page_profile_unblock_button()}</Button>
 					{:else}
 						{#if friendStatus === "accepted"}
-							<Button onclick={removeConnection}>Remove connection</Button>
+							<Button onclick={removeConnection}>{m.page_profile_remove_connection_button()}</Button>
 						{:else if friendStatus === "none" || friendStatus === "rejected"}
-							<Button onclick={sendConnectionRequest}>Send connection request</Button>
+							<Button onclick={sendConnectionRequest}>{m.page_profile_send_request_button()}</Button>
 						{:else if friendStatus === "pending"}
 							{#if isIncomingRequest}
-								<Button onclick={acceptConnectionRequest}>Accept connection request</Button>
-								<Button onclick={rejectConnectionRequest}>Reject connection request</Button>
+								<Button onclick={acceptConnectionRequest}
+									>{m.page_profile_accept_request_button()}</Button>
+								<Button onclick={rejectConnectionRequest}
+									>{m.page_profile_reject_request_button()}</Button>
 							{/if}
 						{/if}
 
 						{#if friendStatus !== "accepted"}
-							<Button onclick={blockUser}>Block</Button>
+							<Button onclick={blockUser}>{m.page_profile_block_button()}</Button>
 						{/if}
 					{/if}
 					<Button
@@ -476,7 +499,7 @@
 						onclick={() => {
 							showReportModal = !showReportModal;
 						}}>
-						Report profile
+						{m.page_profile_report_button()}
 					</Button>
 				{/if}
 			</Flex>

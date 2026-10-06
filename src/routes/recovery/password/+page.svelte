@@ -116,8 +116,8 @@
 			text="center"
 			marginBottom="large"
 			direction="column">
-			<h1>Password recovery</h1>
-			<p style:color={token.theme.color.text.secondary}>Lets send a password reset link.</p>
+			<h1>{m.page_recovery_password_heading()}</h1>
+			<p style:color={token.theme.color.text.secondary}>{m.page_recovery_password_subheading()}</p>
 			<Flex
 				marginTop="medium"
 				direction="column"
@@ -128,15 +128,15 @@
 				justifyContent="start">
 				{#if !success}
 					<Form id="password-reset-form" onsubmit={sendLink}>
-						<Field required label="Email:" name="email" invalid={invalidEmail}>
+						<Field required label={m.common_Email() + ":"} name="email" invalid={invalidEmail}>
 							<TextField
-								placeholder="Enter your email"
+								placeholder={m.page_recovery_password_email_placeholder()}
 								bind:value={email}
 								oninput={() => (invalidEmail = undefined)}
 								disabled={loading} />
 						</Field>
 						<Button form="password-reset-form" type="submit" appearance="primary" {loading}>
-							Send password reset link
+							{m.page_recovery_password_submit()}
 						</Button>
 					</Form>
 				{:else}
@@ -146,11 +146,11 @@
 							<p
 								style="font-size: {token.global.font.size.large}; font-weight: {token.global.font
 									.weight.bold}">
-								Check your inbox
+								{m.page_recovery_password_check_inbox()}
 							</p>
 							<p style="text-align: center">
-								If a user is linked to this email. <br />
-								Then we will have send a password reset link.
+								{m.page_recovery_password_check_inbox_note1()} <br />
+								{m.page_recovery_password_check_inbox_note2()}
 							</p>
 						</Flex>
 						{#if providerInfo?.url}
@@ -163,8 +163,8 @@
 			</Flex>
 		</Flex>
 		<Flex marginTop="large" width="100%" alignItems="center" direction="column" gap="small">
-			<Link href="https://davidnet.net/help">Help</Link>
-			<Link href="/login ">Login</Link>
+			<Link href="https://davidnet.net/help">{m.common_Help()}</Link>
+			<Link href="/login ">{m.page_recovery_login_link()}</Link>
 		</Flex>
 	</div>
 </div>

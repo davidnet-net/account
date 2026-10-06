@@ -19,6 +19,7 @@
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 
 	import * as styles from "./page.css";
+	import * as m from "$lib/paraglide/messages.js";
 	interface InternalAccessResult {
 		userId: string;
 		internalAccess: boolean;
@@ -69,10 +70,10 @@
 
 <div class={styles.page}>
 	<div class={styles.card}>
-		<h1 class={styles.title}>Internal data</h1>
+		<h1 class={styles.title}>{m.page_internal_access_title()}</h1>
 		<span class={styles.subtitle}>
-			<Anchor href="/manage/data">Data</Anchor>
-			> Internal data
+			<Anchor href="/manage/data">{m.page_internal_access_breadcrumb_data()}</Anchor>
+			> {m.page_internal_access_breadcrumb_internal()}
 		</span>
 
 		{#if !internalAccessResult}
@@ -87,85 +88,85 @@
 		{:else}
 			<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 				<div class={styles.accessCard}>
-					<h2>Internal access</h2>
-					Get the basic access.
+					<h2>{m.page_internal_access_card_internal_title()}</h2>
+					{m.page_internal_access_card_internal_desc()}
 					<br />
 					<br />
 					{#if internalAccessResult.internalAccess}
-						<Lozenge appearance="success">Granted access</Lozenge>
+						<Lozenge appearance="success">{m.page_internal_access_granted()}</Lozenge>
 					{:else}
-						<Lozenge appearance="danger">No access</Lozenge>
+						<Lozenge appearance="danger">{m.page_internal_access_none()}</Lozenge>
 					{/if}
 				</div>
 				<div class={styles.accessCard}>
-					<h2>VPN access</h2>
-					Connect to the internal network from external locations.
+					<h2>{m.page_internal_access_card_vpn_title()}</h2>
+					{m.page_internal_access_card_vpn_desc()}
 					<br />
 					<br />
 					{#if internalAccessResult.vpnAccess}
-						<Lozenge appearance="success">Granted access</Lozenge>
+						<Lozenge appearance="success">{m.page_internal_access_granted()}</Lozenge>
 						<br />
 						<br />
-						<LinkButton href="/internal/vpn">Learn more</LinkButton>
+						<LinkButton href="/internal/vpn">{m.page_internal_access_learn_more()}</LinkButton>
 					{:else}
-						<Lozenge appearance="danger">No access</Lozenge>
+						<Lozenge appearance="danger">{m.page_internal_access_none()}</Lozenge>
 					{/if}
 				</div>
 				<div class={styles.accessCard}>
-					<h2>Support access</h2>
-					Manage tickets & feedback Also moderate.
+					<h2>{m.page_internal_access_card_support_title()}</h2>
+					{m.page_internal_access_card_support_desc()}
 					<br />
 					<br />
 					{#if internalAccessResult.supportAccess}
-						<Lozenge appearance="success">Granted access</Lozenge>
+						<Lozenge appearance="success">{m.page_internal_access_granted()}</Lozenge>
 					{:else}
-						<Lozenge appearance="danger">No access</Lozenge>
+						<Lozenge appearance="danger">{m.page_internal_access_none()}</Lozenge>
 					{/if}
 				</div>
 				<div class={styles.accessCard}>
-					<h2>Databases access</h2>
-					Get access to the databases.
+					<h2>{m.page_internal_access_card_dbs_title()}</h2>
+					{m.page_internal_access_card_dbs_desc()}
 					<br />
 					<br />
 					{#if internalAccessResult.dbsAccess}
-						<Lozenge appearance="success">Granted access</Lozenge>
+						<Lozenge appearance="success">{m.page_internal_access_granted()}</Lozenge>
 					{:else}
-						<Lozenge appearance="danger">No access</Lozenge>
+						<Lozenge appearance="danger">{m.page_internal_access_none()}</Lozenge>
 					{/if}
 				</div>
 				<div class={styles.accessCard}>
-					<h2>Developer access</h2>
-					View CI/CD and more.
+					<h2>{m.page_internal_access_card_dev_title()}</h2>
+					{m.page_internal_access_card_dev_desc()}
 					<br />
 					<br />
 					{#if internalAccessResult.developerAccess}
-						<Lozenge appearance="success">Granted access</Lozenge>
+						<Lozenge appearance="success">{m.page_internal_access_granted()}</Lozenge>
 					{:else}
-						<Lozenge appearance="danger">No access</Lozenge>
+						<Lozenge appearance="danger">{m.page_internal_access_none()}</Lozenge>
 					{/if}
 				</div>
 				<div class={styles.accessCard}>
-					<h2>Monitoring access</h2>
-					View metrics.
+					<h2>{m.page_internal_access_card_monitoring_title()}</h2>
+					{m.page_internal_access_card_monitoring_desc()}
 					<br />
 					<br />
 					{#if internalAccessResult.monitoringAccess}
-						<Lozenge appearance="success">Granted access</Lozenge>
+						<Lozenge appearance="success">{m.page_internal_access_granted()}</Lozenge>
 					{:else}
-						<Lozenge appearance="danger">No access</Lozenge>
+						<Lozenge appearance="danger">{m.page_internal_access_none()}</Lozenge>
 					{/if}
 				</div>
 			</Flex>
 		{/if}
 
 		<div class={styles.cardActions}>
-			<LinkButton href="/manage/data">Data</LinkButton>
+			<LinkButton href="/manage/data">{m.page_internal_access_data_link()}</LinkButton>
 			<Button
 				iconbefore="arrow_back"
 				onclick={() => {
 					navigateBack();
 				}}>
-				Back
+				{m.common_back()}
 			</Button>
 		</div>
 	</div>

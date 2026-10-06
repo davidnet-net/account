@@ -23,6 +23,7 @@
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 
 	import * as styles from "./page.css";
+	import * as m from "$lib/paraglide/messages.js";
 
 	let activeTab = $state("friends");
 	let isLoading = $state(true);
@@ -49,7 +50,7 @@
 			outgoingList = res.outgoing || [];
 			blockedList = res.blocked || [];
 		} else {
-			toast("Error", "Failed to load connections list.", "error", 4000, "danger");
+			toast(m.common_Error(), m.page_connections_toast_load_failed(), "error", 4000, "danger");
 		}
 		isLoading = false;
 	}
@@ -62,10 +63,22 @@
 			true
 		);
 		if (res.success) {
-			toast("Accepted", "Connection request accepted.", "check", 3000, "subtle");
+			toast(
+				m.page_connections_toast_accepted_title(),
+				m.page_connections_toast_accepted_content(),
+				"check",
+				3000,
+				"subtle"
+			);
 			await loadConnectionsData();
 		} else {
-			toast("Error", res.error || "Failed to accept request.", "error", 4000, "danger");
+			toast(
+				m.common_Error(),
+				res.error || m.page_connections_toast_accept_failed(),
+				"error",
+				4000,
+				"danger"
+			);
 		}
 	}
 
@@ -77,10 +90,22 @@
 			true
 		);
 		if (res.success) {
-			toast("Rejected", "Connection request rejected.", "close", 3000, "subtle");
+			toast(
+				m.page_connections_toast_rejected_title(),
+				m.page_connections_toast_rejected_content(),
+				"close",
+				3000,
+				"subtle"
+			);
 			await loadConnectionsData();
 		} else {
-			toast("Error", res.error || "Failed to reject request.", "error", 4000, "danger");
+			toast(
+				m.common_Error(),
+				res.error || m.page_connections_toast_reject_failed(),
+				"error",
+				4000,
+				"danger"
+			);
 		}
 	}
 
@@ -92,10 +117,22 @@
 			true
 		);
 		if (res.success) {
-			toast("Removed", "Connection removed.", "person_remove", 3000, "subtle");
+			toast(
+				m.page_connections_toast_removed_title(),
+				m.page_connections_toast_removed_content(),
+				"person_remove",
+				3000,
+				"subtle"
+			);
 			await loadConnectionsData();
 		} else {
-			toast("Error", res.error || "Failed to remove connection.", "error", 4000, "danger");
+			toast(
+				m.common_Error(),
+				res.error || m.page_connections_toast_remove_failed(),
+				"error",
+				4000,
+				"danger"
+			);
 		}
 	}
 
@@ -107,10 +144,22 @@
 			true
 		);
 		if (res.success) {
-			toast("Unblocked", "User has been unblocked.", "check_circle", 3000, "success");
+			toast(
+				m.page_connections_toast_unblocked_title(),
+				m.page_connections_toast_unblocked_content(),
+				"check_circle",
+				3000,
+				"success"
+			);
 			await loadConnectionsData();
 		} else {
-			toast("Error", res.error || "Failed to unblock user.", "error", 4000, "danger");
+			toast(
+				m.common_Error(),
+				res.error || m.page_connections_toast_unblock_failed(),
+				"error",
+				4000,
+				"danger"
+			);
 		}
 	}
 
@@ -145,7 +194,7 @@
 				class={styles.title}
 				style="font-size: {token.global.font.size.xlarge}; font-weight: {token.global.font.weight
 					.bold}; margin-bottom: {token.global.spacing.medium};">
-				Connections
+				{m.page_connections_title()}
 			</h1>
 
 			{#if isLoading}
@@ -163,16 +212,16 @@
 							height="fit-content"
 							width="fit-content"
 							flexWrap="wrap">
-							<Tab value="friends">Connections ({friendsList.length})</Tab>
-							<Tab value="incoming">Incoming ({incomingList.length})</Tab>
-							<Tab value="outgoing">Outgoing ({outgoingList.length})</Tab>
-							<Tab value="blocked">Blocked ({blockedList.length})</Tab>
+							<Tab value="friends">{m.page_connections_tab_friends({ count: friendsList.length })}</Tab>
+							<Tab value="incoming">{m.page_connections_tab_incoming({ count: incomingList.length })}</Tab>
+							<Tab value="outgoing">{m.page_connections_tab_outgoing({ count: outgoingList.length })}</Tab>
+							<Tab value="blocked">{m.page_connections_tab_blocked({ count: blockedList.length })}</Tab>
 						</Flex>
 
 						<TabPanel value="friends">
 							<Flex direction="column" gap="small" width="100%">
 								{#if friendsList.length === 0}
-									<p style="opacity: 0.7;">No connections found.</p>
+									<p style="opacity: 0.7;">{m.page_connections_empty_friends()}</p>
 								{:else}
 									{#each friendsList as item (item.connectionId)}
 										<Flex
@@ -196,11 +245,12 @@
 												</Flex>
 											</Flex>
 											<Flex direction="row" gap="small" alignItems="center">
-												<LinkButton href="/profile/{item.user.userId}">View Profile</LinkButton>
+												<LinkButton href="/profile/{item.user.userId}"
+													>{m.page_connections_view_profile()}</LinkButton>
 												<Button
 													appearance="subtle"
 													onclick={() => removeConnection(item.user.userId)}>
-													Remove
+													{m.page_connections_remove()}
 												</Button>
 											</Flex>
 										</Flex>
@@ -212,7 +262,7 @@
 						<TabPanel value="incoming">
 							<Flex direction="column" gap="small" width="100%">
 								{#if incomingList.length === 0}
-									<p style="opacity: 0.7;">No incoming requests.</p>
+									<p style="opacity: 0.7;">{m.page_connections_empty_incoming()}</p>
 								{:else}
 									{#each incomingList as item (item.connectionId)}
 										<Flex
@@ -236,14 +286,15 @@
 												</Flex>
 											</Flex>
 											<Flex direction="row" gap="small" alignItems="center">
-												<LinkButton href="/profile/{item.user.userId}">View Profile</LinkButton>
+												<LinkButton href="/profile/{item.user.userId}"
+												>{m.page_connections_view_profile()}</LinkButton>
 												<Button
 													appearance="primary"
 													onclick={() => acceptRequest(item.user.userId)}>
-													Accept
+													{m.page_connections_accept()}
 												</Button>
 												<Button appearance="subtle" onclick={() => rejectRequest(item.user.userId)}>
-													Reject
+													{m.page_connections_reject()}
 												</Button>
 											</Flex>
 										</Flex>
@@ -255,7 +306,7 @@
 						<TabPanel value="outgoing">
 							<Flex direction="column" gap="small" width="100%">
 								{#if outgoingList.length === 0}
-									<p style="opacity: 0.7;">No outgoing requests pending.</p>
+									<p style="opacity: 0.7;">{m.page_connections_empty_outgoing()}</p>
 								{:else}
 									{#each outgoingList as item (item.connectionId)}
 										<Flex
@@ -279,7 +330,8 @@
 												</Flex>
 											</Flex>
 											<Flex direction="row" gap="small" alignItems="center">
-												<LinkButton href="/profile/{item.user.userId}">View Profile</LinkButton>
+												<LinkButton href="/profile/{item.user.userId}"
+												>{m.page_connections_view_profile()}</LinkButton>
 											</Flex>
 										</Flex>
 									{/each}
@@ -290,7 +342,7 @@
 						<TabPanel value="blocked">
 							<Flex direction="column" gap="small" width="100%">
 								{#if blockedList.length === 0}
-									<p style="opacity: 0.7;">No blocked users.</p>
+									<p style="opacity: 0.7;">{m.page_connections_empty_blocked()}</p>
 								{:else}
 									{#each blockedList as item (item.blockId)}
 										<Flex
@@ -315,7 +367,7 @@
 											</Flex>
 											<Flex direction="row" gap="small" alignItems="center">
 												<Button appearance="primary" onclick={() => unblockUser(item.user.userId)}>
-													Unblock
+													{m.page_connections_unblock()}
 												</Button>
 											</Flex>
 										</Flex>
@@ -333,7 +385,7 @@
 					onclick={() => {
 						navigateBack();
 					}}>
-					Back
+					{m.common_back()}
 				</Button>
 			</Flex>
 		</div>

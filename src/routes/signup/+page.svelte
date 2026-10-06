@@ -142,7 +142,13 @@
 			}
 
 			if (!fetchResult.signupToken || !fetchResult.email) {
-				toast("We lost you!", "Please continue after you login.", "no_accounts", 4000, "subtle");
+				toast(
+					m.page_signup_prefs_lost_you_title(),
+					m.page_signup_prefs_lost_you_content(),
+					"no_accounts",
+					4000,
+					"subtle"
+				);
 				goto("/login");
 				return;
 			}

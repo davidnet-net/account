@@ -28,30 +28,30 @@
 
 	function validateIdentifier(input: string): string | undefined {
 		if (!input) {
-			return "Please enter your username or email.";
+			return m.page_login_err_identifier_required();
 		}
 
 		const forbidden = /[\s\(\)\[\]{},;:<>\\\/"]/;
 		if (forbidden.test(input)) {
-			return "Contains invalid characters or spaces.";
+			return m.page_login_err_invalid_chars();
 		}
 
 		if (input.includes("@")) {
 			// Assume user means email
 			const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 			if (!emailPattern.test(input)) {
-				return "Please enter a valid email address.";
+				return m.page_login_err_invalid_email();
 			}
 		} else {
 			// Assume username
 			// Rules: Alphanumeric, underscores, hyphens only.
 			const usernamePattern = /^[a-zA-Z0-9_-]+$/;
 			if (!usernamePattern.test(input)) {
-				return "Usernames can only contain letters, numbers, and _ -";
+				return m.page_login_err_username_pattern();
 			}
 
 			if (input.length < 3) {
-				return "Username is too short.";
+				return m.page_login_err_username_short();
 			}
 		}
 
@@ -98,7 +98,7 @@
 
 		// Password check
 		if (password.length < 8) {
-			invalidPassword = "Password must be at least 8 characters.";
+			invalidPassword = m.common_errors_PASSWORD_LENGTH();
 			loading = false;
 			return;
 		}
@@ -109,8 +109,8 @@
 		});
 
 		if (result.code === "INVALID_CREDENTIALS") {
-			invalidPassword = "Username, email or password may be wrong.";
-			invalidIdentifier = "Username, email or password may be wrong.";
+			invalidPassword = m.page_login_err_invalid_credentials();
+			invalidIdentifier = m.page_login_err_invalid_credentials();
 			loading = false;
 			return;
 		}
@@ -191,31 +191,31 @@
 			text="center"
 			marginBottom="large"
 			direction="column">
-			<h1>Login</h1>
+			<h1>{m.page_login_heading()}</h1>
 			<p style:color={token.theme.color.text.secondary}>{m.common_to_continue()}</p>
 		</Flex>
 		<Form id="login-form" onsubmit={login}>
-			<Field required label="Username or email:" name="identifier" invalid={invalidIdentifier}>
+			<Field required label={m.page_login_identifier_label()} name="identifier" invalid={invalidIdentifier}>
 				<TextField
-					placeholder="Enter your username or email"
+					placeholder={m.page_login_identifier_placeholder()}
 					bind:value={identifier}
 					oninput={() => (invalidIdentifier = undefined)}
 					disabled={loading} />
 			</Field>
-			<Field required label="Password:" name="password" invalid={invalidPassword}>
+			<Field required label={m.page_login_password_label()} name="password" invalid={invalidPassword}>
 				<TextField
-					placeholder="Enter your password"
+					placeholder={m.page_login_password_placeholder()}
 					type="password"
 					oninput={() => (invalidPassword = undefined)}
 					bind:value={password}
 					disabled={loading} />
 			</Field>
-			<Button form="login-form" type="submit" appearance="primary" {loading}>Log in</Button>
+			<Button form="login-form" type="submit" appearance="primary" {loading}>{m.common_Login()}</Button>
 		</Form>
 		<Flex marginTop="large" width="100%" alignItems="center" direction="column" gap="small">
-			<Link disabled={loading} href="https://davidnet.net/help">Help</Link>
-			<Link disabled={loading} href="/signup">Sign up</Link>
-			<Link disabled={loading} href="/recovery">Account recovery</Link>
+			<Link disabled={loading} href="https://davidnet.net/help">{m.common_Help()}</Link>
+			<Link disabled={loading} href="/signup">{m.common_Sign_up()}</Link>
+			<Link disabled={loading} href="/recovery">{m.page_login_account_recovery_link()}</Link>
 		</Flex>
 	</div>
 </div>

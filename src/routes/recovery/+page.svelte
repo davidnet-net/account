@@ -26,24 +26,24 @@
 			text="center"
 			marginBottom="large"
 			direction="column">
-			<h1>Account recovery</h1>
-			<p style:color={token.theme.color.text.secondary}>Lets get you back into your account.</p>
+			<h1>{m.page_login_account_recovery_link()}</h1>
+			<p style:color={token.theme.color.text.secondary}>{m.page_recovery_subheading()}</p>
 			<Flex marginTop="medium" gap="medium" direction="column" width="100%">
 				<HorizontalCard
-					title="Recover Password"
+					title={m.page_recovery_card_password_title()}
 					icon="password"
 					href="/recovery/password"
-					description="Reset your password." />
+					description={m.page_recovery_card_password_desc()} />
 				<HorizontalCard
-					title="Contact support"
+					title={m.page_recovery_card_support_title()}
 					icon="contact_support"
 					description=""
 					href="https://davidnet.net/help" />
 			</Flex>
 		</Flex>
 		<Flex marginTop="large" width="100%" alignItems="center" direction="column" gap="small">
-			<Link href="https://davidnet.net/help">Help</Link>
-			<Link href="/login ">Login</Link>
+			<Link href="https://davidnet.net/help">{m.common_Help()}</Link>
+			<Link href="/login ">{m.page_recovery_login_link()}</Link>
 		</Flex>
 	</div>
 </div>

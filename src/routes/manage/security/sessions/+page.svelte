@@ -25,6 +25,7 @@
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 
 	import * as styles from "./page.css";
+	import * as m from "$lib/paraglide/messages.js";
 
 	interface session {
 		jwtId: string;
@@ -74,10 +75,10 @@
 
 		// UAParser leaves device.type undefined for standard desktops/laptops.
 		// We map it to your preferred "Computer" fallback.
-		let deviceType = "Computer";
-		if (result.device.type === "mobile") deviceType = "Mobile";
-		if (result.device.type === "tablet") deviceType = "Tablet";
-		if (result.device.type === "smarttv") deviceType = "Smart TV";
+		let deviceType = m.page_sessions_device_computer();
+		if (result.device.type === "mobile") deviceType = m.page_sessions_device_mobile();
+		if (result.device.type === "tablet") deviceType = m.page_sessions_device_tablet();
+		if (result.device.type === "smarttv") deviceType = m.page_sessions_device_smarttv();
 
 		// Use the actual vendor/model if available (e.g., "Apple - iPhone"), otherwise fallback to generic type
 		const deviceDisplay =
@@ -87,8 +88,8 @@
 
 		return {
 			device: deviceDisplay,
-			os: result.os.name || "Unknown OS",
-			browser: result.browser.name || "Unknown Browser",
+			os: result.os.name || m.page_sessions_unknown_os(),
+			browser: result.browser.name || m.page_sessions_unknown_browser(),
 			version: result.browser.version ? `v${result.browser.version}` : ""
 		};
 	}
@@ -104,7 +105,13 @@
 		);
 
 		if (result.success) {
-			toast("Session revoked!", "That session has been revoked.", "logout", 4000, "success");
+			toast(
+				m.page_sessions_toast_revoked_title(),
+				m.page_sessions_toast_revoked_content(),
+				"logout",
+				4000,
+				"success"
+			);
 		}
 
 		await loadSessions();
@@ -124,8 +131,8 @@
 
 		if (result.success) {
 			toast(
-				"Logged out all!",
-				"You have revoked all sessions except this one.",
+				m.page_sessions_toast_logout_all_title(),
+				m.page_sessions_toast_logout_all_content(),
 				"logout",
 				4000,
 				"success"
@@ -140,14 +147,13 @@
 
 <div class={styles.page}>
 	<div class={styles.card}>
-		<h1 class={styles.title}>Current sessions</h1>
+		<h1 class={styles.title}>{m.page_sessions_title()}</h1>
 		<div>
 			<span class={styles.subtitle}>
-				<Anchor href="/manage/security">Security</Anchor> > Current sessions
+				<Anchor href="/manage/security">{m.page_sessions_breadcrumb_security()}</Anchor> > {m.page_sessions_breadcrumb_current()}
 			</span>
 			<p class={styles.subtitle}>
-				If you lost one of your devices or you notice suspicious activity, then log out of all your
-				devices and take steps to protect your account.
+				{m.page_sessions_warning()}
 			</p>
 
 			{#if sessions}
@@ -162,7 +168,7 @@
 										? ""
 										: `border-bottom: ${token.global.borderWidth.standard} solid ${token.theme.color.border.highlighted}`}>
 									<div>
-										<span class={styles.mobileSessionLabel}>Device:</span>
+										<span class={styles.mobileSessionLabel}>{m.page_sessions_device_label()}</span>
 										{#if appState.isMobile}
 											<br />
 										{/if}
@@ -170,23 +176,23 @@
 										<span class={styles.subtitle}>{uaInfo.os}</span>
 									</div>
 									<div>
-										<span class={styles.mobileSessionLabel}>Program:</span>
+										<span class={styles.mobileSessionLabel}>{m.page_sessions_program_label()}</span>
 										{uaInfo.browser}
 									</div>
 									<div>
-										<span class={styles.mobileSessionLabel}>IP-Address:</span>
+										<span class={styles.mobileSessionLabel}>{m.page_sessions_ip_label()}</span>
 										{session.ip}
 									</div>
 									<div>
-										<span class={styles.mobileSessionLabel}>Country:</span>
+										<span class={styles.mobileSessionLabel}>{m.page_sessions_country_label()}</span>
 										{session.countryCode}
 									</div>
 									<div>
-										<span class={styles.mobileSessionLabel}>Issued at:</span>
+										<span class={styles.mobileSessionLabel}>{m.page_sessions_issued_label()}</span>
 										{formatUnixMsToPreferred(new Date(session.issuedAt).getTime(), true)}
 									</div>
 									<div>
-										<span class={styles.mobileSessionLabel}>Expires:</span>
+										<span class={styles.mobileSessionLabel}>{m.page_sessions_expires_label()}</span>
 										{formatUnixMsToPreferred(new Date(session.expiresAt).getTime(), true)}
 									</div>
 									<div>
@@ -195,7 +201,7 @@
 											onclick={() => {
 												logoutSession(session.jwtId);
 											}}>
-											Log out
+											{m.page_sessions_logout_button()}
 										</Button>
 									</div>
 								</div>
@@ -206,13 +212,13 @@
 							<thead>
 								<tr
 									style={`border-bottom: ${token.global.borderWidth.standard} solid ${token.theme.color.border.highlighted}; padding-bottom: ${token.global.spacing.giant}`}>
-									<th>Device</th>
-									<th>Program</th>
-									<th>IP-Address</th>
-									<th>Country</th>
-									<th>Issued at</th>
-									<th>Expires</th>
-									<th>Action</th>
+									<th>{m.page_sessions_table_device()}</th>
+									<th>{m.page_sessions_table_program()}</th>
+									<th>{m.page_sessions_table_ip()}</th>
+									<th>{m.page_sessions_table_country()}</th>
+									<th>{m.page_sessions_table_issued()}</th>
+									<th>{m.page_sessions_table_expires()}</th>
+									<th>{m.page_sessions_table_action()}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -238,14 +244,14 @@
 										</td>
 										<td style={`padding: ${token.global.spacing.small}`}>
 											{#if session.jwtId === identityState.token?.jwtID}
-												<Lozenge appearance="primary">Current</Lozenge>
+												<Lozenge appearance="primary">{m.page_sessions_current_badge()}</Lozenge>
 											{:else}
 												<Button
 													{loading}
 													onclick={() => {
 														logoutSession(session.jwtId);
 													}}>
-													Log out
+													{m.page_sessions_logout_button()}
 												</Button>
 											{/if}
 										</td>
@@ -258,9 +264,9 @@
 			{/if}
 		</div>
 		<Flex direction="column" gap="none" marginTop="medium" width="100%">
-			<h2 class={styles.label}>Log out all sessions:</h2>
+			<h2 class={styles.label}>{m.page_sessions_logout_all_heading()}</h2>
 			<div class={styles.subtitle}>
-				You will logout on all sessions except your current one.
+				{m.page_sessions_logout_all_warning()}
 				<br />
 				<br />
 				<Button
@@ -268,19 +274,19 @@
 					onclick={() => {
 						showLogoutAllModal = true;
 					}}>
-					Log out all sessions
+					{m.page_sessions_logout_all_button()}
 				</Button>
 			</div>
 		</Flex>
 		<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 			<div class={styles.cardActions}>
-				<LinkButton href="/manage/security">Security</LinkButton>
+				<LinkButton href="/manage/security">{m.page_sessions_breadcrumb_security()}</LinkButton>
 				<Button
 					iconbefore="arrow_back"
 					onclick={() => {
 						navigateBack();
 					}}>
-					Back
+					{m.common_back()}
 				</Button>
 			</div>
 		</Flex>
@@ -289,20 +295,20 @@
 
 {#if showLogoutAllModal}
 	<Modal
-		title="Are you sure you want to logout on all sessions?"
+		title={m.page_sessions_modal_title()}
 		onclose={() => {
 			showLogoutAllModal = false;
 		}}>
-		You will logout on all sessions except your current one.
+		{m.page_sessions_logout_all_warning()}
 		{#snippet actions()}
 			<Button
 				onclick={() => {
 					showLogoutAllModal = false;
 				}}
 				{loading}>
-				Cancel
+				{m.common_Cancel()}
 			</Button>
-			<Button appearance="danger" {loading} onclick={logoutall}>Log out all sessions</Button>
+			<Button appearance="danger" {loading} onclick={logoutall}>{m.page_sessions_logout_all_button()}</Button>
 		{/snippet}
 	</Modal>
 {/if}

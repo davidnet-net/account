@@ -68,10 +68,10 @@
 				showDisableAuthenticatorModal = false;
 				await reloadInfo();
 			} else {
-				errorMessage = result.message || "Failed to disable authenticator.";
+				errorMessage = result.message || m.page_2fa_err_disable_failed();
 			}
 		} catch (e) {
-			errorMessage = "An unexpected error occurred.";
+			errorMessage = m.page_2fa_err_unexpected();
 		} finally {
 			loading = false;
 		}
@@ -98,7 +98,7 @@
 
 			if (!response.ok) {
 				const errorData = await response.json().catch(() => ({}));
-				errorMessage = errorData.message || "Failed to generate recovery codes PDF.";
+				errorMessage = errorData.message || m.page_2fa_err_generate_pdf_failed();
 				return;
 			}
 
@@ -115,7 +115,7 @@
 			window.URL.revokeObjectURL(downloadUrl);
 			showRecoveryCodesModal = false;
 		} catch (e) {
-			errorMessage = "Could not download the file. Please check your connection.";
+			errorMessage = m.page_2fa_err_download_failed();
 		} finally {
 			loading = false;
 		}
@@ -124,13 +124,13 @@
 
 <div class={styles.page}>
 	<div class={styles.card}>
-		<h1 class={styles.title}>Two-Step Verification</h1>
+		<h1 class={styles.title}>{m.page_2fa_manage_heading()}</h1>
 		<div>
 			<span class={styles.subtitle}>
-				<Anchor href="/manage/security">Security</Anchor>
-				> Two-Step Verification
+				<Anchor href="/manage/security">{m.page_security_heading()}</Anchor>
+				> {m.page_2fa_manage_heading()}
 			</span>
-			<p class={styles.subtitle}>Protect your account by adding an additional layer of security.</p>
+			<p class={styles.subtitle}>{m.page_2fa_manage_note()}</p>
 
 			{#if errorMessage}
 				<p style="color: var(--color-danger, #ef4444); margin-top: 10px; font-size: 13px;">
@@ -140,36 +140,36 @@
 
 			<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 				<div>
-					<h2 class={styles.label}>Authenticator App:</h2>
+					<h2 class={styles.label}>{m.page_2fa_manage_authenticator_heading()}</h2>
 					{#if authenticatorEnabled}
 						<Button
 							onclick={() => {
 								errorMessage = null;
 								showDisableAuthenticatorModal = true;
 							}}>
-							Disable Authenticator
+							{m.page_2fa_disable_button()}
 						</Button>
 					{:else}
 						<LinkButton {loading} href="/manage/security/2fa/authenticator">
-							Set up Authenticator App
+							{m.page_2fa_setup_button()}
 						</LinkButton>
 					{/if}
 				</div>
 				<div>
-					<h2 class={styles.label}>Emergency Recovery Codes:</h2>
+					<h2 class={styles.label}>{m.page_2fa_recovery_codes_heading()}</h2>
 					{#if authenticatorEnabled}
 						<Button
 							onclick={() => {
 								errorMessage = null;
 								showRecoveryCodesModal = true;
 							}}>
-							Download New Recovery Codes PDF
+							{m.page_2fa_download_codes_button()}
 						</Button>
 					{:else}
 						<p
 							style="font-size: {token.global.font.size.small}; color: {token.theme.color.text
 								.secondary};">
-							You must enable a 2FA method first before generating recovery codes.
+							{m.page_2fa_enable_first_note()}
 						</p>
 					{/if}
 				</div>
@@ -177,13 +177,13 @@
 		</div>
 		<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 			<div class={styles.cardActions}>
-				<LinkButton href="/manage/security">Security</LinkButton>
+				<LinkButton href="/manage/security">{m.page_security_heading()}</LinkButton>
 				<Button
 					iconbefore="arrow_back"
 					onclick={() => {
 						navigateBack();
 					}}>
-					Back
+					{m.common_back()}
 				</Button>
 			</div>
 		</Flex>
@@ -192,43 +192,43 @@
 
 {#if showDisableAuthenticatorModal}
 	<Modal
-		title="Disable Authenticator 2FA?"
+		title={m.page_2fa_disable_modal_title()}
 		onclose={() => {
 			showDisableAuthenticatorModal = false;
 		}}>
-		<p>Your account security will be significantly reduced without a second verification factor.</p>
+		<p>{m.page_2fa_disable_modal_body()}</p>
 		{#snippet actions()}
 			<Button
 				onclick={() => {
 					showDisableAuthenticatorModal = false;
 				}}>
-				Cancel
+				{m.common_Cancel()}
 			</Button>
-			<Button appearance="danger" {loading} onclick={disableAuthenticator}>Yes, Disable</Button>
+			<Button appearance="danger" {loading} onclick={disableAuthenticator}
+				>{m.page_2fa_yes_disable_button()}</Button>
 		{/snippet}
 	</Modal>
 {/if}
 
 {#if showRecoveryCodesModal}
 	<Modal
-		title="Generate New Recovery Codes?"
+		title={m.page_2fa_generate_modal_title()}
 		onclose={() => {
 			showRecoveryCodesModal = false;
 		}}>
 		<p>
-			<strong>Warning:</strong>
-			Generating a new set of codes will immediately invalidate all previously saved backup codes. Make
-			sure to safely store the newly downloaded PDF document.
+			<strong>{m.page_2fa_warning_label()}</strong>
+			{m.page_2fa_generate_modal_body()}
 		</p>
 		{#snippet actions()}
 			<Button
 				onclick={() => {
 					showRecoveryCodesModal = false;
 				}}>
-				Cancel
+				{m.common_Cancel()}
 			</Button>
 			<Button appearance="danger" {loading} onclick={downloadNewRecoveryCodes}>
-				Generate & Download PDF
+				{m.page_2fa_generate_download_button()}
 			</Button>
 		{/snippet}
 	</Modal>

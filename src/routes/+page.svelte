@@ -14,6 +14,7 @@
 	import { page } from "$app/state";
 	import Card from "$lib/components/Card/Card.svelte";
 	import HorizontalCard from "$lib/components/HorizontalCard/HorizontalCard.svelte";
+	import * as m from "$lib/paraglide/messages.js";
 
 	$effect(() => {
 		(async () => {
@@ -44,37 +45,37 @@
 				gap="large">
 				<Flex direction="column" alignItems="center" gap="small">
 					<HorizontalCard
-						title="Home"
+						title={m.page_dashboard_card_home_title()}
 						icon="home"
 						href="https://home.davidnet.net"
-						description="Go to Davidnet home." />
+						description={m.page_dashboard_card_home_desc_short()} />
 					<HorizontalCard
-						title="Profile"
+						title={m.page_dashboard_card_profile_title()}
 						icon="person"
 						href="/profile/{identityState.user?.userID}"
-						description="View or edit your profile." />
+						description={m.page_dashboard_card_profile_desc()} />
 					<HorizontalCard
-						title="Help center"
+						title={m.page_dashboard_card_help_title()}
 						icon="contact_support"
 						href="https://davidnet.net/help"
-						description="Help pages and your tickets." />
+						description={m.page_dashboard_card_help_desc_short()} />
 				</Flex>
 				<Flex direction="column" alignItems="center" gap="small">
 					<HorizontalCard
-						title="Security"
+						title={m.page_dashboard_card_security_title()}
 						icon="shield_locked"
 						href="/manage/security"
-						description="Account access and more." />
+						description={m.page_dashboard_card_security_desc()} />
 					<HorizontalCard
-						title="Preferences"
+						title={m.page_dashboard_card_preferences_title()}
 						icon="settings"
 						href="/manage/preferences"
-						description="Themes and languages." />
+						description={m.page_dashboard_card_preferences_desc()} />
 					<HorizontalCard
-						title="Privacy and data"
+						title={m.page_dashboard_card_privacy_title()}
 						icon="privacy_tip"
 						href="/manage/data"
-						description="Manage your information." />
+						description={m.page_dashboard_card_privacy_desc()} />
 				</Flex>
 			</Flex>
 		{:else}
@@ -86,20 +87,20 @@
 				marginTop="giant">
 				<Flex direction="row" justifyContent="center" alignItems="start" gap="small">
 					<Card
-						title="Home"
+						title={m.page_dashboard_card_home_title()}
 						icon="home"
 						href="https://home.davidnet.net"
-						description="Go to Davidnet home. One overview for everything." />
+						description={m.page_dashboard_card_home_desc_long()} />
 					<Card
-						title="Profile"
+						title={m.page_dashboard_card_profile_title()}
 						icon="person"
 						href="/profile/{identityState.user?.userID}"
-						description="View or edit your profile." />
+						description={m.page_dashboard_card_profile_desc()} />
 					<Card
-						title="Help center"
+						title={m.page_dashboard_card_help_title()}
 						icon="contact_support"
 						href="https://davidnet.net/help"
-						description="Help pages, view your tickets and contact us." />
+						description={m.page_dashboard_card_help_desc_long()} />
 				</Flex>
 				<Flex
 					direction="row"
@@ -108,20 +109,20 @@
 					marginTop="large"
 					gap="small">
 					<Card
-						title="Security"
+						title={m.page_dashboard_card_security_title()}
 						icon="shield_locked"
 						href="/manage/security"
-						description="Account access and more." />
+						description={m.page_dashboard_card_security_desc()} />
 					<Card
-						title="Preferences"
+						title={m.page_dashboard_card_preferences_title()}
 						icon="settings"
 						href="/manage/preferences"
-						description="Themes and languages." />
+						description={m.page_dashboard_card_preferences_desc()} />
 					<Card
-						title="Privacy and data"
+						title={m.page_dashboard_card_privacy_title()}
 						icon="privacy_tip"
 						href="/manage/data"
-						description="Manage your information." />
+						description={m.page_dashboard_card_privacy_desc()} />
 				</Flex>
 			</Flex>
 		{/if}

@@ -67,7 +67,7 @@
 
 <div class={styles.page}>
 	<div class={styles.card}>
-		<h1 class={styles.title}>Account audit logs</h1>
+		<h1 class={styles.title}>{m.page_audit_heading()}</h1>
 		<Flex
 			direction="column"
 			gap="medium"
@@ -100,13 +100,13 @@
 		</Flex>
 		<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 			<div class={styles.cardActions}>
-				<LinkButton href="/manage/security">Security</LinkButton>
+				<LinkButton href="/manage/security">{m.page_security_heading()}</LinkButton>
 				<Button
 					iconbefore="arrow_back"
 					onclick={() => {
 						navigateBack();
 					}}>
-					Back
+					{m.common_back()}
 				</Button>
 			</div>
 		</Flex>

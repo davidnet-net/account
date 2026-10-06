@@ -17,6 +17,7 @@
 	import DNLogo from "$lib/assets/DNLogo.png";
 
 	import * as styles from "./page.css";
+	import * as m from "$lib/paraglide/messages.js";
 
 	let loading = $state(false);
 
@@ -54,12 +55,12 @@
 
 	async function checkcode() {
 		if (!code.trim()) {
-			invalidCode = "Recovery code cannot be empty.";
+			invalidCode = m.page_recoverycode_error_empty();
 			return;
 		}
 
 		if (!mfaToken) {
-			invalidCode = "Missing MFA session token. Please restart the login process.";
+			invalidCode = m.page_recoverycode_error_missing_token();
 			return;
 		}
 
@@ -94,15 +95,15 @@
 				}
 			} else {
 				if (result.code === "INVALID_RECOVERY_CODE") {
-					invalidCode = "Invalid recovery code or code has already been used.";
+					invalidCode = m.page_recoverycode_error_invalid();
 				} else if (result.code === "INVALID_OR_EXPIRED_MFA_TOKEN") {
-					invalidCode = "Session expired. Please log in again.";
+					invalidCode = m.page_recoverycode_error_session_expired();
 				} else {
-					invalidCode = result.message || "Failed to verify recovery code.";
+					invalidCode = result.message || m.page_recoverycode_error_failed();
 				}
 			}
 		} catch (e) {
-			invalidCode = "An unexpected error occurred. Please check your network connection.";
+			invalidCode = m.page_recoverycode_error_unexpected();
 		} finally {
 			loading = false;
 		}
@@ -126,20 +127,21 @@
 			text="center"
 			marginBottom="large"
 			direction="column">
-			<h1>Enter your recovery code</h1>
+			<h1>{m.page_recoverycode_heading()}</h1>
 			<p style:color={token.theme.color.text.secondary}>
-				Use one of your backup recovery codes to access your account.
+				{m.page_recoverycode_subheading()}
 			</p>
 		</Flex>
 		<Form id="recoverycode-form" onsubmit={checkcode}>
-			<Field required label="Recovery code:" name="code" invalid={invalidCode}>
+			<Field required label={m.page_recoverycode_label()} name="code" invalid={invalidCode}>
 				<TextField
-					placeholder="XXXX-XXXX-XXXX-XXXX"
+					placeholder={m.page_recoverycode_placeholder()}
 					bind:value={code}
 					oninput={() => (invalidCode = undefined)}
 					disabled={loading} />
 			</Field>
-			<Button form="recoverycode-form" type="submit" appearance="primary" {loading}>Log in</Button>
+			<Button form="recoverycode-form" type="submit" appearance="primary" {loading}
+				>{m.common_Login()}</Button>
 		</Form>
 		<Flex marginTop="large" width="100%" alignItems="center" direction="column" gap="small">
 			<LinkButton
@@ -147,7 +149,7 @@
 				href="/login/2fa{mfaToken ? `?mfaToken=${encodeURIComponent(mfaToken)}` : ''}{continueParam
 					? `&continue=${encodeURIComponent(continueParam)}`
 					: ''}">
-				Other 2FA methods
+				{m.page_recoverycode_other_methods()}
 			</LinkButton>
 		</Flex>
 	</div>

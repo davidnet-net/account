@@ -70,8 +70,8 @@
 				direction="column">
 				<Icon icon="mark_email_read" size="giant" color="success" />
 				<p style="font-size: {token.global.font.size.large};">
-					Email verified. <br />
-					You can now close this page.
+					{m.page_confirm_email_verified_note()} <br />
+					{m.page_confirm_close_page_note()}
 				</p>
 			</Flex>
 			<Button
@@ -79,7 +79,7 @@
 				onclick={() => {
 					window.close();
 				}}>
-				Close page
+				{m.page_confirm_close_page_button()}
 			</Button>
 		{:else if status === "invalid"}
 			<Flex
@@ -90,8 +90,8 @@
 				text="center"
 				marginBottom="large"
 				direction="column">
-				<h1>Email verification</h1>
-				<p style:color={token.theme.color.text.secondary}>Email not verified</p>
+				<h1>{m.page_verify_email_Email_verification()}</h1>
+				<p style:color={token.theme.color.text.secondary}>{m.page_confirm_not_verified()}</p>
 			</Flex>
 			<Flex
 				justifyContent="center"
@@ -104,14 +104,13 @@
 				direction="column">
 				<Icon icon="crisis_alert" size="giant" color="danger" />
 				<p style="font-size: {token.global.font.size.large};">
-					Email not verified. <br />
+					{m.page_confirm_not_verified()}. <br />
 				</p>
 				<p style="font-size: {token.global.font.size.medium};">
-					Link or Account expired or never existed.
+					{m.page_confirm_link_expired()}
 				</p>
-				Unverified accounts get deleted after 48 hours. However you can <Link href="/signup">
-					signup
-				</Link> again!
+				{m.page_confirm_unverified_note()}<Link href="/signup">{m.page_confirm_signup_link()}</Link
+				>{m.page_confirm_again_suffix()}
 			</Flex>
 		{:else if status === "loading"}
 			<Flex
@@ -122,7 +121,7 @@
 				text="center"
 				marginBottom="large"
 				direction="column">
-				<h1>Email verification</h1>
+				<h1>{m.page_verify_email_Email_verification()}</h1>
 			</Flex>
 			<Flex
 				justifyContent="center"
@@ -143,8 +142,8 @@
 				text="center"
 				marginBottom="large"
 				direction="column">
-				<h1>Email verification</h1>
-				<p style:color={token.theme.color.text.secondary}>Email not verified</p>
+				<h1>{m.page_verify_email_Email_verification()}</h1>
+				<p style:color={token.theme.color.text.secondary}>{m.page_confirm_not_verified()}</p>
 			</Flex>
 			<Flex
 				justifyContent="center"
@@ -157,9 +156,9 @@
 				direction="column">
 				<Icon icon="crisis_alert" size="giant" color="danger" />
 				<p style="font-size: {token.global.font.size.large};">
-					Email not verified. <br />
+					{m.page_confirm_not_verified()}. <br />
 				</p>
-				<p style="font-size: {token.global.font.size.medium};">Unknown error</p>
+				<p style="font-size: {token.global.font.size.medium};">{m.page_confirm_unknown_error()}</p>
 			</Flex>
 		{/if}
 	</div>

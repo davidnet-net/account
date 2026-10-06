@@ -16,6 +16,7 @@
 	import DNLogo from "$lib/assets/DNLogo.png";
 
 	import * as styles from "./page.css";
+	import * as m from "$lib/paraglide/messages.js";
 
 	const signupToken = $derived(page.url.searchParams.get("signupToken"));
 
@@ -35,25 +36,25 @@
 
 	// --- Vaste Opties ---
 	const languages = [
-		{ value: "en-us", label: "English - US" },
-		{ value: "nl", label: "Nederlands" }
+		{ value: "en-us", label: m.common_language_en_us() },
+		{ value: "nl", label: m.common_language_nl() }
 	];
 
 	const themes = [
-		{ value: "system", label: "System" },
-		{ value: "dark", label: "Dark" },
-		{ value: "light", label: "Light" },
-		{ value: "contrast", label: "Contrast" }
+		{ value: "system", label: m.common_theme_system() },
+		{ value: "dark", label: m.common_theme_dark() },
+		{ value: "light", label: m.common_theme_light() },
+		{ value: "contrast", label: m.common_theme_contrast() }
 	];
 
 	const daysOfWeek = [
-		{ value: "monday", label: "Monday" },
-		{ value: "tuesday", label: "Tuesday" },
-		{ value: "wednesday", label: "Wednesday" },
-		{ value: "thursday", label: "Thursday" },
-		{ value: "friday", label: "Friday" },
-		{ value: "saturday", label: "Saturday" },
-		{ value: "sunday", label: "Sunday" }
+		{ value: "monday", label: m.common_day_monday() },
+		{ value: "tuesday", label: m.common_day_tuesday() },
+		{ value: "wednesday", label: m.common_day_wednesday() },
+		{ value: "thursday", label: m.common_day_thursday() },
+		{ value: "friday", label: m.common_day_friday() },
+		{ value: "saturday", label: m.common_day_saturday() },
+		{ value: "sunday", label: m.common_day_sunday() }
 	];
 
 	const dateFormats = ["YYYY-MM-DD", "DD-MM-YYYY", "MM-DD-YYYY"];
@@ -96,7 +97,13 @@
 	async function submit() {
 		loading = true;
 		if (!signupToken) {
-			toast("We lost you!", "Please continue after you login.", "no_accounts", 4000, "subtle");
+			toast(
+				m.page_signup_prefs_lost_you_title(),
+				m.page_signup_prefs_lost_you_content(),
+				"no_accounts",
+				4000,
+				"subtle"
+			);
 			goto("/login");
 			loading = false;
 			return;
@@ -155,12 +162,12 @@
 			text="center"
 			marginBottom="large"
 			direction="column">
-			<h1>Preferences</h1>
-			<p>Select the options you prefer.</p>
-			<p>You can always change this later.</p>
+			<h1>{m.page_prefs_title()}</h1>
+			<p>{m.page_signup_prefs_subheading1()}</p>
+			<p>{m.page_signup_prefs_subheading2()}</p>
 		</Flex>
 
-		<h2 style="font-size: {token.global.font.size.medium}">Select the language you prefer:</h2>
+		<h2 style="font-size: {token.global.font.size.medium}">{m.page_prefs_select_language()}</h2>
 		<Dropdown isOpen={languageDropdownOpen}>
 			{#snippet trigger()}
 				<Button
@@ -181,7 +188,7 @@
 			{/each}
 		</Dropdown>
 
-		<h2 style="font-size: {token.global.font.size.medium}">Select the theme you prefer:</h2>
+		<h2 style="font-size: {token.global.font.size.medium}">{m.page_prefs_select_theme()}</h2>
 		<Dropdown isOpen={themeDropdownOpen}>
 			{#snippet trigger()}
 				<Button iconbefore="palette" onclick={() => (themeDropdownOpen = !themeDropdownOpen)}>
@@ -200,7 +207,7 @@
 			{/each}
 		</Dropdown>
 
-		<h2 style="font-size: {token.global.font.size.medium}">Select your timezone:</h2>
+		<h2 style="font-size: {token.global.font.size.medium}">{m.page_prefs_select_timezone()}</h2>
 		<Dropdown isOpen={timezoneDropdownOpen}>
 			{#snippet trigger()}
 				<Button
@@ -221,7 +228,7 @@
 			{/each}
 		</Dropdown>
 
-		<h2 style="font-size: {token.global.font.size.medium}">Select the first day of the week:</h2>
+		<h2 style="font-size: {token.global.font.size.medium}">{m.page_prefs_select_first_day()}</h2>
 		<Dropdown isOpen={firstDayDropdownOpen}>
 			{#snippet trigger()}
 				<Button
@@ -242,7 +249,7 @@
 			{/each}
 		</Dropdown>
 
-		<h2 style="font-size: {token.global.font.size.medium}">Select your date format:</h2>
+		<h2 style="font-size: {token.global.font.size.medium}">{m.page_prefs_select_date_format()}</h2>
 		<Dropdown isOpen={dateFormatDropdownOpen}>
 			{#snippet trigger()}
 				<Button
@@ -264,6 +271,6 @@
 		</Dropdown>
 		<br />
 
-		<Button appearance="primary" onclick={submit} {loading}>Continue</Button>
+		<Button appearance="primary" onclick={submit} {loading}>{m.page_signup_prefs_continue()}</Button>
 	</div>
 </div>

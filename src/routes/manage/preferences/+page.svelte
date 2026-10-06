@@ -27,6 +27,7 @@
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 
 	import * as styles from "./page.css";
+	import * as m from "$lib/paraglide/messages.js";
 
 	let language = $state("en-us");
 	let theme = $state("dark");
@@ -41,25 +42,25 @@
 	let dateFormatDropdownOpen = $state(false);
 
 	const languages = [
-		{ value: "en-us", label: "English - US" },
-		{ value: "nl", label: "Nederlands" }
+		{ value: "en-us", label: m.common_language_en_us() },
+		{ value: "nl", label: m.common_language_nl() }
 	];
 
 	const themes = [
-		{ value: "system", label: "System" },
-		{ value: "dark", label: "Dark" },
-		{ value: "light", label: "Light" },
-		{ value: "contrast", label: "Contrast" }
+		{ value: "system", label: m.common_theme_system() },
+		{ value: "dark", label: m.common_theme_dark() },
+		{ value: "light", label: m.common_theme_light() },
+		{ value: "contrast", label: m.common_theme_contrast() }
 	];
 
 	const daysOfWeek = [
-		{ value: "monday", label: "Monday" },
-		{ value: "tuesday", label: "Tuesday" },
-		{ value: "wednesday", label: "Wednesday" },
-		{ value: "thursday", label: "Thursday" },
-		{ value: "friday", label: "Friday" },
-		{ value: "saturday", label: "Saturday" },
-		{ value: "sunday", label: "Sunday" }
+		{ value: "monday", label: m.common_day_monday() },
+		{ value: "tuesday", label: m.common_day_tuesday() },
+		{ value: "wednesday", label: m.common_day_wednesday() },
+		{ value: "thursday", label: m.common_day_thursday() },
+		{ value: "friday", label: m.common_day_friday() },
+		{ value: "saturday", label: m.common_day_saturday() },
+		{ value: "sunday", label: m.common_day_sunday() }
 	];
 
 	const dateFormats = ["YYYY-MM-DD", "DD-MM-YYYY", "MM-DD-YYYY"];
@@ -97,12 +98,12 @@
 
 <div class={styles.page}>
 	<div class={styles.card}>
-		<h1 class={styles.title}>Preferences</h1>
-		<p class={styles.subtitle}>Changes are saved automatically.</p>
+		<h1 class={styles.title}>{m.page_prefs_title()}</h1>
+		<p class={styles.subtitle}>{m.page_prefs_subtitle()}</p>
 
 		<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 			<div class={styles.formGroup}>
-				<h2 class={styles.label}>Select the theme you prefer:</h2>
+				<h2 class={styles.label}>{m.page_prefs_select_theme()}</h2>
 				<Dropdown isOpen={themeDropdownOpen}>
 					{#snippet trigger()}
 						<Button
@@ -131,7 +132,7 @@
 			</div>
 
 			<div class={styles.formGroup}>
-				<h2 class={styles.label}>Select the language you prefer:</h2>
+				<h2 class={styles.label}>{m.page_prefs_select_language()}</h2>
 				<Dropdown isOpen={languageDropdownOpen}>
 					{#snippet trigger()}
 						<Button
@@ -160,7 +161,7 @@
 			</div>
 
 			<div class={styles.formGroup}>
-				<h2 class={styles.label}>Select your timezone:</h2>
+				<h2 class={styles.label}>{m.page_prefs_select_timezone()}</h2>
 				<Dropdown isOpen={timezoneDropdownOpen}>
 					{#snippet trigger()}
 						<Button
@@ -189,7 +190,7 @@
 			</div>
 
 			<div class={styles.formGroup}>
-				<h2 class={styles.label}>Select the first day of the week:</h2>
+				<h2 class={styles.label}>{m.page_prefs_select_first_day()}</h2>
 				<Dropdown isOpen={firstDayDropdownOpen}>
 					{#snippet trigger()}
 						<Button
@@ -218,7 +219,7 @@
 			</div>
 
 			<div class={styles.formGroup}>
-				<h2 class={styles.label}>Select your date format:</h2>
+				<h2 class={styles.label}>{m.page_prefs_select_date_format()}</h2>
 				<Dropdown isOpen={dateFormatDropdownOpen}>
 					{#snippet trigger()}
 						<Button
@@ -248,13 +249,13 @@
 		</Flex>
 
 		<div class={styles.cardActions}>
-			<LinkButton href="/">My account</LinkButton>
+			<LinkButton href="/">{m.common_my_account()}</LinkButton>
 			<Button
 				iconbefore="arrow_back"
 				onclick={() => {
 					navigateBack();
 				}}>
-				Back
+				{m.common_back()}
 			</Button>
 		</div>
 	</div>

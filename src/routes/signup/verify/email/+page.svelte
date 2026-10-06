@@ -79,7 +79,7 @@
 		}
 
 		if (!signupToken) {
-			toast("We lost you!", "Please continue after you login.", "no_accounts", 4000, "subtle");
+			toast(m.page_signup_prefs_lost_you_title(), m.page_signup_prefs_lost_you_content(), "no_accounts", 4000, "subtle");
 			goto("/login");
 			console.log("?");
 			loading = false;
@@ -105,7 +105,7 @@
 
 			if (!fetchResult.success) {
 				if (!fetchResult.code) {
-					toast("We lost you!", "Please continue after you login.", "no_accounts", 4000, "subtle");
+					toast(m.page_signup_prefs_lost_you_title(), m.page_signup_prefs_lost_you_content(), "no_accounts", 4000, "subtle");
 					goto("/login");
 					loading = false;
 					return;
@@ -139,7 +139,7 @@
 	let resendEmailModalOpened = $state(false);
 	async function resendEmail() {
 		if (!signupToken) {
-			toast("We lost you!", "Please continue after you login.", "no_accounts", 4000, "subtle");
+			toast(m.page_signup_prefs_lost_you_title(), m.page_signup_prefs_lost_you_content(), "no_accounts", 4000, "subtle");
 			goto("/login");
 			loading = false;
 			resendEmailModalOpened = false;
@@ -213,8 +213,8 @@
 			if (data.code === "SIGNUPTOKEN_INVALID" || data.code === "USER_NOT_FOUND") {
 				isPolling = false;
 				toast(
-					"We lost you!",
-					"Please continue after you login or signup.",
+					m.page_signup_prefs_lost_you_title(),
+					m.page_verify_email_err_lost_you_login_signup(),
 					"no_accounts",
 					4000,
 					"subtle"
@@ -312,8 +312,8 @@
 					const targetSeconds = 30;
 					if (elapsedSeconds < targetSeconds) {
 						toast(
-							"Not so fast!",
-							`Wait ${targetSeconds - elapsedSeconds} seconds.`,
+							m.page_verify_email_not_so_fast_title(),
+							m.page_verify_email_wait_seconds({ seconds: targetSeconds - elapsedSeconds }),
 							"acute",
 							4000,
 							"warning"
@@ -335,8 +335,8 @@
 					const targetSeconds = 30;
 					if (elapsedSeconds < targetSeconds) {
 						toast(
-							"Not so fast!",
-							`Wait ${targetSeconds - elapsedSeconds} seconds.`,
+							m.page_verify_email_not_so_fast_title(),
+							m.page_verify_email_wait_seconds({ seconds: targetSeconds - elapsedSeconds }),
 							"acute",
 							4000,
 							"warning"

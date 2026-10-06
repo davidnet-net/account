@@ -22,6 +22,7 @@
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
 
 	import * as styles from "./page.css";
+	import * as m from "$lib/paraglide/messages.js";
 	interface InternalAccessResult {
 		userId: string;
 		internalAccess: boolean;
@@ -93,7 +94,7 @@
 			link.remove();
 			window.URL.revokeObjectURL(url);
 		} catch (error) {
-			toast("Download failed");
+			toast(m.page_vpn_download_failed());
 			console.error("Download failed:", error);
 		}
 	}
@@ -101,17 +102,17 @@
 
 <div class={styles.page}>
 	<div class={styles.card}>
-		<h1 class={styles.title}>VPN access</h1>
+		<h1 class={styles.title}>{m.page_internal_access_card_vpn_title()}</h1>
 		<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 			<div class={styles.accessCard}>
-				<h2>VPN access</h2>
-				Connect to the internal network from external locations.
+				<h2>{m.page_internal_access_card_vpn_title()}</h2>
+				{m.page_internal_access_card_vpn_desc()}
 				<br />
 				<br />
 				{#if internalAccessResult?.vpnAccess}
-					<Lozenge appearance="success">Granted access</Lozenge>
+					<Lozenge appearance="success">{m.page_internal_access_granted()}</Lozenge>
 				{:else}
-					<Lozenge appearance="danger">No access</Lozenge>
+					<Lozenge appearance="danger">{m.page_internal_access_none()}</Lozenge>
 				{/if}
 
 				<br />
@@ -119,23 +120,22 @@
 
 				<Flex direction="column" height="fit-content" gap="medium">
 					<p>
-						We use a selfhosted instance of tailscale server called headscale. However you will
-						still need to install the tailscale client.
+						{m.page_vpn_headscale_note()}
 					</p>
 					<LinkButton href="https://tailscale.com/download" opennewtab external>
-						Download tailscale client
+						{m.page_vpn_download_client()}
 					</LinkButton>
 
-					<p>After installation run this in a terminal:</p>
+					<p>{m.page_vpn_run_this()}</p>
 					<CodeSnippet
 						language="terminal"
 						code="tailscale up --login-server=https://headscale.davidnet.net --accept-routes --accept-dns --force-reauth" />
 
-					<p>Trust this CA for HTTPS & SSL security:</p>
-					<Button onclick={downloadCA}>Download</Button>
+					<p>{m.page_vpn_trust_ca()}</p>
+					<Button onclick={downloadCA}>{m.page_vpn_download()}</Button>
 
 					<p>
-						You are ready! Try visiting <Anchor href="https://test-connection.davidnet.internal">
+						{m.page_vpn_ready_prefix()}<Anchor href="https://test-connection.davidnet.internal">
 							test-connection.davidnet.internal
 						</Anchor>
 					</p>
@@ -148,7 +148,7 @@
 				onclick={() => {
 					navigateBack();
 				}}>
-				Back
+				{m.common_back()}
 			</Button>
 		</div>
 	</div>

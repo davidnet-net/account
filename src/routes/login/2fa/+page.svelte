@@ -18,6 +18,7 @@
 	import TOTPInput from "$lib/components/TOTPInput/TOTPInput.svelte";
 
 	import * as styles from "./page.css";
+	import * as m from "$lib/paraglide/messages.js";
 
 	let loading = $state(false);
 	let invalidCode = $state(false);
@@ -120,8 +121,8 @@
 			text="center"
 			marginBottom="large"
 			direction="column">
-			<h1>Enter your TOTP code</h1>
-			<p style:color={token.theme.color.text.secondary}>This step keeps your account safer.</p>
+			<h1>{m.page_2fa_heading()}</h1>
+			<p style:color={token.theme.color.text.secondary}>{m.page_2fa_subheading()}</p>
 		</Flex>
 		<div style="margin-left: 9rem">
 			<TOTPInput
@@ -138,7 +139,7 @@
 				href="/login/2fa/recoverycode{mfaToken
 					? `?mfaToken=${encodeURIComponent(mfaToken)}`
 					: ''}{continueParam ? `&continue=${encodeURIComponent(continueParam)}` : ''}">
-				Login with recovery code instead
+				{m.page_2fa_recovery_link()}
 			</LinkButton>
 		</Flex>
 	</div>

@@ -33,6 +33,7 @@
 	import HorizontalCard from "$lib/components/HorizontalCard/HorizontalCard.svelte";
 
 	import * as styles from "./page.css";
+	import * as m from "$lib/paraglide/messages.js";
 
 	$effect(() => {
 		(async () => {
@@ -46,22 +47,22 @@
 
 <div class={styles.page}>
 	<div class={styles.card}>
-		<h1 class={styles.title}>Data deletion</h1>
-		<p class={styles.subtitle}>You can delete your account and correlating data here.</p>
+		<h1 class={styles.title}>{m.page_data_card_delete_title()}</h1>
+		<p class={styles.subtitle}>{m.page_data_delete_subtitle()}</p>
 
 		<Flex gap="medium" direction="column" alignItems="center" marginTop="medium" width="100%">
 			<Icon icon="delete_forever" size="giant" color="danger" />
-			<p>A issue occured on our side. Please contact us.</p>
+			<p>{m.page_generic_error_contact_us()}</p>
 		</Flex>
 
 		<div class={styles.cardActions}>
-			<LinkButton href="/">My account</LinkButton>
+			<LinkButton href="/">{m.common_my_account()}</LinkButton>
 			<Button
 				iconbefore="arrow_back"
 				onclick={() => {
 					navigateBack();
 				}}>
-				Back
+				{m.common_back()}
 			</Button>
 		</div>
 	</div>

@@ -115,30 +115,26 @@
 
 <div class={styles.page}>
 	<div class={styles.card}>
-		<h1 class={styles.title}>Authenticator</h1>
+		<h1 class={styles.title}>{m.page_authenticator_heading()}</h1>
 		{#if alreadySetup}
 			<div>
 				<span class={styles.subtitle}>
-					You already setup your authenticater. If you want to reset your setup. Visit the normal
-					two step authentication page instead. And then disable the authenticator en then enable it
-					again.
+					{m.page_authenticator_already_setup()}
 				</span>
 				<br />
 				<br />
-				<LinkButton href="/manage/security/2fa">Two step verification page</LinkButton>
+				<LinkButton href="/manage/security/2fa">{m.page_authenticator_2fa_page_link()}</LinkButton>
 			</div>
 		{:else if showfinish}
 			<Flex direction="column" marginBottom="medium">
-				<span class={styles.subtitle}>Authenticater setup success</span>
+				<span class={styles.subtitle}>{m.page_authenticator_setup_success()}</span>
 				<Icon icon="verified" color="success" size="giant" />
 			</Flex>
-			<LinkButton href="/manage/security/2fa">Manage two step verification</LinkButton>
+			<LinkButton href="/manage/security/2fa">{m.page_security_2fa_manage_link()}</LinkButton>
 		{:else}
 			<div>
 				<span class={styles.subtitle}>
-					Lets set up your authenticator first scan the QR-Code with your app of choice. After enter
-					the TOTP code it generates to verify it went successfully. Dont forget to also generate
-					recovery codes.
+					{m.page_authenticator_intro()}
 				</span>
 				<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 					{#if !otpUri}
@@ -152,9 +148,9 @@
 							iconbefore={copied ? "check" : "content_copy"}
 							onclick={handleCopy}
 							appearance="subtle">
-							{copied ? "Copied!" : "Copy otpUri instead"}
+							{copied ? m.page_authenticator_copied() : m.page_authenticator_copy_otp()}
 						</Button>
-						<span><b>Enter the generated TOTP code:</b></span>
+						<span><b>{m.page_authenticator_enter_code()}</b></span>
 						<div style="margin-left: 4.5rem">
 							<TOTPInput
 								invalid={invalidCode}
@@ -169,13 +165,13 @@
 		{/if}
 		<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 			<div class={styles.cardActions}>
-				<LinkButton href="/manage/security">Security</LinkButton>
+				<LinkButton href="/manage/security">{m.page_security_heading()}</LinkButton>
 				<Button
 					iconbefore="arrow_back"
 					onclick={() => {
 						navigateBack();
 					}}>
-					Back
+					{m.common_back()}
 				</Button>
 			</div>
 		</Flex>
