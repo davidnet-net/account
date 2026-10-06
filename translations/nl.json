@@ -256,6 +256,8 @@
 	"page_edit_profile_toast_saved_title": "Profiel opgeslagen!",
 	"page_edit_profile_toast_saved_content": "Wijzigingen zijn succesvol opgeslagen.",
 
+	"page_profile_unavailable_title": "Profiel niet beschikbaar",
+	"page_profile_unavailable_description": "Dit profiel kan momenteel niet worden weergegeven.",
 	"page_profile_internal_badge": "Intern",
 	"page_profile_blocked_badge": "Geblokkeerd",
 	"page_profile_connection_badge": "Connectie",

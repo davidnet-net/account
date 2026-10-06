@@ -48,6 +48,7 @@
 	let isIncomingRequest = $state(false);
 	let isBlocked = $state(false);
 	let isLoadingState = $state(true);
+	let isProfileUnavailable = $state(false);
 
 	async function loadData() {
 		if (!authState.isLoggedIn) {
@@ -59,6 +60,8 @@
 			);
 			if (profileResult.success) {
 				profileResponse = profileResult.profileResponse;
+			} else {
+				isProfileUnavailable = true;
 			}
 			isLoadingState = false;
 			return;
@@ -73,6 +76,10 @@
 
 		if (profileResult.success) {
 			profileResponse = profileResult.profileResponse;
+		} else {
+			isProfileUnavailable = true;
+			isLoadingState = false;
+			return;
 		}
 
 		// 1. Fetch full connections/blocks list to evaluate block state accurately
@@ -307,7 +314,26 @@
 		height="fit-content"
 		marginTop="giant"
 		width="100%">
-		{#if !profileResponse || isLoadingState}
+		{#if isProfileUnavailable}
+			<Flex direction="column" alignItems="center" gap="small" marginTop="giant">
+				<Icon icon="person_off" />
+				<span
+					style="font-size: {token.global.font.size.xlarge}; font-weight: {token.global.font.weight
+						.medium};">
+					{m.page_profile_unavailable_title()}
+				</span>
+				<span style="opacity: 0.7; text-align: center;">
+					{m.page_profile_unavailable_description()}
+				</span>
+				<Button
+					iconbefore="arrow_back"
+					onclick={() => {
+						navigateBack();
+					}}>
+					{m.common_back()}
+				</Button>
+			</Flex>
+		{:else if !profileResponse || isLoadingState}
 			<Skeleton width="100%" height="12rem">
 				<Flex width="100%" height="100%" justifyContent="center" alignItems="center">
 					<Skeleton

@@ -256,6 +256,8 @@
 	"page_edit_profile_toast_saved_title": "Profile saved!",
 	"page_edit_profile_toast_saved_content": "Changes have been successfully saved.",
 
+	"page_profile_unavailable_title": "Profile unavailable",
+	"page_profile_unavailable_description": "This profile can't be shown right now.",
 	"page_profile_internal_badge": "Internal",
 	"page_profile_blocked_badge": "Blocked",
 	"page_profile_connection_badge": "Connection",
