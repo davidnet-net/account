@@ -20,9 +20,9 @@
 	import { onMount } from "svelte";
 
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
+	import * as m from "$lib/paraglide/messages.js";
 
 	import type { PageProps } from "./$types";
-	import * as m from "$lib/paraglide/messages.js";
 	let { params }: PageProps = $props();
 
 	interface ProfileResponse {
@@ -41,6 +41,17 @@
 		isInternal: boolean;
 	}
 
+	interface CommunityGameAchievement {
+		gameId: string;
+		gameTitle: string;
+		gameIconFilename: string | null;
+		achievementId: string;
+		name: string;
+		description: string | null;
+		icon: string | null;
+		unlockedAt: string;
+	}
+
 	import * as styles from "./page.css";
 
 	let profileResponse: undefined | ProfileResponse = $state(undefined);
@@ -49,6 +60,39 @@
 	let isBlocked = $state(false);
 	let isLoadingState = $state(true);
 	let isProfileUnavailable = $state(false);
+
+	let achievements: CommunityGameAchievement[] = $state([]);
+	let achievementsVisible = $state(true);
+	let totalPlaytimeMs = $state(0);
+
+	// Shown for both logged-in and anonymous viewers - achievements are gated server-side by the
+	// target player's own privacy preference, not by whether the viewer is authenticated.
+	async function loadCommunityGamesData(isOwnProfile: boolean) {
+		const achievementsResult = await getFetch(
+			`${PUBLIC_BACKEND_URL}/social/community-games/achievements`,
+			{ user: params.userid },
+			undefined,
+			authState.isLoggedIn
+		);
+
+		if (achievementsResult.success) {
+			achievementsVisible = achievementsResult.visible;
+			achievements = achievementsResult.achievements ?? [];
+		}
+
+		if (isOwnProfile && authState.isLoggedIn) {
+			const playtimeResult = await getFetch(
+				`${PUBLIC_BACKEND_URL}/social/community-games/playtime/total`,
+				undefined,
+				undefined,
+				true
+			);
+
+			if (playtimeResult.success) {
+				totalPlaytimeMs = playtimeResult.totalPlaytimeMs ?? 0;
+			}
+		}
+	}
 
 	async function loadData() {
 		if (!authState.isLoggedIn) {
@@ -60,6 +104,7 @@
 			);
 			if (profileResult.success) {
 				profileResponse = profileResult.profileResponse;
+				await loadCommunityGamesData(false);
 			} else {
 				isProfileUnavailable = true;
 			}
@@ -76,6 +121,7 @@
 
 		if (profileResult.success) {
 			profileResponse = profileResult.profileResponse;
+			await loadCommunityGamesData(params.userid === identityState.user?.userID);
 		} else {
 			isProfileUnavailable = true;
 			isLoadingState = false;
@@ -183,7 +229,13 @@
 			);
 			await loadData();
 		} else {
-			toast(m.common_Error(), res.error || m.page_profile_toast_accept_failed(), "error", 4000, "danger");
+			toast(
+				m.common_Error(),
+				res.error || m.page_profile_toast_accept_failed(),
+				"error",
+				4000,
+				"danger"
+			);
 		}
 	}
 
@@ -204,7 +256,13 @@
 			);
 			await loadData();
 		} else {
-			toast(m.common_Error(), res.error || m.page_profile_toast_reject_failed(), "error", 4000, "danger");
+			toast(
+				m.common_Error(),
+				res.error || m.page_profile_toast_reject_failed(),
+				"error",
+				4000,
+				"danger"
+			);
 		}
 	}
 
@@ -225,7 +283,13 @@
 			);
 			await loadData();
 		} else {
-			toast(m.common_Error(), res.error || m.page_profile_toast_remove_failed(), "error", 4000, "danger");
+			toast(
+				m.common_Error(),
+				res.error || m.page_profile_toast_remove_failed(),
+				"error",
+				4000,
+				"danger"
+			);
 		}
 	}
 
@@ -255,7 +319,13 @@
 					"warning"
 				);
 			} else {
-				toast(m.common_Error(), res.error || m.page_profile_toast_block_failed(), "error", 4000, "danger");
+				toast(
+					m.common_Error(),
+					res.error || m.page_profile_toast_block_failed(),
+					"error",
+					4000,
+					"danger"
+				);
 			}
 		}
 	}
@@ -277,7 +347,13 @@
 			);
 			await loadData();
 		} else {
-			toast(m.common_Error(), res.error || m.page_profile_toast_unblock_failed(), "error", 4000, "danger");
+			toast(
+				m.common_Error(),
+				res.error || m.page_profile_toast_unblock_failed(),
+				"error",
+				4000,
+				"danger"
+			);
 		}
 	}
 
@@ -303,6 +379,16 @@
 	});
 
 	let showReportModal = $state(false);
+
+	let isOwnProfile = $derived(params.userid === identityState.user?.userID);
+	let gamesUnlockedIn = $derived(new Set(achievements.map((a) => a.gameId)).size);
+
+	function formatPlaytime(ms: number): string {
+		const totalMinutes = Math.floor(ms / 60000);
+		const hours = Math.floor(totalMinutes / 60);
+		const minutes = totalMinutes % 60;
+		return hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+	}
 </script>
 
 <div style="width: 100%; max-width: 48rem; margin: 0 auto; box-sizing: border-box; padding: 1rem;">
@@ -487,6 +573,44 @@
 				</div>
 			{/if}
 
+			<div
+				style="width: 100%; max-width: 36rem; box-sizing: border-box; padding: 0 1rem; margin-top: 0.5rem;">
+				<h3 style="margin: 0 0 0.5rem 0;">{m.page_profile_community_games_heading()}</h3>
+
+				{#if isOwnProfile}
+					<p style="opacity: 0.7; margin: 0 0 0.5rem 0; font-size: 0.9rem;">
+						{m.page_profile_playtime_total({ time: formatPlaytime(totalPlaytimeMs) })}
+					</p>
+				{/if}
+
+				{#if !achievementsVisible}
+					<p style="opacity: 0.7; font-size: 0.9rem;">{m.page_profile_achievements_private()}</p>
+				{:else if achievements.length === 0}
+					<p style="opacity: 0.7; font-size: 0.9rem;">{m.page_profile_achievements_empty()}</p>
+				{:else}
+					<p style="opacity: 0.7; margin: 0 0 0.5rem 0; font-size: 0.9rem;">
+						{m.page_profile_achievements_summary({
+							count: achievements.length,
+							games: gamesUnlockedIn
+						})}
+					</p>
+					<Flex gap="small" flexWrap="wrap">
+						{#each achievements as a (a.gameId + ":" + a.achievementId)}
+							<Lozenge>
+								<Flex direction="row" gap="xsmall" alignItems="center">
+									{#if a.icon}
+										<span>{a.icon}</span>
+									{:else}
+										<Icon icon="military_tech" size="small" />
+									{/if}
+									<span>{a.name}</span>
+								</Flex>
+							</Lozenge>
+						{/each}
+					</Flex>
+				{/if}
+			</div>
+
 			<Flex gap="small" width="fit-content" flexWrap="wrap" justifyContent="center">
 				<Button
 					iconbefore="arrow_back"
@@ -498,21 +622,29 @@
 
 				{#if params.userid === identityState.user?.userID}
 					<LinkButton href="/profile/edit">{m.page_profile_edit_link()}</LinkButton>
-					<LinkButton href="/profile/connections">{m.page_profile_manage_connections_link()}</LinkButton>
+					<LinkButton href="/profile/connections">
+						{m.page_profile_manage_connections_link()}
+					</LinkButton>
 				{:else if authState.isLoggedIn}
 					{#if isBlocked}
 						<Button onclick={unblockUser}>{m.page_profile_unblock_button()}</Button>
 					{:else}
 						{#if friendStatus === "accepted"}
-							<Button onclick={removeConnection}>{m.page_profile_remove_connection_button()}</Button>
+							<Button onclick={removeConnection}>
+								{m.page_profile_remove_connection_button()}
+							</Button>
 						{:else if friendStatus === "none" || friendStatus === "rejected"}
-							<Button onclick={sendConnectionRequest}>{m.page_profile_send_request_button()}</Button>
+							<Button onclick={sendConnectionRequest}>
+								{m.page_profile_send_request_button()}
+							</Button>
 						{:else if friendStatus === "pending"}
 							{#if isIncomingRequest}
-								<Button onclick={acceptConnectionRequest}
-									>{m.page_profile_accept_request_button()}</Button>
-								<Button onclick={rejectConnectionRequest}
-									>{m.page_profile_reject_request_button()}</Button>
+								<Button onclick={acceptConnectionRequest}>
+									{m.page_profile_accept_request_button()}
+								</Button>
+								<Button onclick={rejectConnectionRequest}>
+									{m.page_profile_reject_request_button()}
+								</Button>
 							{/if}
 						{/if}
 

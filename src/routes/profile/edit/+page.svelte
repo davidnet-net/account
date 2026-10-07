@@ -2,6 +2,7 @@
 	import {
 		authState,
 		Button,
+		Checkbox,
 		Dropdown,
 		Field,
 		Flex,
@@ -26,10 +27,10 @@
 	import { goto } from "$app/navigation";
 	import { page } from "$app/state";
 	import { PUBLIC_BACKEND_URL } from "$env/static/public";
+	import * as m from "$lib/paraglide/messages.js";
 
 	import type { PageProps } from "./$types";
 	import * as styles from "./page.css";
-	import * as m from "$lib/paraglide/messages.js";
 
 	// Form state variables
 	let displayName = $state("");
@@ -48,6 +49,9 @@
 	let timezoneVisibility = $state("private");
 	let locationVisibility = $state("private");
 	let emailVisibility = $state("private");
+	// Community games privacy - opt-OUT (default true/public), unlike the four above.
+	let achievementsVisible = $state(true);
+	let leaderboardVisible = $state(true);
 
 	// Baseline snapshot to check for unsaved changes
 	let initialSnapshot = $state({
@@ -58,7 +62,9 @@
 		languageVisibility: "private",
 		timezoneVisibility: "private",
 		locationVisibility: "private",
-		emailVisibility: "private"
+		emailVisibility: "private",
+		achievementsVisible: true,
+		leaderboardVisible: true
 	});
 
 	// Dropdown open states
@@ -84,7 +90,10 @@
 		{ value: "private", label: m.page_edit_profile_vis_private() },
 		{ value: "organizations", label: m.page_edit_profile_vis_organizations() },
 		{ value: "connections", label: m.page_edit_profile_vis_connections() },
-		{ value: "organizations_and_connections", label: m.page_edit_profile_vis_orgs_and_connections() },
+		{
+			value: "organizations_and_connections",
+			label: m.page_edit_profile_vis_orgs_and_connections()
+		},
 		{ value: "public", label: m.page_edit_profile_vis_public() }
 	];
 
@@ -97,7 +106,9 @@
 			languageVisibility !== initialSnapshot.languageVisibility ||
 			timezoneVisibility !== initialSnapshot.timezoneVisibility ||
 			locationVisibility !== initialSnapshot.locationVisibility ||
-			emailVisibility !== initialSnapshot.emailVisibility
+			emailVisibility !== initialSnapshot.emailVisibility ||
+			achievementsVisible !== initialSnapshot.achievementsVisible ||
+			leaderboardVisible !== initialSnapshot.leaderboardVisible
 	);
 
 	// Ensure all text inputs are within their maxlength boundaries
@@ -137,6 +148,19 @@
 							emailVisibility = identityState.privacy.emailVisibility || "private";
 						}
 
+						// Not yet modeled by the shared identity engine's privacy type, so fetched
+						// directly here rather than through identityState.privacy.
+						const privacyExtra = await getFetch(
+							`${PUBLIC_BACKEND_URL}/auth/privacy/preferences`,
+							undefined,
+							undefined,
+							true
+						);
+						if (privacyExtra) {
+							achievementsVisible = privacyExtra.achievementsVisible ?? true;
+							leaderboardVisible = privacyExtra.leaderboardVisible ?? true;
+						}
+
 						initialSnapshot = {
 							displayName,
 							description,
@@ -145,7 +169,9 @@
 							languageVisibility,
 							timezoneVisibility,
 							locationVisibility,
-							emailVisibility
+							emailVisibility,
+							achievementsVisible,
+							leaderboardVisible
 						};
 					}
 				} finally {
@@ -227,7 +253,9 @@
 				languageVisibility,
 				timezoneVisibility,
 				locationVisibility,
-				emailVisibility
+				emailVisibility,
+				achievementsVisible,
+				leaderboardVisible
 			};
 
 			const result = await patchFetch(
@@ -253,7 +281,9 @@
 					languageVisibility,
 					timezoneVisibility,
 					locationVisibility,
-					emailVisibility
+					emailVisibility,
+					achievementsVisible,
+					leaderboardVisible
 				};
 				await syncProfileData();
 			}
@@ -278,7 +308,9 @@
 			<form id="edit-profile-form" onsubmit={handleSave}>
 				<Flex direction="column" gap="medium" marginTop="medium" width="100%">
 					<div class={styles.imageSectionContainer}>
-						<h2 class={styles.label} style="margin-bottom: 0.5rem;">{m.page_edit_profile_images_heading()}</h2>
+						<h2 class={styles.label} style="margin-bottom: 0.5rem;">
+							{m.page_edit_profile_images_heading()}
+						</h2>
 
 						<div
 							class={styles.bannerPreview}
@@ -332,7 +364,8 @@
 									alignContent="left"
 									iconbefore="globe"
 									onclick={() => (countryDropdownOpen = !countryDropdownOpen)}>
-									{countryCodes.find((c) => c.value === countryCode)?.label || m.page_edit_profile_none_option()}
+									{countryCodes.find((c) => c.value === countryCode)?.label ||
+										m.page_edit_profile_none_option()}
 								</Button>
 							{/snippet}
 							{#each countryCodes as country (country.value)}
@@ -358,7 +391,9 @@
 							disabled={saving} />
 					</Field>
 
-					<h2 class={styles.label} style="margin-top: 1rem;">{m.page_edit_profile_privacy_heading()}</h2>
+					<h2 class={styles.label} style="margin-top: 1rem;">
+						{m.page_edit_profile_privacy_heading()}
+					</h2>
 
 					<div class={styles.formGroup}>
 						<h3 class={styles.label}>{m.page_edit_profile_lang_vis_label()}</h3>
@@ -468,6 +503,20 @@
 						</Dropdown>
 					</div>
 
+					<div class={styles.formGroup}>
+						<label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+							<Checkbox bind:checked={achievementsVisible} disabled={saving} />
+							{m.page_edit_profile_achievements_vis_label()}
+						</label>
+					</div>
+
+					<div class={styles.formGroup}>
+						<label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+							<Checkbox bind:checked={leaderboardVisible} disabled={saving} />
+							{m.page_edit_profile_leaderboard_vis_label()}
+						</label>
+					</div>
+
 					<Button
 						form="edit-profile-form"
 						type="submit"
@@ -481,8 +530,9 @@
 		{/if}
 
 		<div class={styles.cardActions} style="margin-top: 1.5rem;">
-			<LinkButton href="/profile/{identityState.user?.userID}"
-				>{m.page_edit_profile_view_profile_link()}</LinkButton>
+			<LinkButton href="/profile/{identityState.user?.userID}">
+				{m.page_edit_profile_view_profile_link()}
+			</LinkButton>
 			<Button
 				iconbefore="arrow_back"
 				onclick={() => {

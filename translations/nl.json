@@ -242,6 +242,8 @@
 	"page_edit_profile_tz_vis_label": "Tijdzonezichtbaarheid:",
 	"page_edit_profile_loc_vis_label": "Locatiezichtbaarheid:",
 	"page_edit_profile_email_vis_label": "E-mailzichtbaarheid:",
+	"page_edit_profile_achievements_vis_label": "Toon mijn community game-prestaties aan anderen",
+	"page_edit_profile_leaderboard_vis_label": "Verschijn op community game-leaderboards",
 	"page_edit_profile_vis_private": "Privé",
 	"page_edit_profile_vis_organizations": "Organisaties",
 	"page_edit_profile_vis_connections": "Connecties",
@@ -298,6 +300,12 @@
 	"page_profile_toast_unblocked_title": "Gebruiker gedeblokkeerd",
 	"page_profile_toast_unblocked_content": "Je kunt nu weer interacties van deze gebruiker ontvangen.",
 	"page_profile_toast_unblock_failed": "Deblokkeren van gebruiker mislukt.",
+
+	"page_profile_community_games_heading": "Community Games",
+	"page_profile_achievements_summary": "{count} prestaties behaald in {games} spellen",
+	"page_profile_achievements_private": "Deze speler houdt zijn prestaties privé.",
+	"page_profile_achievements_empty": "Nog geen prestaties behaald.",
+	"page_profile_playtime_total": "Totale speeltijd over alle community games: {time}",
 
 	"page_login_err_identifier_required": "Voer je gebruikersnaam of e-mailadres in.",
 	"page_login_err_invalid_chars": "Bevat ongeldige tekens of spaties.",
