@@ -381,7 +381,6 @@
 	let showReportModal = $state(false);
 
 	let isOwnProfile = $derived(params.userid === identityState.user?.userID);
-	let gamesUnlockedIn = $derived(new Set(achievements.map((a) => a.gameId)).size);
 
 	function formatPlaytime(ms: number): string {
 		const totalMinutes = Math.floor(ms / 60000);
@@ -522,6 +521,24 @@
 					</Lozenge>
 				{/if}
 
+				{#if achievementsVisible && achievements.length > 0}
+					<Lozenge>
+						<Flex direction="row" gap="xsmall" alignItems="center">
+							<Icon icon="military_tech" />
+							<span>{m.page_profile_achievements_count({ count: achievements.length })}</span>
+						</Flex>
+					</Lozenge>
+				{/if}
+
+				{#if isOwnProfile && totalPlaytimeMs > 0}
+					<Lozenge>
+						<Flex direction="row" gap="xsmall" alignItems="center">
+							<Icon icon="schedule" />
+							<span>{formatPlaytime(totalPlaytimeMs)}</span>
+						</Flex>
+					</Lozenge>
+				{/if}
+
 				{#if isBlocked}
 					<Lozenge appearance="danger">
 						<Flex direction="row" gap="xsmall" alignItems="center">
@@ -573,43 +590,26 @@
 				</div>
 			{/if}
 
-			<div
-				style="width: 100%; max-width: 36rem; box-sizing: border-box; padding: 0 1rem; margin-top: 0.5rem;">
-				<h3 style="margin: 0 0 0.5rem 0;">{m.page_profile_community_games_heading()}</h3>
-
-				{#if isOwnProfile}
-					<p style="opacity: 0.7; margin: 0 0 0.5rem 0; font-size: 0.9rem;">
-						{m.page_profile_playtime_total({ time: formatPlaytime(totalPlaytimeMs) })}
-					</p>
-				{/if}
-
-				{#if !achievementsVisible}
-					<p style="opacity: 0.7; font-size: 0.9rem;">{m.page_profile_achievements_private()}</p>
-				{:else if achievements.length === 0}
-					<p style="opacity: 0.7; font-size: 0.9rem;">{m.page_profile_achievements_empty()}</p>
-				{:else}
-					<p style="opacity: 0.7; margin: 0 0 0.5rem 0; font-size: 0.9rem;">
-						{m.page_profile_achievements_summary({
-							count: achievements.length,
-							games: gamesUnlockedIn
-						})}
-					</p>
-					<Flex gap="small" flexWrap="wrap">
-						{#each achievements as a (a.gameId + ":" + a.achievementId)}
-							<Lozenge>
-								<Flex direction="row" gap="xsmall" alignItems="center">
-									{#if a.icon}
-										<span>{a.icon}</span>
-									{:else}
-										<Icon icon="military_tech" size="small" />
-									{/if}
-									<span>{a.name}</span>
-								</Flex>
-							</Lozenge>
-						{/each}
-					</Flex>
-				{/if}
-			</div>
+			{#if achievementsVisible && achievements.length > 0}
+				<Flex
+					gap="small"
+					flexWrap="wrap"
+					justifyContent="center"
+					style="width: 100%; max-width: 36rem; box-sizing: border-box; padding: 0 1rem;">
+					{#each achievements as a (a.gameId + ":" + a.achievementId)}
+						<Lozenge>
+							<Flex direction="row" gap="xsmall" alignItems="center">
+								{#if a.icon}
+									<span>{a.icon}</span>
+								{:else}
+									<Icon icon="military_tech" size="small" />
+								{/if}
+								<span>{a.name}</span>
+							</Flex>
+						</Lozenge>
+					{/each}
+				</Flex>
+			{/if}
 
 			<Flex gap="small" width="fit-content" flexWrap="wrap" justifyContent="center">
 				<Button

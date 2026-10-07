@@ -242,8 +242,8 @@
 	"page_edit_profile_tz_vis_label": "Timezone Visibility:",
 	"page_edit_profile_loc_vis_label": "Location Visibility:",
 	"page_edit_profile_email_vis_label": "Email Visibility:",
-	"page_edit_profile_achievements_vis_label": "Show my community game achievements to others",
-	"page_edit_profile_leaderboard_vis_label": "Appear on community game leaderboards",
+	"page_edit_profile_achievements_vis_label": "Achievements Visibility:",
+	"page_edit_profile_leaderboard_vis_label": "Leaderboard Visibility:",
 	"page_edit_profile_vis_private": "Private",
 	"page_edit_profile_vis_organizations": "Organizations",
 	"page_edit_profile_vis_connections": "Connections",
@@ -301,11 +301,7 @@
 	"page_profile_toast_unblocked_content": "You can now receive interactions from this user.",
 	"page_profile_toast_unblock_failed": "Failed to unblock user.",
 
-	"page_profile_community_games_heading": "Community Games",
-	"page_profile_achievements_summary": "{count} achievements unlocked across {games} games",
-	"page_profile_achievements_private": "This player keeps their achievements private.",
-	"page_profile_achievements_empty": "No achievements yet.",
-	"page_profile_playtime_total": "Total playtime across all community games: {time}",
+	"page_profile_achievements_count": "{count} achievements",
 
 	"page_login_err_identifier_required": "Please enter your username or email.",
 	"page_login_err_invalid_chars": "Contains invalid characters or spaces.",

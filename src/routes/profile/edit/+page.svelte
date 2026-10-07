@@ -2,7 +2,6 @@
 	import {
 		authState,
 		Button,
-		Checkbox,
 		Dropdown,
 		Field,
 		Flex,
@@ -49,9 +48,9 @@
 	let timezoneVisibility = $state("private");
 	let locationVisibility = $state("private");
 	let emailVisibility = $state("private");
-	// Community games privacy - opt-OUT (default true/public), unlike the four above.
-	let achievementsVisible = $state(true);
-	let leaderboardVisible = $state(true);
+	// Same visibilityEnum as the four above, but default "public" - these are opt-OUT settings.
+	let achievementsVisibility = $state("public");
+	let leaderboardVisibility = $state("public");
 
 	// Baseline snapshot to check for unsaved changes
 	let initialSnapshot = $state({
@@ -63,8 +62,8 @@
 		timezoneVisibility: "private",
 		locationVisibility: "private",
 		emailVisibility: "private",
-		achievementsVisible: true,
-		leaderboardVisible: true
+		achievementsVisibility: "public",
+		leaderboardVisibility: "public"
 	});
 
 	// Dropdown open states
@@ -73,6 +72,8 @@
 	let tzVisDropdownOpen = $state(false);
 	let locVisDropdownOpen = $state(false);
 	let emailVisDropdownOpen = $state(false);
+	let achievementsVisDropdownOpen = $state(false);
+	let leaderboardVisDropdownOpen = $state(false);
 
 	let loading = $state(true);
 	let saving = $state(false);
@@ -107,8 +108,8 @@
 			timezoneVisibility !== initialSnapshot.timezoneVisibility ||
 			locationVisibility !== initialSnapshot.locationVisibility ||
 			emailVisibility !== initialSnapshot.emailVisibility ||
-			achievementsVisible !== initialSnapshot.achievementsVisible ||
-			leaderboardVisible !== initialSnapshot.leaderboardVisible
+			achievementsVisibility !== initialSnapshot.achievementsVisibility ||
+			leaderboardVisibility !== initialSnapshot.leaderboardVisibility
 	);
 
 	// Ensure all text inputs are within their maxlength boundaries
@@ -157,8 +158,8 @@
 							true
 						);
 						if (privacyExtra) {
-							achievementsVisible = privacyExtra.achievementsVisible ?? true;
-							leaderboardVisible = privacyExtra.leaderboardVisible ?? true;
+							achievementsVisibility = privacyExtra.achievementsVisibility ?? "public";
+							leaderboardVisibility = privacyExtra.leaderboardVisibility ?? "public";
 						}
 
 						initialSnapshot = {
@@ -170,8 +171,8 @@
 							timezoneVisibility,
 							locationVisibility,
 							emailVisibility,
-							achievementsVisible,
-							leaderboardVisible
+							achievementsVisibility,
+							leaderboardVisibility
 						};
 					}
 				} finally {
@@ -254,8 +255,8 @@
 				timezoneVisibility,
 				locationVisibility,
 				emailVisibility,
-				achievementsVisible,
-				leaderboardVisible
+				achievementsVisibility,
+				leaderboardVisibility
 			};
 
 			const result = await patchFetch(
@@ -282,8 +283,8 @@
 					timezoneVisibility,
 					locationVisibility,
 					emailVisibility,
-					achievementsVisible,
-					leaderboardVisible
+					achievementsVisibility,
+					leaderboardVisibility
 				};
 				await syncProfileData();
 			}
@@ -504,17 +505,57 @@
 					</div>
 
 					<div class={styles.formGroup}>
-						<label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-							<Checkbox bind:checked={achievementsVisible} disabled={saving} />
-							{m.page_edit_profile_achievements_vis_label()}
-						</label>
+						<h3 class={styles.label}>{m.page_edit_profile_achievements_vis_label()}</h3>
+						<Dropdown isOpen={achievementsVisDropdownOpen}>
+							{#snippet trigger()}
+								<Button
+									stretchwidth
+									alignContent="left"
+									iconbefore="visibility"
+									onclick={() => (achievementsVisDropdownOpen = !achievementsVisDropdownOpen)}>
+									{visibilityOptions.find((v) => v.value === achievementsVisibility)?.label}
+								</Button>
+							{/snippet}
+							{#each visibilityOptions as opt (opt.value)}
+								<Button
+									stretchwidth
+									appearance="subtle"
+									alignContent="left"
+									onclick={() => {
+										achievementsVisibility = opt.value;
+										achievementsVisDropdownOpen = false;
+									}}>
+									{opt.label}
+								</Button>
+							{/each}
+						</Dropdown>
 					</div>
 
 					<div class={styles.formGroup}>
-						<label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-							<Checkbox bind:checked={leaderboardVisible} disabled={saving} />
-							{m.page_edit_profile_leaderboard_vis_label()}
-						</label>
+						<h3 class={styles.label}>{m.page_edit_profile_leaderboard_vis_label()}</h3>
+						<Dropdown isOpen={leaderboardVisDropdownOpen}>
+							{#snippet trigger()}
+								<Button
+									stretchwidth
+									alignContent="left"
+									iconbefore="visibility"
+									onclick={() => (leaderboardVisDropdownOpen = !leaderboardVisDropdownOpen)}>
+									{visibilityOptions.find((v) => v.value === leaderboardVisibility)?.label}
+								</Button>
+							{/snippet}
+							{#each visibilityOptions as opt (opt.value)}
+								<Button
+									stretchwidth
+									appearance="subtle"
+									alignContent="left"
+									onclick={() => {
+										leaderboardVisibility = opt.value;
+										leaderboardVisDropdownOpen = false;
+									}}>
+									{opt.label}
+								</Button>
+							{/each}
+						</Dropdown>
 					</div>
 
 					<Button
